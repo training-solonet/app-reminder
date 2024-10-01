@@ -49,7 +49,11 @@
                                     <p class="text-xs font-weight-bold mb-0">tidak ada foto</p>
                                 </td>
                                 <td class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $item->status }}</p>
+                                    @if ($item->status == 'lunas')
+                                        <p class="badge badge-sm bg-gradient-success mb-0">{{ $item->status }}</p>
+                                    @else
+                                        <p class="badge badge-sm bg-gradient-danger mb-0">{{ $item->status }}</p>
+                                    @endif
                                 </td>
                                 <td class="text-center">
                                     <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}" data-bs-original-title="Edit">

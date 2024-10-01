@@ -37,7 +37,11 @@
                                         <p class="text-xs font-weight-bold mb-0">{{ $pembayaran->jenis_pembayaran }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ $pembayaran->status }}</p>
+                                        @if ($pembayaran->status == 'aktif')
+                                            <p class="badge badge-sm bg-gradient-success mb-0">{{ $pembayaran->status }}</p>
+                                        @else
+                                            <p class="badge badge-sm bg-gradient-danger mb-0">{{ $pembayaran->status }}</p>
+                                        @endif
                                     </td>
                                     <td class="text-center">
                                         <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#editModal{{ $pembayaran->id }}" data-bs-original-title="Edit">
