@@ -43,8 +43,12 @@
                                     <p class="text-xs font-weight-bold mb-0">Rp {{ number_format($trans->nominal, 0, ',', '.') }}</p>
                                 </td>
                                 <td class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $trans->status }}</p>
-                                </td>
+                                        @if ($trans->status == 'lunas')
+                                            <p class="badge badge-sm bg-gradient-success mb-0">{{ $trans->status }}</p>
+                                        @else
+                                            <p class="badge badge-sm bg-gradient-danger mb-0">{{ $trans->status }}</p>
+                                        @endif
+                                    </td>
                                 <td class="text-center">
                                     <p class="text-xs font-weight-bold mb-0">{{ $trans->tgl_transaksi->format('d M, Y') }}</p>
                                 </td>

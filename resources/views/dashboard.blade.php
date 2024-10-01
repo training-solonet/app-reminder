@@ -14,7 +14,7 @@
                             <h5 class="font-weight-bolder mb-0">
                                 {{ $countBelumTerbayar }}
                                 <span class="text-danger text-sm font-weight-bolder">
-                                    item, belum terbayar
+                                    Item, belum terbayar
                                 </span>
                             </h5>
                         </div>

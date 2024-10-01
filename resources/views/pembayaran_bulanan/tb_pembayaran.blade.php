@@ -12,9 +12,14 @@
                             <h5 class="mb-0">Daftar Pembayaran</h5>
                         </div>
                         <a href="#" class="btn bg-gradient-info btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#createModal">
-                            +&nbsp; Tambah Pembayaran
+                            +&nbsp; Tambah
                         </a>
                     </div>
+                    <form action="{{ route('pembayaran.index') }}" method="GET" class="d-flex mt-4">
+                        <input type="date" name="tanggal_filter" class="form-control me-2" value="{{ request('tanggal_filter', $tanggalFilter) }}">
+                        <input type="text" name="search" class="form-control me-2" placeholder="Cari Pengguna/Telepon" value="{{ request('search') }}">
+                        <button type="submit" class="btn bg-gradient-info mb-0">Filter</button>
+                    </form>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
@@ -53,7 +58,11 @@
                                     <p class="text-xs font-weight-bold mb-0">{{ $pembayaran->tgl_bayar->format('d M, Y') }}</p>
                                 </td>
                                 <td class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $pembayaran->status_bayar }}</p>
+                                    @if ($pembayaran->status_bayar == 'lunas')
+                                        <p class="badge badge-sm bg-gradient-success mb-0">{{ $pembayaran->status_bayar }}</p>
+                                    @else
+                                        <p class="badge badge-sm bg-gradient-danger mb-0">{{ $pembayaran->status_bayar }}</p>
+                                    @endif
                                 </td>
                                 <td class="text-center">
                                     <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#editModal{{ $pembayaran->id }}" data-bs-original-title="Edit">
@@ -71,6 +80,9 @@
                             @endforeach
                         </tbody>
                         </table>
+                        <div class="d-flex justify-content-center">
+                            {{ $pembayarans->appends(request()->query())->links('pagination::bootstrap-4') }}
+                        </div>
                     </div>
                 </div>
             </div>
