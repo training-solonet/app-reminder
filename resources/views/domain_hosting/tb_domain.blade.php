@@ -64,6 +64,8 @@
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Domain</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Expired</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Perusahaan</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nominal</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status Berlangganan</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                 </tr>
                             </thead>
@@ -74,13 +76,19 @@
                                         <p class="text-xs font-weight-bold mb-0">{{ $key + 1 }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ $domain->nama_domain }}</p>
+                                        <p class="text-xs font-weight-bold mb-0"><strong>{{ $domain->nama_domain }}</strong></p>
                                     </td>
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $domain->tgl_expired->format('d M, Y') }}</p>
                                     </td>
                                     <td class="text-center">
                                         <span class="text-secondary text-xs font-weight-bold">{{ $domain->nama_perusahaan }}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="text-secondary text-xs font-weight-bold">Rp {{ number_format($domain->nominal, 0, ',', '.') }}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="text-secondary text-xs font-weight-bold">{{ $domain->status_berlangganan }}</span>
                                     </td>
                                     <td class="text-center">
                                         <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#editModal{{ $domain->id }}" data-bs-original-title="Edit">
@@ -128,6 +136,17 @@
                         <label for="nama_perusahaan" class="form-label">Nama Perusahaan</label>
                         <input type="text" class="form-control" id="nama_perusahaan" placeholder="Nama Perusahaan" name="nama_perusahaan" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="nominal" class="form-label">Nominal</label>
+                        <input type="number" class="form-control" id="nominal" placeholder="Nominal" name="nominal" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status_berlangganan" class="form-label">Status Berlangganan</label>
+                        <select class="form-control" id="status_berlangganan" name="status_berlangganan" required>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
+                        </select>
+                    </div>
                     <button type="submit" class="btn bg-gradient-info">Simpan</button>
                 </form>
             </div>
@@ -160,6 +179,17 @@
                         <label for="nama_perusahaan_{{ $domain->id }}" class="form-label">Nama Perusahaan</label>
                         <input type="text" class="form-control" id="nama_perusahaan_{{ $domain->id }}" name="nama_perusahaan" value="{{ $domain->nama_perusahaan }}" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="nominal_{{ $domain->id }}" class="form-label">Nominal</label>
+                        <input type="number" class="form-control" id="nominal_{{ $domain->id }}" name="nominal" value="{{ $domain->nominal }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status_berlangganan_{{ $domain->id }}" class="form-label">Status Berlangganan</label>
+                        <select class="form-control" id="status_berlangganan_{{ $domain->id }}" name="status_berlangganan" required>
+                            <option value="Aktif" {{ $domain->status_berlangganan == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                            <option value="Tidak Aktif" {{ $domain->status_berlangganan == 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+                        </select>
+                    </div>
                     <button type="submit" class="btn bg-gradient-info">Update</button>
                 </form>
             </div>
@@ -167,5 +197,6 @@
     </div>
 </div>
 @endforeach
+
 
 @endsection
