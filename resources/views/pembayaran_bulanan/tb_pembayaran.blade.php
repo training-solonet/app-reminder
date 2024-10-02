@@ -27,11 +27,12 @@
                         <thead>
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Pengguna</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PIC</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No. Telepon</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Keterangan</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jenis Pembayaran</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Bayar</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bulan Tagihan</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status Bayar</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                             </tr>
@@ -56,6 +57,9 @@
                                 </td>
                                 <td class="text-center">
                                     <p class="text-xs font-weight-bold mb-0">{{ $pembayaran->tgl_bayar->format('d M, Y') }}</p>
+                                </td>
+                                <td class="text-center">
+                                    <p class="text-xs font-weight-bold mb-0">{{ $pembayaran->bulan_bayar }}</p>
                                 </td>
                                 <td class="text-center">
                                     @if ($pembayaran->status_bayar == 'lunas')
@@ -106,7 +110,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="no_telp" class="form-label">No. Telp:</label>
-                        <input type="number" name="no_telp" id="no_telp" class="form-control" placeholder="Masukkan nomor telepon" required>
+                        <input type="number" name="no_telp" id="no_telp" class="form-control" placeholder="Masukkan nomor telepon">
                     </div>
                     <div class="form-group mb-3">
                         <label for="id_jenis_pembayaran" class="form-label">Jenis Pembayaran:</label>
@@ -129,7 +133,7 @@
                         </select>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="bulan_bayar" class="form-label">Bulan Bayar:</label>
+                        <label for="bulan_bayar" class="form-label">Bulan Tagihan:</label>
                         <input type="month" name="bulan_bayar" id="bulan_bayar" class="form-control" required>
                     </div>
                     <div class="form-group mb-3">
