@@ -9,6 +9,7 @@ use App\Http\Controllers\TransaksiDomainController;
 use App\Http\Controllers\JenisPembayaranController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ReminderController;
 
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\HomeController;
@@ -96,3 +97,4 @@ Route::resource('transaksi_domain', TransaksiDomainController::class);
 Route::resource('jenis_pembayaran', JenisPembayaranController::class);
 Route::resource('pembayaran', PembayaranController::class);
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::resource('reminders', ReminderController::class);
