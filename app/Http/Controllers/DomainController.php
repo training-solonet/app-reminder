@@ -26,30 +26,35 @@ class DomainController extends Controller
     
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'nama_domain' => 'required|unique:domain,nama_domain',
-            'tgl_expired' => 'required|date',
-            'nama_perusahaan' => 'required',
-        ]);
+{
+    $request->validate([
+        'nama_domain' => 'required|unique:domain,nama_domain',
+        'tgl_expired' => 'required|date',
+        'nama_perusahaan' => 'required',
+        'nominal' => 'required|numeric', 
+        'status_berlangganan' => 'required|in:Aktif,Tidak Aktif',  
+    ]);
 
-        Domain::create($request->all());
-        return redirect()->route('domain.index')->with('success', 'Domain berhasil ditambahkan.');
-    }
+    Domain::create($request->all());
+    return redirect()->route('domain.index')->with('success', 'Domain berhasil ditambahkan.');
+}
 
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'nama_domain' => 'required|unique:domain,nama_domain,' . $id,
-            'tgl_expired' => 'required|date',
-            'nama_perusahaan' => 'required',
-        ]);
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'nama_domain' => 'required|unique:domain,nama_domain,' . $id,
+        'tgl_expired' => 'required|date',
+        'nama_perusahaan' => 'required',
+        'nominal' => 'required|numeric',
+        'status_berlangganan' => 'required|in:Aktif,Tidak Aktif',  
+    ]);
 
-        $domain = Domain::find($id);
-        $domain->update($request->all());
+    $domain = Domain::find($id);
+    $domain->update($request->all());
 
-        return redirect()->route('domain.index')->with('success', 'Domain berhasil diperbarui.');
-    }
+    return redirect()->route('domain.index')->with('success', 'Domain berhasil diperbarui.');
+}
+
 
     public function destroy($id)
     {

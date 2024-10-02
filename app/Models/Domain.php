@@ -23,6 +23,8 @@ class Domain extends Model
         'nama_domain',
         'tgl_expired',
         'nama_perusahaan',
+        'nominal',
+        'status_berlangganan'
     ];
 
     public function transaksiDomain()

@@ -44,13 +44,13 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#editModal{{ $pembayaran->id }}" data-bs-original-title="Edit">
+                                        <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#editJenisPembayaranModal{{ $pembayaran->id }}" data-bs-original-title="Edit">
                                             <i class="fas fa-pencil-alt text-secondary"></i>
                                         </a>
-                                        <a href="{{ route('pembayaran.destroy', $pembayaran->id) }}" class="p-1" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $pembayaran->id }}').submit();">
+                                        <a href="#" class="p-1" onclick="event.preventDefault(); confirmDelete({{ $pembayaran->id }});">
                                             <i class="fas fa-trash text-secondary"></i>
                                         </a>
-                                        <form id="delete-form-{{ $pembayaran->id }}" action="{{ route('pembayaran.destroy', $pembayaran->id) }}" method="POST" style="display: none;">
+                                        <form id="delete-form-{{ $pembayaran->id }}" action="{{ route('jenis_pembayaran.destroy', $pembayaran->id) }}" method="POST" style="display: none;">
                                             @csrf
                                             @method('DELETE')
                                         </form>

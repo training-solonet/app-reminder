@@ -13,8 +13,13 @@
                             <p class="text-sm mb-0 text-capitalize font-weight-bold">Domain</p>
                             <h5 class="font-weight-bolder mb-0">
                                 {{ $countBelumTerbayar }}
-                                <span class="text-danger text-sm font-weight-bolder">
-                                    Item, belum terbayar
+                                <span class="text-warning text-sm font-weight-bolder">
+                                    Item,
+                                </span>
+                            </h5>
+                            <h5 class="font-weight-bolder mb-0">
+                                <span class="text-warning text-sm font-weight-bolder">
+                                    belum terbayar
                                 </span>
                             </h5>
                         </div>
