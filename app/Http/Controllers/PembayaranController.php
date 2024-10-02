@@ -20,7 +20,7 @@ class PembayaranController extends Controller
         return $query->where('pengguna', 'like', "%{$search}%")
                      ->orWhere('no_telp', 'like', "%{$search}%");
     })
-    ->paginate(2); 
+    ->paginate(1); 
     $jenispembayaran = JenisPembayaran::all();
     return view('pembayaran_bulanan.tb_pembayaran', compact('pembayarans', 'jenispembayaran', 'tanggalFilter', 'search'));
 }
