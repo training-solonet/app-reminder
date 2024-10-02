@@ -15,7 +15,7 @@
                             +&nbsp; Tambah
                         </a>
                     </div>
-                    <form action="{{ route('pembayaran.index') }}" method="GET" class="d-flex mt-4">
+                    <form action="{{ route('pembayaran.index') }}" method="GET" class="d-flex mt-4 p-1">
                         <input type="date" name="tanggal_filter" class="form-control me-2" value="{{ request('tanggal_filter', $tanggalFilter) }}">
                         <input type="text" name="search" class="form-control me-2" placeholder="Cari Pengguna/Telepon" value="{{ request('search') }}">
                         <button type="submit" class="btn bg-gradient-info mb-0">Filter</button>
@@ -72,8 +72,8 @@
                                     <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#editModal{{ $pembayaran->id }}" data-bs-original-title="Edit">
                                         <i class="fas fa-pencil-alt text-secondary"></i>
                                     </a>
-                                    <a href="{{ route('pembayaran.destroy', $pembayaran->id) }}" class="p-1" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $pembayaran->id }}').submit();">
-                                        <i class="fas fa-trash text-secondary"></i>
+                                    <a href="#" class="p-1" onclick="event.preventDefault(); confirmDelete({{ $pembayaran->id }});">
+                                            <i class="fas fa-trash text-secondary"></i>
                                     </a>
                                     <form id="delete-form-{{ $pembayaran->id }}" action="{{ route('pembayaran.destroy', $pembayaran->id) }}" method="POST" style="display: none;">
                                         @csrf
@@ -84,7 +84,7 @@
                             @endforeach
                         </tbody>
                         </table>
-                        <div class="d-flex justify-content-center">
+                        <div class="d-flex justify-content-center p-2">
                             {{ $pembayarans->appends(request()->query())->links('pagination::bootstrap-4') }}
                         </div>
                     </div>

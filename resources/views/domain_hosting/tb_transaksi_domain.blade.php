@@ -67,11 +67,11 @@
                                         <a href="#" class="p-1" onclick="event.preventDefault(); confirmDelete({{ $trans->id }});">
                                             <i class="fas fa-trash text-secondary"></i>
                                         </a>
-                                        <form id="delete-form-{{ $trans->id }}" action="{{ route('domain.destroy', $trans->id) }}" method="POST" style="display: none;">
+                                        <form id="delete-form-{{ $trans->id }}" action="{{ route('transaksi_domain.destroy', $trans->id) }}" method="POST" style="display: none;">
                                             @csrf
                                             @method('DELETE')
                                         </form>
-                                    </td>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
