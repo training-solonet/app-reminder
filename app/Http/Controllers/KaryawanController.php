@@ -7,11 +7,32 @@ use App\Models\Karyawan;
 
 class KaryawanController extends Controller
 {
-    public function index()
-    {
-        $karyawan = Karyawan::paginate(5);
-        return view('inventory_motor.tb_karyawan', compact('karyawan'));
+    public function index(Request $request) 
+{
+    $query = Karyawan::query();
+
+    // Filter berdasarkan input pencarian
+    if ($request->has('search')) {
+        $search = $request->search;
+        $query->where(function ($q) use ($search) {
+            $q->where('nama', 'like', "%$search%")
+              ->orWhere('nik', 'like', "%$search%")
+              ->orWhere('jenis_kelamin', 'like', "%$search%")
+              ->orWhere('tgl_masuk', 'like', "%$search%")
+              ->orWhere('tgl_lahir', 'like', "%$search%")
+              ->orWhere('no_hp', 'like', "%$search%")
+              ->orWhere('divisi', 'like', "%$search%")
+              ->orWhere('jabatan', 'like', "%$search%")
+              ->orWhere('status_karyawan', 'like', "%$search%");
+        });
     }
+
+    // Pagination
+    $karyawan = $query->paginate(1);
+
+    return view('inventory_motor.tb_karyawan', compact('karyawan'));
+}
+
 
     public function store(Request $request)
     {

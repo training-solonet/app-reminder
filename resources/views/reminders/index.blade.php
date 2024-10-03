@@ -9,7 +9,7 @@
                 <div class="card-header pb-0">
                     <div class="d-flex flex-row justify-content-between">
                         <div>
-                            <h5 class="mb-0">Log Reminders</h5>
+                            <h5 class="mb-0">Reminder</h5>
                         </div>
                         <a href="#" class="btn bg-gradient-info btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#addReminderModal">
                             +&nbsp; Tambah Reminder
