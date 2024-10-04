@@ -10,20 +10,29 @@ class PembayaranController extends Controller
 {
     public function index(Request $request)
 {
-    $defaultDate = now()->startOfMonth()->toDateString();
-    $tanggalFilter = $request->input('tanggal_filter', null);
+    $tanggalAwal = $request->input('tanggal_awal');
+    $tanggalAkhir = $request->input('tanggal_akhir');
+    $idJenisPembayaran = $request->input('id_jenis_pembayaran');
     $search = $request->input('search');
-    $pembayarans = Pembayaran::when($tanggalFilter, function ($query, $tanggalFilter) {
-        return $query->whereDate('tgl_bayar', $tanggalFilter);
+    
+    $pembayarans = Pembayaran::when($tanggalAwal && $tanggalAkhir, function ($query) use ($tanggalAwal, $tanggalAkhir) {
+        return $query->whereBetween('tgl_bayar', [$tanggalAwal, $tanggalAkhir]);
     })
-    ->when($search, function ($query, $search) {
-        return $query->where('pengguna', 'like', "%{$search}%")
-                     ->orWhere('no_telp', 'like', "%{$search}%");
+    ->when($idJenisPembayaran, function ($query) use ($idJenisPembayaran) {
+        return $query->where('id_jenis_pembayaran', $idJenisPembayaran);
     })
-    ->paginate(1); 
+    ->when($search, function ($query) use ($search) {
+        return $query->where(function ($q) use ($search) {
+            $q->where('pengguna', 'like', "%{$search}%")
+              ->orWhere('no_telp', 'like', "%{$search}%");
+        });
+    })
+    ->paginate(10);
+    
     $jenispembayaran = JenisPembayaran::all();
-    return view('pembayaran_bulanan.tb_pembayaran', compact('pembayarans', 'jenispembayaran', 'tanggalFilter', 'search'));
+    return view('pembayaran_bulanan.tb_pembayaran', compact('pembayarans', 'jenispembayaran', 'tanggalAwal', 'tanggalAkhir', 'idJenisPembayaran', 'search'));
 }
+
 
     public function store(Request $request)
     {

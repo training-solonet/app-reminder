@@ -34,7 +34,7 @@
                                         <p class="text-xs font-weight-bold mb-0">{{ $key + 1 }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ $pembayaran->jenis_pembayaran }}</p>
+                                        <p class="text-xs font-weight-bold mb-0"><strong>{{ $pembayaran->jenis_pembayaran }}</strong></p>
                                     </td>
                                     <td class="text-center">
                                         @if ($pembayaran->status == 'aktif')
