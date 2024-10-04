@@ -9,19 +9,29 @@ use Carbon\Carbon;
 
 class DomainController extends Controller
 {
-
-    
-    public function index()
+    public function index(Request $request)
     {
-        $domains = Domain::all();
-        $domains_expired = Domain::where('tgl_expired', '<=', Carbon::now()->addDays(30))
-            ->get()
-            ->filter(function ($domain) {
-                $transaksi = TransaksiDomain::where('domain_id', $domain->id)->first();
-                return !$transaksi || $transaksi->status === 'belum-lunas';
+        $tanggalFilter = $request->input('tanggal_filter');
+        $search = $request->input('search');
+
+        $query = Domain::query();
+
+        if ($tanggalFilter) {
+            $query->whereYear('tgl_expired', $tanggalFilter);
+        }
+
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('nama_domain', 'like', '%' . $search . '%')
+                ->orWhere('status_berlangganan', 'like', '%' . $search . '%');
             });
-    
-        return view('domain_hosting.tb_domain', compact('domains', 'domains_expired'));
+        }
+
+        $domains = $query->orderBy('created_at', 'desc')->paginate(2);
+
+        $domains_expired = Domain::where('tgl_expired', '<=', Carbon::now()->addDays(30))->get();
+
+        return view('domain_hosting.tb_domain', compact('domains', 'domains_expired', 'tanggalFilter'));
     }
     
 
@@ -54,7 +64,6 @@ public function update(Request $request, $id)
 
     return redirect()->route('domain.index')->with('success', 'Domain berhasil diperbarui.');
 }
-
 
     public function destroy($id)
     {

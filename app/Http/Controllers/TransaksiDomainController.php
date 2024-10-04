@@ -8,11 +8,29 @@ use Illuminate\Http\Request;
 
 class TransaksiDomainController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $transaksis = TransaksiDomain::all();
-        $domain = Domain::all();
-        return view('domain_hosting.tb_transaksi_domain', compact('transaksis', 'domain'));
+        $tanggalFilter = $request->input('tanggal_filter');
+        $search = $request->input('search');
+
+        $queryDomain = Domain::query();
+
+        $queryTransaksi = TransaksiDomain::query();
+
+        if ($tanggalFilter) {
+            $queryTransaksi->whereDate('tgl_transaksi', $tanggalFilter);
+        }
+        
+        if ($search) {
+            $queryTransaksi->whereHas('domain', function ($query) use ($search) {
+                $query->where('nama_domain', 'like', "%{$search}%");
+            })->orWhere('status', 'like', "%{$search}%");
+        }
+
+        $domain = $queryDomain->orderBy('created_at', 'desc')->get();
+        $transaksis = $queryTransaksi->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('domain_hosting.tb_transaksi_domain', compact('transaksis', 'domain', 'tanggalFilter', 'search'));
     }
 
     public function store(Request $request)
@@ -21,11 +39,23 @@ class TransaksiDomainController extends Controller
             'tgl_transaksi' => 'required|date',
             'domain_id' => 'required|exists:domain,id', 
             'nominal' => 'required|numeric',
+            'masa_perpanjang' => 'required|integer|min:1',
             'status' => 'required|in:lunas,belum-lunas',
             'bukti' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
-        $data = $request->only('tgl_transaksi', 'domain_id', 'nominal', 'status'); 
+        $data = $request->only('tgl_transaksi', 'domain_id', 'nominal', 'masa_perpanjang', 'status');
+
+        $domain = Domain::findOrFail($request->domain_id);
+        if ($request->status === 'lunas') {
+            $tahunDitambah = $request->masa_perpanjang * 365;
+            if (!$domain->tgl_expired) {
+                $domain->tgl_expired = now()->addDays($tahunDitambah);
+            } else {
+                $domain->tgl_expired = \Carbon\Carbon::parse($domain->tgl_expired)->addDays($tahunDitambah);
+            }
+            $domain->save();
+        }
 
         if ($request->hasFile('bukti')) {
             $file = $request->file('bukti');
@@ -45,33 +75,61 @@ class TransaksiDomainController extends Controller
             'tgl_transaksi' => 'required|date',
             'domain_id' => 'required|exists:domain,id', 
             'nominal' => 'required|numeric',
+            'masa_perpanjang' => 'required|integer|min:1', 
             'status' => 'required|in:lunas,belum-lunas',
             'bukti' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
-
+    
         $transaksi = TransaksiDomain::findOrFail($id);
-        $data = $request->only('tgl_transaksi', 'domain_id', 'nominal', 'status'); 
+        $domain = Domain::findOrFail($request->domain_id);
+        $masaPerpanjangLama = $transaksi->masa_perpanjang * 365;
+    
+        if ($transaksi->status === 'lunas' && $request->status === 'belum-lunas') {
+            if ($domain->tgl_expired) {
+                $domain->tgl_expired = \Carbon\Carbon::parse($domain->tgl_expired)->subDays($masaPerpanjangLama);
+            }
+        }
+    
+        if ($transaksi->status === 'belum-lunas' && $request->status === 'lunas') {
+            $masaPerpanjangBaru = $request->masa_perpanjang * 365;
+    
+            if (!$domain->tgl_expired) {
+                $domain->tgl_expired = now()->addDays($masaPerpanjangBaru);
+            } else {
+                $domain->tgl_expired = \Carbon\Carbon::parse($domain->tgl_expired)->addDays($masaPerpanjangBaru);
+            }
+        }
 
+        $domain->save();
+    
         if ($request->hasFile('bukti')) {
-            // Hapus file bukti lama jika ada
             if ($transaksi->bukti && file_exists(storage_path('app/public/buktidomain/' . $transaksi->bukti))) {
                 unlink(storage_path('app/public/buktidomain/' . $transaksi->bukti));
             }
-
+    
             $file = $request->file('bukti');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->storeAs('public/buktidomain', $filename);
             $data['bukti'] = $filename;
         }
-
+    
+        $data = $request->only('tgl_transaksi', 'domain_id', 'nominal', 'masa_perpanjang', 'status'); 
         $transaksi->update($data);
-
+    
         return redirect()->route('transaksi_domain.index')->with('success', 'Transaksi Domain berhasil diupdate');
     }
-
+    
     public function destroy($id)
     {
         $transaksi = TransaksiDomain::findOrFail($id);
+
+        $domain = Domain::findOrFail($transaksi->domain_id);
+
+        $masaPerpanjang = $transaksi->masa_perpanjang * 365; 
+        if ($domain->tgl_expired) {
+            $domain->tgl_expired = \Carbon\Carbon::parse($domain->tgl_expired)->subDays($masaPerpanjang);
+            $domain->save(); 
+        }
 
         if ($transaksi->bukti && file_exists(storage_path('app/public/buktidomain/' . $transaksi->bukti))) {
             unlink(storage_path('app/public/buktidomain/' . $transaksi->bukti));

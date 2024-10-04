@@ -38,8 +38,6 @@
         @endif
     @endforeach
 @endif
-    
-
 
 <div>
     <div class="row">
@@ -54,17 +52,22 @@
                             +&nbsp; Tambah
                         </a>
                     </div>
+                    <form action="{{ route('domain.index') }}" method="GET" class="d-flex mt-4 p-1">
+                        <input type="number" name="tanggal_filter" class="form-control me-2" placeholder="Masukkan Tahun" value="{{ request('tanggal_filter', $tanggalFilter) }}" min="1900" max="3000">
+                        <input type="text" name="search" class="form-control me-2" placeholder="Cari Nama Domain/Status Berlangganan" value="{{ request('search') }}">
+                        <button type="submit" class="btn bg-gradient-info mb-0">Filter</button>
+                    </form>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Domain</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Expired</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Perusahaan</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nominal</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Expired</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status Berlangganan</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                 </tr>
@@ -72,14 +75,11 @@
                             <tbody>
                                 @foreach ($domains as $key => $domain)
                                 <tr>
-                                    <td class="ps-4">
+                                    <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $key + 1 }}</p>
                                     </td>
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0"><strong>{{ $domain->nama_domain }}</strong></p>
-                                    </td>
-                                    <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ $domain->tgl_expired->format('d M, Y') }}</p>
                                     </td>
                                     <td class="text-center">
                                         <span class="text-secondary text-xs font-weight-bold">{{ $domain->nama_perusahaan }}</span>
@@ -88,7 +88,14 @@
                                         <span class="text-secondary text-xs font-weight-bold">Rp {{ number_format($domain->nominal, 0, ',', '.') }}</span>
                                     </td>
                                     <td class="text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">{{ $domain->status_berlangganan }}</span>
+                                        <p class="text-xs font-weight-bold mb-0">{{ $domain->tgl_expired->format('d M, Y') }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        @if ($domain->status_berlangganan == 'Aktif')
+                                                <p class="badge badge-sm bg-gradient-success mb-0">{{ $domain->status_berlangganan }}</p>
+                                        @else
+                                            <p class="badge badge-sm bg-gradient-danger mb-0">{{ $domain->status_berlangganan }}</p>
+                                        @endif
                                     </td>
                                     <td class="text-center">
                                         <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#editModal{{ $domain->id }}" data-bs-original-title="Edit">
@@ -106,6 +113,9 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-center p-2">
+                            {{ $domains->appends(request()->query())->links('pagination::bootstrap-4') }}
+                        </div>
                     </div>
                 </div>
             </div>

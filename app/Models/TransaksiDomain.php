@@ -22,7 +22,8 @@ class TransaksiDomain extends Model
         'domain_id', 
         'nominal', 
         'status', 
-        'bukti'
+        'bukti',
+        'masa_perpanjang'
     ];
 
     public function domain()
