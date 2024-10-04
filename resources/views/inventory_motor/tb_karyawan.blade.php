@@ -104,6 +104,7 @@
     </div>
 </div>
 
+@foreach ($karyawan as $item)
 <!-- Modal Detail Karyawan -->
 <div class="modal fade" id="detailModal{{ $item->id }}" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -141,6 +142,8 @@
         </div>
     </div>
 </div>
+@endforeach
+
 
 
 
