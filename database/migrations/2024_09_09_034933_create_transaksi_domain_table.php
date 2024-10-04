@@ -15,9 +15,10 @@ class CreateTransaksiDomainTable extends Migration
             $table->decimal('nominal', 10, 2);
             $table->enum('status', ['lunas', 'belum-lunas']);
             $table->string('bukti')->nullable();
+            $table->integer('masa_perpanjang')->default(1);
             $table->timestamps();
 
-            $table->foreign('domain_id')->references('id')->on('domain')->onDelete('cascade');
+            $table->foreign('domain_id')->references('id')->on('domain');
         });
     }
 
