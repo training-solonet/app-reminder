@@ -12,19 +12,21 @@ class CreateMotorsTable extends Migration
      * @return void
      */
     public function up()
-    {
-        Schema::create('motors', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama_motor');
-            $table->string('plat_nomor');
-            $table->date('tanggal_pajak');
-            $table->string('foto_motor')->nullable();
-            $table->unsignedBigInteger('id_karyawan');
-            $table->timestamps();
+{
+    Schema::create('motors', function (Blueprint $table) {
+        $table->id();
+        $table->string('nama_motor');
+        $table->string('plat_nomor');
+        $table->date('tanggal_pajak');
+        $table->string('foto_motor')->nullable();
+        $table->unsignedBigInteger('id_karyawan');
+        $table->year('tahun_motor'); // Field baru untuk tahun motor
+        $table->timestamps();
 
-            $table->foreign('id_karyawan')->references('id')->on('karyawan')->onDelete('cascade');
-        });
-    }
+        $table->foreign('id_karyawan')->references('id')->on('karyawan')->onDelete('cascade');
+    });
+}
+
 
     /**
      * Reverse the migrations.
