@@ -2,12 +2,44 @@
 
 @section('content')
 
-<div class="alert alert-info mx-4" role="alert">
-    <span class="text-white">
-        <strong>Perhatian!</strong> 
-             BTS Bts Solo akan expired dalam 3 hari.
-    </span>
-</div>
+@if($bts_expired->count() > 0)
+    @foreach($bts_expired as $bts_exp)
+
+        @php
+            $days_left = round(\Carbon\Carbon::now()->diffInDays($bts_exp->jatuh_tempo, false));
+        @endphp
+
+        @if($days_left > 0)
+            <div class="alert alert-info alert-dismissible fade show mx-4" role="alert">
+                <span class="text-white">
+                    <strong>Perhatian!</strong> 
+                    BTS <strong>{{ $bts_exp->nama_bts }}</strong> akan jatuh tempo dalam <strong>{{ $days_left }}</strong> hari.
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+        @elseif($days_left == 0)
+            <div class="alert alert-warning alert-dismissible fade show mx-4" role="alert">
+                <span class="text-white">
+                    <strong>Perhatian!</strong> 
+                    BTS <strong>{{ $bts_exp->nama_bts }}</strong> jatuh tempo hari ini.
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+        @else
+            <div class="alert alert-danger alert-dismissible fade show mx-4" role="alert">
+                <span class="text-white">
+                    <strong>Perhatian!</strong> 
+                    BTS <strong>{{ $bts_exp->nama_bts }}</strong> sudah melewati jatuh tempo {{ abs($days_left) }} hari yang lalu.
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+    @endforeach
+@endif
+
+
 
     <div class="row">
         <div class="col-12">
@@ -15,26 +47,31 @@
                 <div class="card-header pb-0">
                     <div class="d-flex flex-row justify-content-between">
                         <div>
-                            <h5 class="mb-0">Tabel Bts</h5>
+                            <h5 class="mb-0">Daftar BTS</h5>
                         </div>
                         <a href="#" class="btn bg-gradient-info btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#createModal">
                             +&nbsp; Tambah
                         </a>
                     </div>
+                    <form action="{{ route('bts.index') }}" method="GET" class="d-flex mt-4 p-1">
+                        <input type="number" name="tanggal_filter" class="form-control me-2" placeholder="Masukkan Tahun Jatuh Tempo" value="{{ request('tanggal_filter', $tanggalFilter) }}" min="1900" max="3000">
+                        <input type="text" name="search" class="form-control me-2" placeholder="Cari Nama BTS / Nama User / Status" value="{{ request('search') }}">
+                        <button type="submit" class="btn bg-gradient-info mb-0">Filter</button>
+                    </form>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0">
                         <thead>
                             <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Bts</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama User</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Telepon</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tahun Awal</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jatuh Tempo</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nominal Pertahun</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Keterangan</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                             </tr>
                         </thead>
@@ -45,7 +82,7 @@
                                     <p class="text-xs font-weight-bold mb-0">{{ $bts->firstItem() + $key }}</p>
                                 </td>
                                 <td class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $item->nama_bts }}</p>
+                                    <p class="text-xs text-uppercase font-weight-bold mb-0"><Strong>{{ $item->nama_bts }}</Strong></p>
                                 </td>
                                 <td class="text-center">
                                     <p class="text-xs font-weight-bold mb-0">{{ $item->nama_user }}</p>
@@ -63,24 +100,42 @@
                                     <p class="text-xs font-weight-bold mb-0">Rp{{ number_format($item->nominal_pertahun, 0, ',', '.') }}</p>
                                 </td>
                                 <td class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $item->keterangan }}</p>
-                                </td>
+                                        @if( $item->status == 'Aktif')
+                                            <p class="badge badge-sm bg-gradient-success">{{ $item->status }}</p>
+                                        @else
+                                            <p class="badge badge-sm bg-gradient-danger">{{ $item->status }}</p>
+                                        @endif
+                                    </td>
                                 <td class="text-center">
-                                    <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}" data-bs-original-title="Edit">
-                                        <i class="fas fa-user-edit text-secondary"></i>
+                                    <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#detailModal{{ $item->id }}">
+                                        <i class="fas fa-eye text-secondary"></i>
                                     </a>
-                                    <i class="cursor-pointer fas fa-trash text-secondary" data-bs-original-title="Delete"></i>
+                                    <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}" data-bs-original-title="Edit">
+                                        <i class="fas fa-pencil-alt text-secondary"></i>
+                                    </a>
+                                    <a href="#" class="p-1" onclick="event.preventDefault(); confirmDelete({{ $item->id }});">
+                                        <i class="fas fa-trash text-secondary"></i>
+                                    </a>
+                                    <form id="delete-form-{{ $item->id }}" action="{{ route('bts.destroy', $item->id) }}" method="POST" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
+                        <div class="d-flex justify-content-center p-2">
+                            {{ $bts->appends(request()->query())->links('pagination::bootstrap-4') }}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 
 <!-- Modal Create -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
@@ -120,6 +175,13 @@
                     <div class="mb-3">
                         <label for="keterangan" class="form-label">Keterangan</label>
                         <textarea class="form-control" id="keterangan" name="keterangan" placeholder="Masukkan keterangan" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-control" id="status" name="status" required>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
+                        </select>
                     </div>
                     <button type="submit" class="btn bg-gradient-info">Simpan</button>
                 </form>
@@ -169,13 +231,55 @@
                         <label for="keterangan_{{ $item->id }}" class="form-label">Keterangan</label>
                         <textarea class="form-control" id="keterangan_{{ $item->id }}" name="keterangan" required>{{ $item->keterangan }}</textarea>
                     </div>
+                    <div class="mb-3">
+                        <label for="status_{{ $item->id }}" class="form-label">Status</label>
+                        <select class="form-control" id="status_{{ $item->id }}" name="status" required>
+                            <option value="Aktif" {{ $item->status == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                            <option value="Tidak Aktif" {{ $item->status == 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+                        </select>
+                    </div>
                     <button type="submit" class="btn bg-gradient-info">Update</button>
                 </form>
+            </div>
+        </div>  
+    </div>
+</div>
+@endforeach
+
+
+@foreach ($bts as $item)
+<!-- Modal Detail BTS -->
+<div class="modal fade" id="detailModal{{ $item->id }}" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Detail Karyawan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @php
+                    $fields = [
+                        'Nama BTS' => $item->nama_bts,
+                        'Nama User' => $item->nama_user,
+                        'Telepon' => $item->telepon,
+                        'Tahun Awal' => $item->tahun_awal,
+                        'Jatuh Tempo' => $item->jatuh_tempo->format('d M, Y'),
+                        'Nominal Pertahun' => 'Rp ' . number_format($item->nominal_pertahun, 0, ',', '.'),
+                        'Keterangan' => $item->keterangan,
+                        'Status' => $item->status ? 'Aktif' : 'Tidak Aktif'
+                    ];
+                @endphp
+
+                @foreach ($fields as $label => $value)
+                <div class="row mb-3">
+                    <div class="col-md-4 font-weight-bold">{{ $label }}</div>
+                    <div class="col-md-8">{{ $value }}</div>
+                </div>
+                @endforeach
             </div>
         </div>
     </div>
 </div>
 @endforeach
-
 
 @endsection

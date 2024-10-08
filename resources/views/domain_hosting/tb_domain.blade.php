@@ -54,7 +54,7 @@
                     </div>
                     <form action="{{ route('domain.index') }}" method="GET" class="d-flex mt-4 p-1">
                         <input type="number" name="tanggal_filter" class="form-control me-2" placeholder="Masukkan Tahun" value="{{ request('tanggal_filter', $tanggalFilter) }}" min="1900" max="3000">
-                        <input type="text" name="search" class="form-control me-2" placeholder="Cari Nama Domain/Status Berlangganan" value="{{ request('search') }}">
+                        <input type="text" name="search" class="form-control me-2" placeholder="Cari Nama Domain / Status Berlangganan" value="{{ request('search') }}">
                         <button type="submit" class="btn bg-gradient-info mb-0">Filter</button>
                     </form>
                 </div>
