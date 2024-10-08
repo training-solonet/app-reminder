@@ -4,17 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reminder;
+use Carbon\Carbon;
 
 class ReminderController extends Controller
 {
-    // Function untuk menampilkan semua data reminder (READ)
     public function index()
     {
+        $pengingat = Reminder::where('status', 'aktif')->where('status_pelaksanaan', 'belum')->get();
+
+        foreach ($pengingat as $reminder) {
+            $currentDate = Carbon::now()->format('Y-m-d');
+            $currentTime = Carbon::now()->format('H:i');
+
+            if ($reminder->tanggal_reminder <= $currentDate && $reminder->waktu_reminder <= $currentTime) {
+                $reminder->update(['status_pelaksanaan' => 'sudah']);
+            }
+        }
         $reminders = Reminder::all();
-        return view('reminders.index', compact('reminders'));
+        return view('reminders.index', compact('reminders','pengingat'));
     }
 
-    // Function untuk menyimpan data reminder baru (CREATE)
     public function store(Request $request)
     {
         $request->validate([
@@ -31,14 +40,12 @@ class ReminderController extends Controller
         return redirect()->route('reminders.index')->with('success', 'Reminder berhasil ditambahkan');
     }
 
-    // Function untuk menampilkan form edit reminder
     public function edit($id)
     {
         $reminder = Reminder::find($id);
         return view('reminders.edit', compact('reminder'));
     }
 
-    // Function untuk mengupdate data reminder (UPDATE)
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -56,7 +63,6 @@ class ReminderController extends Controller
         return redirect()->route('reminders.index')->with('success', 'Reminder berhasil diperbarui');
     }
 
-    // Function untuk menghapus data reminder (DELETE)
     public function destroy($id)
     {
         $reminder = Reminder::find($id);

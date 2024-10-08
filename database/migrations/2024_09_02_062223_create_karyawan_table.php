@@ -26,6 +26,7 @@ return new class extends Migration
         $table->text('alamat');
         $table->boolean('status_cuti')->default(0); 
         $table->enum('status_karyawan', ['aktif', 'tidak-aktif']);
+        $table->string('foto_karyawan')->nullable();
         $table->timestamps();
     });
 }

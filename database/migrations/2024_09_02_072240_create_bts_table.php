@@ -22,6 +22,7 @@ class CreateBtsTable extends Migration
             $table->date('jatuh_tempo');
             $table->decimal('nominal_pertahun', 15, 2);
             $table->text('keterangan')->nullable();
+            $table->enum('status', ['Aktif', 'Tidak Aktif']);
             $table->timestamps();
         });
     }
