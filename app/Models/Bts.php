@@ -25,6 +25,7 @@ class Bts extends Model
         'jatuh_tempo',
         'nominal_pertahun',
         'keterangan',
+        'status'
     ];
 
     public function transaksiBts()

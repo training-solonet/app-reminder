@@ -2,6 +2,32 @@
 
 @section('content')
 
+@if($pengingat->count() > 0)
+    @foreach($pengingat as $pengingats)
+
+        @php
+            $currentDate = \Carbon\Carbon::now();
+            $reminderDate = \Carbon\Carbon::parse($pengingats->tanggal_reminder . ' ' . $pengingats->waktu_reminder);
+            $daysSinceReminder = $currentDate->diffInDays($reminderDate, false); 
+
+            $isWithinThreeDays = $daysSinceReminder <= 3 && $daysSinceReminder >= 0;
+        @endphp
+
+        @if($isWithinThreeDays && $pengingats->status_pelaksanaan == 'belum')
+            <div class="alert alert-info alert-dismissible fade show mx-4" role="alert">
+                <span class="text-white">
+                    <strong>Reminder!</strong> 
+                    <strong>{{ $pengingats->tentang_reminder }}</strong> harus dilaksanakan sekarang.
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+    @endforeach
+@endif
+
+
+
 <div>
     <div class="row">
         <div class="col-12">
@@ -21,8 +47,8 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tentang Reminder</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tentang Reminder</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Keterangan</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Waktu</th>
@@ -38,7 +64,7 @@
                                         <p class="text-xs font-weight-bold mb-0">{{ $key + 1 }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ $reminder->tentang_reminder }}</p>
+                                        <p class="text-xs font-weight-bold mb-0"><strong>{{ $reminder->tentang_reminder }}</strong></p>
                                     </td>
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $reminder->keterangan }}</p>
@@ -51,25 +77,27 @@
                                     </td>
                                     <td class="text-center">
                                         @if($reminder->status == 'aktif')
-                                            <p class="badge badge-sm bg-gradient-success">{{ $reminder->status }}</p>
+                                            <p class="badge badge-sm bg-gradient-success mb-0">{{ $reminder->status }}</p>
                                         @else
-                                            <p class="badge badge-sm bg-gradient-danger">{{ $reminder->status }}</p>
+                                            <p class="badge badge-sm bg-gradient-danger mb-0">{{ $reminder->status }}</p>
                                         @endif
                                     </td>
-                                    
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $reminder->status_pelaksanaan }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <a href="#" class="mx-3" data-bs-toggle="modal" data-bs-target="#editReminderModal{{ $reminder->id }}" data-bs-original-title="Edit Reminder">
-                                            <i class="fas fa-edit text-secondary"></i>
+                                        <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#detailModal{{ $reminder->id }}">
+                                            <i class="fas fa-eye text-secondary"></i>
                                         </a>
-                                        <form action="{{ route('reminders.destroy', $reminder->id) }}" method="POST" class="d-inline">
+                                        <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#editModal{{ $reminder->id }}">
+                                            <i class="fas fa-pencil-alt text-secondary"></i>
+                                        </a>
+                                        <a href="#" class="p-1" onclick="event.preventDefault(); confirmDelete({{ $reminder->id }});">
+                                            <i class="fas fa-trash text-secondary"></i>
+                                        </a>
+                                        <form id="delete-form-{{ $reminder->id }}" action="{{ route('reminders.destroy', $reminder->id) }}" method="POST" style="display: none;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-link p-0 text-secondary" onclick="return confirm('Apakah Anda yakin ingin menghapus reminder ini?')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
                                         </form>
                                     </td>
                                 </tr>
@@ -124,7 +152,7 @@
                             <option value="belum">Belum</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-info">Simpan</button>
+                    <button type="submit" class="btn bg-gradient-info">Simpan</button>
                 </form>
             </div>
         </div>
@@ -133,7 +161,7 @@
 
 <!-- Modal Edit Reminder -->
 @foreach ($reminders as $reminder)
-<div class="modal fade" id="editReminderModal{{ $reminder->id }}" tabindex="-1" aria-labelledby="editReminderModalLabel{{ $reminder->id }}" aria-hidden="true">
+<div class="modal fade" id="editModal{{ $reminder->id }}" tabindex="-1" aria-labelledby="editReminderModalLabel{{ $reminder->id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -174,7 +202,7 @@
                             <option value="belum" {{ $reminder->status_pelaksanaan == 'belum' ? 'selected' : '' }}>Belum</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-info">Simpan</button>
+                    <button type="submit" class="btn bg-gradient-info">Simpan</button>
                 </form>
             </div>
         </div>

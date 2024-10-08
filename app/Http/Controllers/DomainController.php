@@ -27,13 +27,12 @@ class DomainController extends Controller
             });
         }
 
-        $domains = $query->orderBy('created_at', 'desc')->paginate(2);
+        $domains = $query->orderBy('created_at', 'desc')->paginate(15);
 
         $domains_expired = Domain::where('tgl_expired', '<=', Carbon::now()->addDays(30))->get();
 
         return view('domain_hosting.tb_domain', compact('domains', 'domains_expired', 'tanggalFilter'));
     }
-    
 
     public function store(Request $request)
 {

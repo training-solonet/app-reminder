@@ -19,14 +19,14 @@
                         <input type="date" name="tanggal_awal" class="form-control me-2" value="{{ request('tanggal_awal') }}" placeholder="Tanggal Mulai">
                         <input type="date" name="tanggal_akhir" class="form-control me-2" value="{{ request('tanggal_akhir') }}" placeholder="Tanggal Akhir">
                         <select name="id_jenis_pembayaran" class="form-control me-2">
-                            <option value="">-- Pilih Jenis Pembayaran --</option>
+                            <option value="">Pilih Jenis Pembayaran</option>
                             @foreach ($jenispembayaran as $jenis)
                                 <option value="{{ $jenis->id }}" {{ request('id_jenis_pembayaran') == $jenis->id ? 'selected' : '' }}>
                                     {{ $jenis->jenis_pembayaran }}
                                 </option>
                             @endforeach
                         </select>
-                        <input type="text" name="search" class="form-control me-2" placeholder="Cari Pengguna/Telepon" value="{{ request('search') }}">
+                        <input type="text" name="search" class="form-control me-2" placeholder="Cari Pengguna / Telepon" value="{{ request('search') }}">
                         <button type="submit" class="btn bg-gradient-info mb-0">Filter</button>
                     </form>
                 </div>
@@ -39,8 +39,7 @@
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jenis Pembayaran</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PIC</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No. Telepon</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Keterangan</th>
-                                
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Keterangan</th>                                
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Bayar</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bulan Tagihan</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status Bayar</th>
@@ -126,7 +125,7 @@
                     <div class="form-group mb-3">
                         <label for="id_jenis_pembayaran" class="form-label">Jenis Pembayaran:</label>
                         <select name="id_jenis_pembayaran" id="id_jenis_pembayaran" class="form-control" required>
-                            <option value="">-- Pilih Jenis Pembayaran --</option>
+                            <option value="">Pilih Jenis Pembayaran</option>
                             @foreach ($jenispembayaran as $jenis)
                                 <option value="{{ $jenis->id }}">{{ $jenis->jenis_pembayaran }}</option>
                             @endforeach
@@ -180,7 +179,7 @@
                     <div class="form-group mb-3">
                         <label for="id_jenis_pembayaran" class="form-label">Jenis Pembayaran:</label>
                         <select name="id_jenis_pembayaran" id="edit_id_jenis_pembayaran" class="form-control" required>
-                            <option value="">-- Pilih Jenis Pembayaran --</option>
+                            <option value="">Pilih Jenis Pembayaran</option>
                             @foreach ($jenispembayaran as $jenis)
                                 <option value="{{ $jenis->id }}" {{ $pembayaran->id_jenis_pembayaran == $jenis->id ? 'selected' : '' }}>
                                     {{ $jenis->jenis_pembayaran }}

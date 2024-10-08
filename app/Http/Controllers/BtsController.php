@@ -4,15 +4,35 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Bts;
+use Carbon\Carbon;
 
 class BtsController extends Controller
 {
-    public function index()
-    {
-        $bts = Bts::paginate(5);
-        
-        return view('bts_kontrak.tb_bts', compact('bts'));
+    public function index(Request $request)
+{
+    $tanggalFilter = $request->input('tanggal_filter');
+    $search = $request->input('search');
+
+    $query = Bts::query();
+
+    if ($tanggalFilter) {
+        $query->whereYear('jatuh_tempo', $tanggalFilter);
     }
+
+    if ($search) {
+        $query->where(function ($q) use ($search) {
+            $q->where('nama_bts', 'like', "%{$search}%")
+              ->orWhere('nama_user', 'like', "%{$search}%")
+              ->orWhere('status', 'like', "%{$search}%");
+        });
+    }
+
+    $bts = $query->orderBy('created_at', 'desc')->paginate(15);
+
+    $bts_expired = Bts::whereDate('jatuh_tempo', '<=', Carbon::now()->addDays(30))->get();
+
+    return view('bts_kontrak.tb_bts', compact('bts', 'bts_expired', 'tanggalFilter', 'search'));
+}
 
     public function store(Request $request)
     {
@@ -23,6 +43,7 @@ class BtsController extends Controller
             'tahun_awal' => 'required|integer',
             'jatuh_tempo' => 'required|date',
             'nominal_pertahun' => 'required|numeric',
+            'status' => 'required|in:Aktif,Tidak Aktif',
             'keterangan' => 'nullable|string',
         ]);
 
@@ -40,6 +61,7 @@ class BtsController extends Controller
             'tahun_awal' => 'required|integer',
             'jatuh_tempo' => 'required|date',
             'nominal_pertahun' => 'required|numeric',
+            'status' => 'required|in:Aktif,Tidak Aktif',
             'keterangan' => 'nullable|string',
         ]);
 
