@@ -16,13 +16,37 @@
                         </a>
                     </div>
                 </div>
+                
+                <!-- Form Pencarian dan Filter Tanggal -->
+                <div class="card-body">
+                    <form method="GET" action="{{ route('motor.index') }}">
+                        <div class="row">
+                            <!-- Input Pencarian -->
+                            <div class="col-md-4">
+                                <input type="text" name="search" class="form-control" placeholder="Cari nama atau plat nomor..." value="{{ request('search') }}">
+                            </div>
+                            <!-- Input Tanggal Mulai -->
+                            <div class="col-md-3">
+                                <input type="date" name="start_date" class="form-control" value="{{ request('start_date') }}">
+                            </div>
+                            <!-- Input Tanggal Akhir -->
+                            <div class="col-md-3">
+                                <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}">
+                            </div>
+                            <!-- Tombol Submit -->
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-info">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        #
+                                        No
                                     </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Nama Motor
@@ -31,13 +55,16 @@
                                         Plat Nomor
                                     </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Tahun Motor
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Tanggal Pajak
                                     </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Foto Motor
                                     </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Nama Karyawan
+                                        PIC
                                     </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Action
@@ -54,7 +81,10 @@
                                         <p class="text-xs font-weight-bold mb-0">{{ $item->nama_motor }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ $item->plat_nomor }}</p>
+                                        <p class="text-xs font-weight-bold mb-0"><strong>{{ $item->plat_nomor }}</strong></p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0"><strong>{{ $item->tahun_motor }}</strong></p>
                                     </td>
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $item->tanggal_pajak->format('d M, Y') }}</p>
@@ -65,7 +95,7 @@
                                                 <img src="{{ asset('storage/motors/' . $item->foto_motor) }}" alt="foto motor" class="avatar avatar-sm">
                                             </a>
                                         @else
-                                            <p class="text-xs font-weight-bold mb-0">-</p>
+                                            <p class="text-xs font-weight-bold mb-0">No Image</p>
                                         @endif
                                     </td>
                                     <td class="text-center">
@@ -87,6 +117,10 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-center p-2">
+                            {{ $motor->appends(request()->except('page'))->links('pagination::bootstrap-4') }}
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -113,6 +147,10 @@
                         <label for="plat_nomor" class="form-label">Plat Nomor</label>
                         <input type="text" class="form-control" id="plat_nomor" name="plat_nomor" placeholder="Masukkan plat nomor" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="tahun_motor" class="form-label">Tahun Motor</label>
+                        <input type="number" class="form-control" id="tahun_motor" name="tahun_motor" placeholder="Masukkan tahun motor" required>
+                    </div>                    
                     <div class="mb-3">
                         <label for="tanggal_pajak" class="form-label">Tanggal Pajak</label>
                         <input type="date" class="form-control" id="tanggal_pajak" name="tanggal_pajak" required>
@@ -160,6 +198,10 @@
                         <label for="plat_nomor_{{ $item->id }}" class="form-label">Plat Nomor</label>
                         <input type="text" class="form-control" id="plat_nomor_{{ $item->id }}" name="plat_nomor" value="{{ $item->plat_nomor }}" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="tahun_motor_{{ $item->id }}" class="form-label">Tahun Motor</label>
+                        <input type="number" class="form-control" id="tahun_motor_{{ $item->id }}" name="tahun_motor" value="{{ $item->tahun_motor }}" required>
+                    </div>                    
                     <div class="mb-3">
                         <label for="tanggal_pajak_{{ $item->id }}" class="form-label">Tanggal Pajak</label>
                         <input type="date" class="form-control" id="tanggal_pajak_{{ $item->id }}" name="tanggal_pajak" value="{{ $item->tanggal_pajak->format('Y-m-d') }}" required>
