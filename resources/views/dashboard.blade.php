@@ -164,38 +164,6 @@
     </div>
 </div>
 
-<!-- Upcoming Payment Reminders -->
-<div class="row mt-4">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header pb-0">
-                <h6>Pengingat Pembayaran Mendatang</h6>
-            </div>
-            <div class="card-body p-3">
-                <ul class="list-group">
-                    <!-- Dynamically list upcoming payments -->
-                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2">
-                        <div class="d-flex align-items-center">
-                            <div class="icon icon-shape icon-sm bg-gradient-success shadow text-center me-3">
-                                <i class="ni ni-calendar-grid-58 text-lg opacity-10"></i>
-                            </div>
-                            <div class="d-flex flex-column">
-                                <h6 class="mb-1 text-dark text-sm">Motor - Due in 3 days</h6>
-                                <span class="text-xs">Rp 5.000.000</span>
-                            </div>
-                        </div>
-                        <div class="d-flex">
-                            <button class="btn btn-link text-danger text-gradient px-3 mb-0">
-                                <i class="ni ni-bell-55 me-2"></i> Set Reminder
-                            </button>
-                        </div>
-                    </li>
-                    <!-- Add more reminders dynamically -->
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
 
 @endsection
 
