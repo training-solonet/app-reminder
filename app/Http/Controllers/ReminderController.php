@@ -8,21 +8,39 @@ use Carbon\Carbon;
 
 class ReminderController extends Controller
 {
-    public function index()
-    {
-        $pengingat = Reminder::where('status', 'aktif')->where('status_pelaksanaan', 'belum')->get();
+    public function index(Request $request)
+{
+    $query = Reminder::query();
 
-        foreach ($pengingat as $reminder) {
-            $currentDate = Carbon::now()->format('Y-m-d');
-            $currentTime = Carbon::now()->format('H:i');
-
-            if ($reminder->tanggal_reminder <= $currentDate && $reminder->waktu_reminder <= $currentTime) {
-                $reminder->update(['status_pelaksanaan' => 'sudah']);
-            }
-        }
-        $reminders = Reminder::all();
-        return view('reminders.index', compact('reminders','pengingat'));
+    // Filtering based on search input
+    if ($request->has('search')) {
+        $search = $request->input('search');
+        $query->where(function($q) use ($search) {
+            $q->where('tentang_reminder', 'like', "%{$search}%")
+              ->orWhere('keterangan', 'like', "%{$search}%")
+              ->orWhere('status', 'like', "%{$search}%")
+              ->orWhere('status_pelaksanaan', 'like', "%{$search}%")
+              ->orWhere('tanggal_reminder', 'like', "%{$search}%");
+        });
     }
+
+    // Get reminders with pagination
+    $reminders = $query->paginate(10);  // Change the number of items per page as needed
+
+    $pengingat = Reminder::where('status', 'aktif')->where('status_pelaksanaan', 'belum')->get();
+
+    foreach ($pengingat as $reminder) {
+        $currentDate = Carbon::now()->format('Y-m-d');
+        $currentTime = Carbon::now()->format('H:i');
+
+        if ($reminder->tanggal_reminder <= $currentDate && $reminder->waktu_reminder <= $currentTime) {
+            $reminder->update(['status_pelaksanaan' => 'sudah']);
+        }
+    }
+
+    return view('reminders.index', compact('reminders', 'pengingat'));
+}
+
 
     public function store(Request $request)
     {

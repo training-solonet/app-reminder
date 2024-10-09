@@ -4,7 +4,6 @@
 
 @if($pengingat->count() > 0)
     @foreach($pengingat as $pengingats)
-
         @php
             $currentDate = \Carbon\Carbon::now();
             $reminderDate = \Carbon\Carbon::parse($pengingats->tanggal_reminder . ' ' . $pengingats->waktu_reminder);
@@ -26,22 +25,28 @@
     @endforeach
 @endif
 
-
-
+<!-- Reminder Section with Search and Add Button -->
 <div>
     <div class="row">   
         <div class="col-12">
             <div class="card mb-4 mx-4">
                 <div class="card-header pb-0">
-                    <div class="d-flex flex-row justify-content-between">
-                        <div>
-                            <h5 class="mb-0">Reminder</h5>
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                        <h5 class="mb-0">Reminder</h5>
+                        
+                        <div class="d-flex">
+                            <form action="{{ route('reminders.index') }}" method="GET" class="d-flex">
+                                <input type="text" name="search" class="form-control me-2" placeholder="Cari Reminder..." value="{{ request('search') }}">
+                                <button type="submit" class="btn bg-gradient-info btn-sm ms-3">Cari</button>
+                            </form>
+                            
+                            <a href="#" class="btn bg-gradient-info btn-sm ms-3" data-bs-toggle="modal" data-bs-target="#addReminderModal">
+                                +&nbsp; Tambah Reminder
+                            </a>
                         </div>
-                        <a href="#" class="btn bg-gradient-info btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#addReminderModal">
-                            +&nbsp; Tambah Reminder
-                        </a>
                     </div>
-                </div>
+
+
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
@@ -104,6 +109,11 @@
                                 @endforeach
                             </tbody>
                         </table>
+
+                        <!-- Pagination Links -->
+                        <div class="mx-4 mt-3">
+                            {{ $reminders->links() }}
+                        </div>
                     </div>
                 </div>
             </div>

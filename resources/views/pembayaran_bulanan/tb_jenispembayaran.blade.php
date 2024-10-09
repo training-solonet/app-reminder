@@ -1,6 +1,44 @@
 @extends('layouts.user_type.auth')
 
 @section('content')
+@if($pembayarans_expired->count() > 0)
+    @foreach($pembayarans_expired as $pembayaran)
+
+        @php
+            $days_left = round(Carbon\Carbon::now()->diffInDays($pembayaran->tgl_jatuh_tempo, false));
+        @endphp
+
+        @if($days_left > 0 && $days_left <= 7)
+            <div class="alert alert-info alert-dismissible fade show mx-4" role="alert">
+                <span class="text-white">
+                    <strong>Perhatian!</strong> 
+                    Pembayaran <strong>{{ $pembayaran->jenis_pembayaran }}</strong> akan jatuh tempo dalam <strong>{{ $days_left }}</strong> hari.
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+        @elseif($days_left == 0)
+            <div class="alert alert-warning alert-dismissible fade show mx-4" role="alert">
+                <span class="text-white">
+                    <strong>Perhatian!</strong> 
+                    Pembayaran <strong>{{ $pembayaran->jenis_pembayaran }}</strong> jatuh tempo hari ini.
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+        @elseif($days_left < 0)
+            <div class="alert alert-danger alert-dismissible fade show mx-4" role="alert">
+                <span class="text-white">
+                    <strong>Perhatian!</strong> 
+                    Pembayaran <strong>{{ $pembayaran->jenis_pembayaran }}</strong> sudah jatuh tempo {{ abs($days_left) }} hari yang lalu.
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+    @endforeach
+@endif
+
 
 <div>
     <div class="row">
@@ -23,6 +61,7 @@
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jenis Pembayaran</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jatuh Tempo</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                 </tr>
@@ -35,6 +74,9 @@
                                     </td>
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0"><strong>{{ $pembayaran->jenis_pembayaran }}</strong></p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0"><strong>{{ $pembayaran->tanggal_jatuh_tempo }}</strong></p>
                                     </td>
                                     <td class="text-center">
                                         @if ($pembayaran->status == 'aktif')
@@ -88,12 +130,17 @@
                             <option value="tidak-aktif">Tidak Aktif</option>
                         </select>
                     </div>
+                    <div class="mb-3">
+                        <label for="tanggal_jatuh_tempo" class="form-label">Tanggal Jatuh Tempo</label>
+                        <input type="date" class="form-control" id="tanggal_jatuh_tempo" name="tanggal_jatuh_tempo" required>
+                    </div>
                     <button type="submit" class="btn bg-gradient-info">Simpan</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Modal Edit Jenis Pembayaran -->
 @foreach ($pembayarans as $pembayaran)
@@ -118,6 +165,10 @@
                             <option value="aktif" {{ $pembayaran->status == 'aktif' ? 'selected' : '' }}>Aktif</option>
                             <option value="tidak-aktif" {{ $pembayaran->status == 'tidak-aktif' ? 'selected' : '' }}>Tidak Aktif</option>
                         </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tanggal_jatuh_tempo_{{ $pembayaran->id }}" class="form-label">Tanggal Jatuh Tempo</label>
+                        <input type="date" class="form-control" id="tanggal_jatuh_tempo_{{ $pembayaran->id }}" name="tanggal_jatuh_tempo" value="{{ $pembayaran->tanggal_jatuh_tempo }}" required>
                     </div>
                     <button type="submit" class="btn bg-gradient-info">Update</button>
                 </form>
