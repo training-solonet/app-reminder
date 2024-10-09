@@ -357,6 +357,10 @@
                         <div class="col-md-6 mb-3">
                             <label for="foto" class="form-label">Foto Karyawan</label>
                             <input type="file" class="form-control" id="foto_karyawan" name="foto_karyawan" accept="image/*">
+
+                            @if($item->foto_karyawan)
+                            <img src="{{ asset('storage/karyawan/' . $item->foto_karyawan) }}" class="img-thumbnail mt-2" alt="Foto Karyawan" style="max-width: 100px;">
+                        @endif
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="status_cuti" class="form-label">Status Cuti</label>

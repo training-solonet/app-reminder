@@ -6,7 +6,7 @@
     @foreach($bts_expired as $bts_exp)
 
         @php
-            $days_left = round(\Carbon\Carbon::now()->diffInDays($bts_exp->jatuh_tempo, false));
+            $days_left = round(Carbon\Carbon::now('Asia/Jakarta')->startOfDay()->diffInDays($bts_exp->jatuh_tempo, false));
         @endphp
 
         @if($days_left > 0)
