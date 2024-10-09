@@ -14,6 +14,7 @@ class JenisPembayaran extends Model
     protected $fillable = [
         'jenis_pembayaran',
         'status',
+        'tanggal_jatuh_tempo', // New field
     ];
 
     public function pembayaran()
