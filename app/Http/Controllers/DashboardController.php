@@ -29,7 +29,7 @@ class DashboardController extends Controller
 
         // Pembayaran yang belum lunas
         $pembayarans = Pembayaran::where('status_bayar', 'belum-lunas')
-                                 ->orderBy('tgl_bayar', 'asc')
+                                 ->orderBy('created_at', 'asc')
                                  ->get();
         $countPembayaranBelumLunas = $pembayarans->count();
 
