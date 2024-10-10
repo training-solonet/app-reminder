@@ -4,30 +4,28 @@
 
 @if($pengingat->count() > 0)
     @foreach($pengingat as $pengingats)
-        @php
-            $currentDate = \Carbon\Carbon::now();
-            $reminderDate = \Carbon\Carbon::parse($pengingats->tanggal_reminder . ' ' . $pengingats->waktu_reminder);
-            $daysSinceReminder = $currentDate->diffInDays($reminderDate, false); 
+        @if($pengingats->status == 'aktif' && $pengingats->status_pelaksanaan == 'belum')
+            @php
+                $currentDateTime = \Carbon\Carbon::now();
+                $reminderDateTime = \Carbon\Carbon::parse($pengingats->tanggal_reminder . ' ' . $pengingats->waktu_reminder);
+            @endphp
 
-            $isWithinThreeDays = $daysSinceReminder <= 3 && $daysSinceReminder >= 0;
-        @endphp
-
-        @if($isWithinThreeDays && $pengingats->status_pelaksanaan == 'belum')
-            <div class="alert alert-info alert-dismissible fade show mx-4" role="alert">
-                <span class="text-white">
-                    <strong>Reminder!</strong> 
-                    <strong>{{ $pengingats->tentang_reminder }}</strong> harus dilaksanakan sekarang.
-                </span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+            @if($currentDateTime->greaterThanOrEqualTo($reminderDateTime))
+                <div class="alert alert-info alert-dismissible fade show mx-4" role="alert">
+                    <span class="text-white">
+                        <strong>Reminder!</strong> 
+                        <strong>{{ $pengingats->tentang_reminder }}</strong> harus dilaksanakan sekarang.
+                    </span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
         @endif
-
     @endforeach
 @endif
 
-<!-- Reminder Section with Search and Add Button -->
+    
 <div>
-    <div class="row">
+    <div class="row">   
         <div class="col-12">
             <div class="card mb-4 mx-4">
                 <div class="card-header pb-0">
@@ -75,7 +73,7 @@
                                         <p class="text-xs font-weight-bold mb-0">{{ $reminder->keterangan }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ $reminder->tanggal_reminder }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ \Carbon\Carbon::parse($reminder->tanggal_reminder)->format('d M, Y')}}</p>
                                     </td>
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $reminder->waktu_reminder }}</p>
@@ -88,7 +86,11 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ $reminder->status_pelaksanaan }}</p>
+                                        @if($reminder->status_pelaksanaan == 'sudah')
+                                            <p class="badge badge-sm bg-gradient-success mb-0">{{ $reminder->status_pelaksanaan }}</p>
+                                        @else
+                                            <p class="badge badge-sm bg-gradient-danger mb-0">{{ $reminder->status_pelaksanaan }}</p>
+                                        @endif
                                     </td>
                                     <td class="text-center">
                                         <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#detailModal{{ $reminder->id }}">
@@ -121,6 +123,39 @@
     </div>
 </div>
 
+@foreach ($reminders as $reminder)
+<!-- Modal Detail Reminder -->
+<div class="modal fade" id="detailModal{{ $reminder->id }}" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Detail Reminder</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @php
+                    $fields = [
+                        'Tentang Reminder' => $reminder->tentang_reminder,
+                        'Keterangan' => $reminder->keterangan ?? 'Tidak ada keterangan',
+                        'Tanggal Reminder' => \Carbon\Carbon::parse($reminder->tanggal_reminder)->format('d M, Y'),
+                        'Waktu Reminder' => $reminder->waktu_reminder,
+                        'Status' => ucfirst($reminder->status),
+                        'Status Pelaksanaan' => ucfirst($reminder->status_pelaksanaan)
+                    ];
+                @endphp
+
+                @foreach ($fields as $label => $value)
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">{{ $label }}</div>
+                    <div class="col-md-8">{{ $value }}</div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+
 <!-- Modal Tambah Reminder -->
 <div class="modal fade" id="addReminderModal" tabindex="-1" aria-labelledby="addReminderModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -148,20 +183,8 @@
                         <label for="waktu_reminder" class="form-label">Waktu Reminder</label>
                         <input type="time" class="form-control" id="waktu_reminder" name="waktu_reminder" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select class="form-control" id="status" name="status" required>
-                            <option value="aktif">Aktif</option>
-                            <option value="tidak-aktif">Tidak Aktif</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="status_pelaksanaan" class="form-label">Status Pelaksanaan</label>
-                        <select class="form-control" id="status_pelaksanaan" name="status_pelaksanaan" required>
-                            <option value="sudah">Sudah</option>
-                            <option value="belum">Belum</option>
-                        </select>
-                    </div>
+                    <input type="hidden" name="status" value="tidak-aktif">
+                    <input type="hidden" name="status_pelaksanaan" value="belum">
                     <button type="submit" class="btn bg-gradient-info">Simpan</button>
                 </form>
             </div>
@@ -175,7 +198,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editReminderModalLabel{{ $reminder->id }}">Edit Reminder</h5>
+                <h5 class="modal-title" id="editReminderModalLabel">Edit Reminder</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -186,30 +209,31 @@
                     
                     <!-- Input Tentang Reminder -->
                     <div class="mb-3">
-                        <label for="tentang_reminder_{{ $reminder->id }}" class="form-label">Tentang Reminder</label>
-                        <input type="text" class="form-control" id="tentang_reminder_{{ $reminder->id }}" name="tentang_reminder" value="{{ $reminder->tentang_reminder }}" required>
+                        <label for="edit_tentang_reminder" class="form-label">Tentang Reminder</label>
+                        <input type="text" class="form-control" id="edit_tentang_reminder" name="tentang_reminder" value="{{ $reminder->tentang_reminder }}" required>
                     </div>
 
                     <!-- Input Keterangan -->
                     <div class="mb-3">
-                        <label for="keterangan_{{ $reminder->id }}" class="form-label">Keterangan</label>
-                        <textarea class="form-control" id="keterangan_{{ $reminder->id }}" name="keterangan">{{ $reminder->keterangan }}</textarea>
+                        <label for="edit_keterangan" class="form-label">Keterangan</label>
+                        <textarea class="form-control" id="edit_keterangan" name="keterangan">{{ $reminder->keterangan }}</textarea>
                     </div>
 
                     <!-- Input Tanggal Reminder -->
                     <div class="mb-3">
-                        <label for="tanggal_reminder_{{ $reminder->id }}" class="form-label">Tanggal Reminder</label>
-                        <input type="date" class="form-control" id="tanggal_reminder_{{ $reminder->id }}" name="tanggal_reminder" value="{{ $reminder->tanggal_reminder }}" required>
+                        <label for="edit_tanggal_reminder" class="form-label">Tanggal Reminder</label>
+                        <input type="date" class="form-control" id="edit_tanggal_reminder" name="tanggal_reminder" value="{{ $reminder->tanggal_reminder }}" required>
                     </div>
 
                     <!-- Input Waktu Reminder -->
                     <div class="mb-3">
-                        <label for="waktu_reminder_{{ $reminder->id }}" class="form-label">Waktu Reminder</label>
-                        <input type="time" class="form-control" id="waktu_reminder_{{ $reminder->id }}" name="waktu_reminder" value="{{ $reminder->waktu_reminder }}" required>
+                        <label for="edit_waktu_reminder" class="form-label">Waktu Reminder</label>
+                        <input type="time" class="form-control" id="edit_waktu_reminder" name="waktu_reminder" value="{{ $reminder->waktu_reminder }}" required>
                     </div>
 
                     <!-- Input Status Reminder -->
                     <div class="mb-3">
+
                         <label for="status_{{ $reminder->id }}" class="form-label">Status</label>
                         <select class="form-control" id="status_{{ $reminder->id }}" name="status" required>
                             <option value="aktif" {{ $reminder->status == 'aktif' ? 'selected' : '' }}>Aktif</option>
@@ -221,10 +245,13 @@
                     <div class="mb-3">
                         <label for="status_pelaksanaan_{{ $reminder->id }}" class="form-label">Status Pelaksanaan</label>
                         <select class="form-control" id="status_pelaksanaan_{{ $reminder->id }}" name="status_pelaksanaan" required>
+                        <label for="edit_status_pelaksanaan" class="form-label">Status Pelaksanaan</label>
+                        <select class="form-control" id="edit_status_pelaksanaan" name="status_pelaksanaan">
                             <option value="sudah" {{ $reminder->status_pelaksanaan == 'sudah' ? 'selected' : '' }}>Sudah</option>
                             <option value="belum" {{ $reminder->status_pelaksanaan == 'belum' ? 'selected' : '' }}>Belum</option>
                         </select>
                     </div>
+
 
                     <!-- Tombol Simpan -->
                     <button type="submit" class="btn bg-gradient-info">Simpan</button>
@@ -234,6 +261,5 @@
     </div>
 </div>
 @endforeach
-
 
 @endsection

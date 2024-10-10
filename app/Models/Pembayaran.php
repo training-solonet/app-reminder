@@ -10,7 +10,7 @@ class Pembayaran extends Model
 {
     use HasFactory;
 
-    public function getTglBayarAttribute($value)
+    public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value);
     }
@@ -22,9 +22,7 @@ class Pembayaran extends Model
         'no_telp',
         'keterangan',
         'id_jenis_pembayaran',
-        'tgl_bayar',
         'status_bayar',
-        'bulan_bayar'
     ];
 
     public function jenisPembayaran()

@@ -15,7 +15,7 @@ return new class extends Migration
         $table->id();
         $table->string('jenis_pembayaran');
         $table->enum('status', ['aktif', 'tidak-aktif']);
-        $table->date('tanggal_jatuh_tempo'); // New field for due date
+        $table->date('tanggal_jatuh_tempo'); 
         $table->timestamps();
     });
 }

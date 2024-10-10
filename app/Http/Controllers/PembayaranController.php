@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pembayaran;
 use App\Models\JenisPembayaran; 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class PembayaranController extends Controller
 {
@@ -41,38 +42,62 @@ class PembayaranController extends Controller
             'no_telp' => 'required',
             'keterangan' => 'nullable',
             'id_jenis_pembayaran' => 'required',
-            'tgl_bayar' => 'required|date',
             'status_bayar' => 'required|in:lunas,belum-lunas',
-            'bulan_bayar' => 'required',
         ]);
 
         Pembayaran::create($validated);
 
-        return redirect()->route('pembayaran.index')->with('success', 'Data Pembayaran Berhasil Ditambahkan');
+        $jenisPembayarans = JenisPembayaran::find($request->id_jenis_pembayaran);
+        if ($jenisPembayarans) {
+            $jenisPembayarans->tanggal_jatuh_tempo = Carbon::now()->addMonth();
+            $jenisPembayarans->save();
+        }
+
+        return redirect()->route('pembayaran.index')->with('success', 'Data Pembayaran Berhasil Ditambahkan dan Jatuh Tempo Diperbarui');
+}
+
+public function update(Request $request, Pembayaran $pembayaran)
+{
+    $validated = $request->validate([
+        'pengguna' => 'required',
+        'no_telp' => 'required',
+        'keterangan' => 'nullable',
+        'id_jenis_pembayaran' => 'required',
+        'status_bayar' => 'required|in:lunas,belum-lunas',
+    ]);
+
+    if ($pembayaran->id_jenis_pembayaran != $request->id_jenis_pembayaran) {
+        $jenisPembayaranLama = JenisPembayaran::find($pembayaran->id_jenis_pembayaran);
+        if ($jenisPembayaranLama) {
+            $jenisPembayaranLama->tgl_jatuh_tempo = Carbon::parse($jenisPembayaranLama->tgl_jatuh_tempo)->subMonth();
+            $jenisPembayaranLama->save();
+        }
+
+        $jenisPembayaranBaru = JenisPembayaran::find($request->id_jenis_pembayaran);
+        if ($jenisPembayaranBaru) {
+            $jenisPembayaranBaru->tgl_jatuh_tempo = Carbon::now()->addMonth();
+            $jenisPembayaranBaru->save();
+        }
     }
 
-    public function update(Request $request, Pembayaran $pembayaran)
-    {
-        $validated = $request->validate([
-            'pengguna' => 'required',
-            'no_telp' => 'required',
-            'keterangan' => 'nullable',
-            'id_jenis_pembayaran' => 'required',
-            'tgl_bayar' => 'required|date',
-            'status_bayar' => 'required|in:lunas,belum-lunas',
-            'bulan_bayar' => 'required',
-        ]);
+    $pembayaran->update($validated);
 
-        $pembayaran->update($validated);
+    return redirect()->route('pembayaran.index')->with('success', 'Data Pembayaran Berhasil Diupdate dan Jatuh Tempo Diperbarui');
+}
 
-        return redirect()->route('pembayaran.index')->with('success', 'Data Pembayaran Berhasil Diupdate');
+
+public function destroy(Pembayaran $pembayaran)
+{
+    $jenisPembayaran = JenisPembayaran::find($pembayaran->id_jenis_pembayaran);
+    if ($jenisPembayaran) {
+        $jenisPembayaran->tanggal_jatuh_tempo = Carbon::parse($jenisPembayaran->tgl_jatuh_tempo)->subMonth();
+        $jenisPembayaran->save();
     }
 
-    public function destroy(Pembayaran $pembayaran)
-    {
-        $pembayaran->delete();
+    $pembayaran->delete();
 
-        return redirect()->route('pembayaran.index')->with('success', 'Data Pembayaran Berhasil Dihapus');
-    }
+    return redirect()->route('pembayaran.index')->with('success', 'Data Pembayaran Berhasil Dihapus dan Jatuh Tempo Diperbarui');
+}
+
     
 }

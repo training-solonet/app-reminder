@@ -2,6 +2,41 @@
 
 @section('content')
 
+@if($motors_expiring->count() > 0)
+    @foreach($motors_expiring as $motor_exp)
+
+        @php
+            $days_left = round(Carbon\Carbon::now('Asia/Jakarta')->startOfDay()->diffInDays($motor_exp->tanggal_pajak, false));
+        @endphp
+
+        @if($days_left > 0)
+            <div class="alert alert-info alert-dismissible fade show mx-4" role="alert">
+                <span class="text-white">
+                    <strong>Perhatian!</strong> 
+                    Pajak motor <strong>{{ $motor_exp->nama_motor }}</strong> dengan plat <strong>{{ $motor_exp->plat_nomor }}</strong> akan jatuh tempo dalam <strong>{{ $days_left }}</strong> hari.
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @elseif($days_left == 0)
+            <div class="alert alert-warning alert-dismissible fade show mx-4" role="alert">
+                <span class="text-white">
+                    <strong>Perhatian!</strong> 
+                    Pajak motor <strong>{{ $motor_exp->nama_motor }}</strong> dengan plat <strong>{{ $motor_exp->plat_nomor }}</strong> hari akan jatuh tempo hari ini.
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @else
+            <div class="alert alert-danger alert-dismissible fade show mx-4" role="alert">
+                <span class="text-white">
+                    <strong>Perhatian!</strong> 
+                    Pajak motor <strong>{{ $motor_exp->nama_motor }}</strong> dengan plat <strong>{{ $motor_exp->plat_nomor }}</strong> sudah jatuh tempo pada {{ abs($days_left) }} hari yang lalu.
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+    @endforeach
+@endif
+
 <div>
     <div class="row">
         <div class="col-12">
@@ -15,30 +50,14 @@
                             +&nbsp; Tambah
                         </a>
                     </div>
-                </div>
-                
-                <!-- Form Pencarian dan Filter Tanggal -->
-                <div class="card-body">
-                    <form method="GET" action="{{ route('motor.index') }}">
-                        <div class="row">
-                            <!-- Input Pencarian -->
-                            <div class="col-md-4">
-                                <input type="text" name="search" class="form-control" placeholder="Cari nama atau plat nomor..." value="{{ request('search') }}">
-                            </div>
-                            <!-- Input Tanggal Mulai -->
-                            <div class="col-md-3">
-                                <input type="date" name="start_date" class="form-control" value="{{ request('start_date') }}">
-                            </div>
-                            <!-- Input Tanggal Akhir -->
-                            <div class="col-md-3">
-                                <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}">
-                            </div>
-                            <!-- Tombol Submit -->
-                            <div class="col-md-2">
-                                <button type="submit" class="btn btn-info">Filter</button>
-                            </div>
-                        </div>
+
+                    <form method="GET" action="{{ route('motor.index') }}" class="d-flex mt-4 p-1">
+                        <input type="text" name="search" class="form-control me-2" placeholder="Cari nama atau plat nomor..." value="{{ request('search') }}">
+                        <input type="date" name="start_date" class="form-control me-2" value="{{ request('start_date') }}">
+                        <input type="date" name="end_date" class="form-control me-2" value="{{ request('end_date') }}">
+                        <button type="submit" class="btn bg-gradient-info mb-0">Filter</button>
                     </form>
+
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
@@ -78,13 +97,13 @@
                                         <p class="text-xs font-weight-bold mb-0">{{ $motor->firstItem() + $key }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ $item->nama_motor }}</p>
+                                        <p class="text-xs font-weight-bold mb-0"><strong>{{ $item->nama_motor }}</strong></p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0"><strong>{{ $item->plat_nomor }}</strong></p>
+                                        <p class="text-xs font-weight-bold mb-0"><strong>{{ $item->plat_nomor }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0"><strong>{{ $item->tahun_motor }}</strong></p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ $item->tahun_motor }}</strong></p>
                                     </td>
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $item->tanggal_pajak->format('d M, Y') }}</p>
@@ -150,7 +169,7 @@
                     <div class="mb-3">
                         <label for="tahun_motor" class="form-label">Tahun Motor</label>
                         <input type="number" class="form-control" id="tahun_motor" name="tahun_motor" placeholder="Masukkan tahun motor" required>
-                    </div>                    
+                    </div> 
                     <div class="mb-3">
                         <label for="tanggal_pajak" class="form-label">Tanggal Pajak</label>
                         <input type="date" class="form-control" id="tanggal_pajak" name="tanggal_pajak" required>
