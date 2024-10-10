@@ -202,64 +202,38 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Form untuk edit reminder -->
                 <form action="{{ route('reminders.update', $reminder->id) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    
-                    <!-- Input Tentang Reminder -->
                     <div class="mb-3">
                         <label for="edit_tentang_reminder" class="form-label">Tentang Reminder</label>
                         <input type="text" class="form-control" id="edit_tentang_reminder" name="tentang_reminder" value="{{ $reminder->tentang_reminder }}" required>
                     </div>
-
-                    <!-- Input Keterangan -->
                     <div class="mb-3">
                         <label for="edit_keterangan" class="form-label">Keterangan</label>
                         <textarea class="form-control" id="edit_keterangan" name="keterangan">{{ $reminder->keterangan }}</textarea>
                     </div>
-
-                    <!-- Input Tanggal Reminder -->
                     <div class="mb-3">
                         <label for="edit_tanggal_reminder" class="form-label">Tanggal Reminder</label>
                         <input type="date" class="form-control" id="edit_tanggal_reminder" name="tanggal_reminder" value="{{ $reminder->tanggal_reminder }}" required>
                     </div>
-
-                    <!-- Input Waktu Reminder -->
                     <div class="mb-3">
                         <label for="edit_waktu_reminder" class="form-label">Waktu Reminder</label>
                         <input type="time" class="form-control" id="edit_waktu_reminder" name="waktu_reminder" value="{{ $reminder->waktu_reminder }}" required>
                     </div>
-
-                    <!-- Input Status Reminder -->
                     <div class="mb-3">
-
-                        <label for="status_{{ $reminder->id }}" class="form-label">Status</label>
-                        <select class="form-control" id="status_{{ $reminder->id }}" name="status" required>
-                            <option value="aktif" {{ $reminder->status == 'aktif' ? 'selected' : '' }}>Aktif</option>
-                            <option value="tidak-aktif" {{ $reminder->status == 'tidak-aktif' ? 'selected' : '' }}>Tidak Aktif</option>
-                        </select>
-                    </div>
-
-                    <!-- Input Status Pelaksanaan -->
-                    <div class="mb-3">
-                        <label for="status_pelaksanaan_{{ $reminder->id }}" class="form-label">Status Pelaksanaan</label>
-                        <select class="form-control" id="status_pelaksanaan_{{ $reminder->id }}" name="status_pelaksanaan" required>
                         <label for="edit_status_pelaksanaan" class="form-label">Status Pelaksanaan</label>
                         <select class="form-control" id="edit_status_pelaksanaan" name="status_pelaksanaan">
                             <option value="sudah" {{ $reminder->status_pelaksanaan == 'sudah' ? 'selected' : '' }}>Sudah</option>
                             <option value="belum" {{ $reminder->status_pelaksanaan == 'belum' ? 'selected' : '' }}>Belum</option>
                         </select>
                     </div>
-
-
-                    <!-- Tombol Simpan -->
-                    <button type="submit" class="btn bg-gradient-info">Simpan</button>
+                    <button type="submit" class="btn bg-gradient-info">Simpan Perubahan</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 @endforeach
-
+        
 @endsection
