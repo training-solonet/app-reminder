@@ -23,7 +23,7 @@ class Motor extends Model
         'tanggal_pajak',
         'foto_motor',
         'id_karyawan',
-        'tahun_motor', // Field baru
+        'tahun_motor',
     ];
     
 

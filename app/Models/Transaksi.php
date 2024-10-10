@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class Transaksi extends Model
 {
-    protected $dates = ['tanggal_transaksi'];
+    protected $dates = ['created_at'];
 
     public function getTanggalTransaksiAttribute($value)
     {
@@ -17,11 +17,10 @@ class Transaksi extends Model
     
     protected $fillable = [
         'jenis_transaksi',
+        'nama_motor',
         'plat_nomor',
-        'tanggal_transaksi',
         'nota_pajak',
         'id_karyawan',
-        'id_motor',
         'nominal',
     ];
 
@@ -32,6 +31,6 @@ class Transaksi extends Model
 
     public function motor()
     {
-        return $this->belongsTo(Motor::class, 'id_motor');
+        return $this->belongsTo(Motor::class, 'plat_nomor');
     }
 }   

@@ -13,7 +13,7 @@
         <a class="nav-link {{ (Request::is('dashboard') ? 'active' : '') }}" href="{{ url('dashboard') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-              <title>shop </title>
+              <title>Dashboard </title>
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
                   <g transform="translate(1716.000000, 291.000000)">
@@ -38,7 +38,7 @@
   <a class="nav-link {{ (Request::is('transaksi') ? 'active' : '') }}" href="{{ route('transaksi.index') }}">
     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
       <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <title>settings</title>
+        <title>Transaksi Motor</title>
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
             <g transform="translate(1716.000000, 291.000000)">
@@ -82,7 +82,7 @@
         <a class="nav-link {{ (Request::is('transaksi_bts') ? 'active' : '') }}" href="{{ route('transaksi_bts.index') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-              <title>credit-card</title>
+              <title>Transaksi BTS</title>
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
                   <g transform="translate(1716.000000, 291.000000)">
@@ -95,7 +95,7 @@
               </g>
             </svg>
           </div>
-          <span class="nav-link-text ms-1">Transaksi Bts</span>
+          <span class="nav-link-text ms-1">Transaksi BTS</span>
         </a>
       </li>
 
@@ -103,7 +103,7 @@
         <a class="nav-link {{ (Request::is('bts') ? 'active' : '') }}" href="{{ route('bts.index') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-              <title>office</title>
+              <title>BTS</title>
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF" fill-rule="nonzero">
                   <g transform="translate(1716.000000, 291.000000)">
@@ -116,7 +116,7 @@
               </g>
             </svg>
           </div>
-          <span class="nav-link-text ms-1">Bts</span>
+          <span class="nav-link-text ms-1">BTS</span>
         </a>
       </li>
 
@@ -128,7 +128,7 @@
         <a class="nav-link {{ (Request::is('transaksi_domain') ? 'active' : '') }}" href="{{ route('transaksi_domain.index') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-              <title>credit-card</title>
+              <title>Transaksi Domain</title>
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
                   <g transform="translate(1716.000000, 291.000000)">
@@ -162,7 +162,7 @@
         <a class="nav-link {{ (Request::is('pembayaran') ? 'active' : '') }}" href="{{ route('pembayaran.index') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-              <title>credit-card</title>
+              <title>Pembayaran</title>
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
                   <g transform="translate(1716.000000, 291.000000)">
@@ -189,14 +189,14 @@
       </li>
 
       <li class="nav-item mt-3">
-        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Matster Reminders</h6>
+        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Master Reminder</h6>
       </li>
 
       <li class="nav-item">
         <a class="nav-link {{ (Request::is('reminders') ? 'active' : '') }}" href="{{ route('reminders.index') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-              <title>credit-card</title>
+              <title>Reminder</title>
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
                   <g transform="translate(1716.000000, 291.000000)">
@@ -209,7 +209,7 @@
               </g>
             </svg>
           </div>
-          <span class="nav-link-text ms-1">Reminders</span>
+          <span class="nav-link-text ms-1">Reminder</span>
         </a>
       </li>
 

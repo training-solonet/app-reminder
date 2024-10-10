@@ -66,10 +66,10 @@
                                 </td>
                                 
                                 <td class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $pembayaran->tgl_bayar->format('d M, Y') }}</p>
+                                    <p class="text-xs font-weight-bold mb-0">{{ $pembayaran->created_at->format('d M, Y') }}</p>
                                 </td>
                                 <td class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $pembayaran->bulan_bayar }}</p>
+                                    <p class="text-xs font-weight-bold mb-0">{{ $pembayaran->created_at->format('F') }}</p>
                                 </td>
                                 <td class="text-center">
                                     @if ($pembayaran->status_bayar == 'lunas')
@@ -132,14 +132,6 @@
                         </select>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="tgl_bayar" class="form-label">Tanggal Bayar:</label>
-                        <input type="date" name="tgl_bayar" id="tgl_bayar" class="form-control" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="bulan_bayar" class="form-label">Bulan Tagihan:</label>
-                        <input type="month" name="bulan_bayar" id="bulan_bayar" class="form-control" required>
-                    </div>
-                    <div class="form-group mb-3">
                         <label for="keterangan" class="form-label">Keterangan:</label>
                         <textarea name="keterangan" id="keterangan" class="form-control" rows="3" placeholder="Masukkan keterangan (opsional)"></textarea>
                     </div>
@@ -188,10 +180,6 @@
                         </select>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="tgl_bayar" class="form-label">Tanggal Bayar:</label>
-                        <input type="date" name="tgl_bayar" id="edit_tgl_bayar" class="form-control" value="{{ $pembayaran->tgl_bayar }}" required>
-                    </div>
-                    <div class="form-group mb-3">
                         <label for="status_bayar" class="form-label">Status Bayar:</label>
                         <select name="status_bayar" id="edit_status_bayar" class="form-control" required>
                             <option value="lunas" {{ $pembayaran->status_bayar == 'lunas' ? 'selected' : '' }}>Lunas</option>
@@ -199,14 +187,10 @@
                         </select>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="bulan_bayar" class="form-label">Bulan Bayar:</label>
-                        <input type="month" name="bulan_bayar" id="edit_bulan_bayar" class="form-control" value="{{ $pembayaran->bulan_bayar }}" required>
-                    </div>
-                    <div class="form-group mb-3">
                         <label for="keterangan" class="form-label">Keterangan:</label>
                         <textarea name="keterangan" id="edit_keterangan" class="form-control" rows="3">{{ $pembayaran->keterangan }}</textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                    <button type="submit" class="btn bg-gradient-info">Simpan Perubahan</button>
                 </form>
             </div>
         </div>

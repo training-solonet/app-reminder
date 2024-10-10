@@ -6,7 +6,7 @@
     @foreach($domains_expired as $domain)
 
         @php
-            $days_left = round(Carbon\Carbon::now()->diffInDays($domain->tgl_expired, false));
+            $days_left = round(Carbon\Carbon::now('Asia/Jakarta')->startOfDay()->diffInDays($domain->tgl_expired, false));
         @endphp
 
         @if($days_left > 0)
