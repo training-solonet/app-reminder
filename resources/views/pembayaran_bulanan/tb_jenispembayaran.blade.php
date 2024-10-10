@@ -5,7 +5,7 @@
     @foreach($pembayarans_expired as $pembayaran)
 
         @php
-            $days_left = round(Carbon\Carbon::now()->diffInDays($pembayaran->tgl_jatuh_tempo, false));
+            $days_left = round(Carbon\Carbon::now('Asia/Jakarta')->startOfDay()->diffInDays($pembayaran->tanggal_jatuh_tempo, false));
         @endphp
 
         @if($days_left > 0 && $days_left <= 7)
@@ -76,7 +76,7 @@
                                         <p class="text-xs font-weight-bold mb-0"><strong>{{ $pembayaran->jenis_pembayaran }}</strong></p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0"><strong>{{ $pembayaran->tanggal_jatuh_tempo }}</strong></p>
+                                        <p class="text-xs font-weight-bold mb-0"><strong>{{ $pembayaran->tanggal_jatuh_tempo->format('d M, Y') }}</strong></p>
                                     </td>
                                     <td class="text-center">
                                         @if ($pembayaran->status == 'aktif')
@@ -121,7 +121,7 @@
                     @csrf
                     <div class="mb-3">
                         <label for="jenis_pembayaran" class="form-label">Jenis Pembayaran</label>
-                        <input type="text" class="form-control" id="jenis_pembayaran" name="jenis_pembayaran" required>
+                        <input type="text" class="form-control" id="jenis_pembayaran" placeholder="Jenis Pembayaran" name="jenis_pembayaran" required>
                     </div>
                     <div class="mb-3">
                         <label for="status" class="form-label">Status</label>

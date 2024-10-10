@@ -17,9 +17,7 @@ return new class extends Migration
             $table->string('no_telp');
             $table->text('keterangan');
             $table->foreignId('id_jenis_pembayaran')->constrained('tb_jenis_pembayaran');
-            $table->date('tgl_bayar');
             $table->enum('status_bayar', ['lunas', 'belum-lunas']);
-            $table->string('bulan_bayar');
             $table->timestamps();
         });
     }
