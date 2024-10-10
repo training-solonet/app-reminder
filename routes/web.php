@@ -98,3 +98,4 @@ Route::resource('jenis_pembayaran', JenisPembayaranController::class);
 Route::resource('pembayaran', PembayaranController::class);
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::resource('reminders', ReminderController::class);
+Route::put('/reminders/{id}', [ReminderController::class, 'update'])->name('reminders.update');
