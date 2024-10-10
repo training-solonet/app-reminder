@@ -96,7 +96,7 @@
                                         <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#detailModal{{ $reminder->id }}">
                                             <i class="fas fa-eye text-secondary"></i>
                                         </a>
-                                        <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#editModal{{ $reminder->id }}">
+                                        <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#editReminderModal-{{ $reminder->id }}">
                                             <i class="fas fa-pencil-alt text-secondary"></i>
                                         </a>
                                         <a href="#" class="p-1" onclick="event.preventDefault(); confirmDelete({{ $reminder->id }});">
@@ -194,46 +194,54 @@
 
 <!-- Modal Edit Reminder -->
 @foreach ($reminders as $reminder)
-<div class="modal fade" id="editModal{{ $reminder->id }}" tabindex="-1" aria-labelledby="editReminderModalLabel{{ $reminder->id }}" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="editReminderModal-{{ $reminder->id }}" tabindex="-1" role="dialog" aria-labelledby="editReminderModalLabel-{{ $reminder->id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editReminderModalLabel">Edit Reminder</h5>
+                <h5 class="modal-title" id="editReminderModalLabel-{{ $reminder->id }}">Edit Reminder</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="{{ route('reminders.update', $reminder->id) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <div class="mb-3">
-                        <label for="edit_tentang_reminder" class="form-label">Tentang Reminder</label>
-                        <input type="text" class="form-control" id="edit_tentang_reminder" name="tentang_reminder" value="{{ $reminder->tentang_reminder }}" required>
+                    <div class="form-group">
+                        <label for="tentang_reminder">Tentang Reminder</label>
+                        <input type="text" class="form-control" id="tentang_reminder" name="tentang_reminder" value="{{ $reminder->tentang_reminder }}" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="edit_keterangan" class="form-label">Keterangan</label>
-                        <textarea class="form-control" id="edit_keterangan" name="keterangan">{{ $reminder->keterangan }}</textarea>
+                    <div class="form-group">
+                        <label for="keterangan">Keterangan</label>
+                        <textarea class="form-control" id="keterangan" name="keterangan">{{ $reminder->keterangan }}</textarea>
                     </div>
-                    <div class="mb-3">
-                        <label for="edit_tanggal_reminder" class="form-label">Tanggal Reminder</label>
-                        <input type="date" class="form-control" id="edit_tanggal_reminder" name="tanggal_reminder" value="{{ $reminder->tanggal_reminder }}" required>
+                    <div class="form-group">
+                        <label for="tanggal_reminder">Tanggal</label>
+                        <input type="date" class="form-control" id="tanggal_reminder" name="tanggal_reminder" value="{{ $reminder->tanggal_reminder }}" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="edit_waktu_reminder" class="form-label">Waktu Reminder</label>
-                        <input type="time" class="form-control" id="edit_waktu_reminder" name="waktu_reminder" value="{{ $reminder->waktu_reminder }}" required>
+                    <div class="form-group">
+                        <label for="waktu_reminder">Waktu</label>
+                        <input type="time" class="form-control" id="waktu_reminder" name="waktu_reminder" value="{{ $reminder->waktu_reminder }}" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="edit_status_pelaksanaan" class="form-label">Status Pelaksanaan</label>
-                        <select class="form-control" id="edit_status_pelaksanaan" name="status_pelaksanaan">
-                            <option value="sudah" {{ $reminder->status_pelaksanaan == 'sudah' ? 'selected' : '' }}>Sudah</option>
-                            <option value="belum" {{ $reminder->status_pelaksanaan == 'belum' ? 'selected' : '' }}>Belum</option>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select class="form-control" id="status" name="status" required>
+                            <option value="aktif" {{ $reminder->status == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                            <option value="tidak-aktif" {{ $reminder->status == 'tidak-aktif' ? 'selected' : '' }}>Tidak Aktif</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn bg-gradient-info">Simpan Perubahan</button>
+                    <div class="form-group">
+                        <label for="status_pelaksanaan">Status Pelaksanaan</label>
+                        <select class="form-control" id="status_pelaksanaan" name="status_pelaksanaan" required>
+                            <option value="belum" {{ $reminder->status_pelaksanaan == 'belum' ? 'selected' : '' }}>Belum</option>
+                            <option value="sudah" {{ $reminder->status_pelaksanaan == 'sudah' ? 'selected' : '' }}>Sudah</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn bg-gradient-info">Simpan</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 @endforeach
         
 @endsection

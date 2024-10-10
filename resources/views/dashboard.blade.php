@@ -6,6 +6,7 @@
     <!-- Card for Domains that haven't been paid -->
     <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
+            <a href="{{ route('domain.index') }}" class="stretched-link"></a> <!-- Tambah href -->
             <div class="card-body p-3">
                 <div class="row">
                     <div class="col-8">
@@ -33,6 +34,7 @@
     <!-- Card for Motorcycle Taxes nearing deadline -->
     <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
+            <a href="{{ route('motor.index') }}" class="stretched-link"></a> <!-- Tambah href -->
             <div class="card-body p-3">
                 <div class="row">
                     <div class="col-8">
@@ -57,6 +59,7 @@
     <!-- Card for BTS nearing contract deadline -->
     <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
+            <a href="{{ route('bts.index') }}" class="stretched-link"></a> <!-- Tambah href -->
             <div class="card-body p-3">
                 <div class="row">
                     <div class="col-8">
@@ -81,6 +84,7 @@
     <!-- Card for Active Reminders -->
     <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
+            <a href="{{ route('reminders.index') }}" class="stretched-link"></a> <!-- Tambah href -->
             <div class="card-body p-3">
                 <div class="row">
                     <div class="col-8">
@@ -105,6 +109,7 @@
     <!-- Card for Pending Reminders -->
     <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
+            <a href="{{ route('reminders.index') }}" class="stretched-link"></a> <!-- Tambah href -->
             <div class="card-body p-3">
                 <div class="row">
                     <div class="col-8">
@@ -129,6 +134,7 @@
     <!-- Card for Unpaid Payments -->
     <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
+            <a href="{{ route('pembayaran.index') }}" class="stretched-link"></a> <!-- Tambah href -->
             <div class="card-body p-3">
                 <div class="row">
                     <div class="col-8">
@@ -167,6 +173,22 @@
 @endsection
 
 @push('dashboard')
+<!-- Payment Trend Chart -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body p-3">
+                <!-- Memperbesar ukuran canvas -->
+                <div class="chart" style="height: 500px; width: 100%;"> <!-- Tambah style height dan width -->
+                    <canvas id="paymentTrendChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@push('dashboard')
 <!-- Load Chart.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -196,11 +218,25 @@
                     backgroundColor: "rgba(13, 110, 253, 0.1)",
                     data: totalTransactions,
                     maxBarThickness: 6,
+                    pointBackgroundColor: '#0d6efd', // Warna titik data
+                    pointBorderColor: '#ffffff',     // Warna border titik data
+                    pointBorderWidth: 2,             // Lebar border titik data
+                    pointRadius: 5,                  // Ukuran titik data
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
+                maintainAspectRatio: false, // Mengizinkan resize
+                plugins: {
+                    // Tambah plugin untuk menampilkan label angka pada chart
+                    tooltip: {
+                        enabled: true
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                },
                 scales: {
                     y: {
                         grid: {
@@ -212,37 +248,41 @@
                         ticks: {
                             display: true,
                             padding: 10,
-                            color: "#9ca2b7",
+                            color: '#9ca2b7',
                             font: {
                                 size: 11,
                                 family: "Open Sans",
-                                style: "normal",
+                                style: 'normal',
                                 lineHeight: 2
                             },
-                        }
+                        },
+                        beginAtZero: true // Memastikan skala dimulai dari nol
                     },
                     x: {
                         grid: {
                             drawBorder: false,
-                            display: true,
-                            drawOnChartArea: true,
+                            display: false,
+                            drawOnChartArea: false,
                             drawTicks: false,
                         },
                         ticks: {
                             display: true,
-                            color: "#9ca2b7",
+                            color: '#9ca2b7',
                             padding: 20,
                             font: {
                                 size: 11,
                                 family: "Open Sans",
-                                style: "normal",
+                                style: 'normal',
                                 lineHeight: 2
                             },
                         }
                     },
-                },
-            },
+                }
+            }
         });
     }
+</script>
+@endpush
+
 </script>
 @endpush
