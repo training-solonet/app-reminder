@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Domain;
-use App\Models\Bts;
-use App\Models\Pembayaran;
 use App\Models\Motor;
+use App\Models\Bts;
+use App\Models\Domain;
+use App\Models\Pembayaran;
 use App\Models\Reminder;
 
 class DashboardController extends Controller
@@ -58,12 +59,26 @@ class DashboardController extends Controller
             ->pluck('jumlah', 'bulan')
             ->toArray();
 
-        // Combine
+        $countMotorPerBulan = Motor::selectRaw('MONTH(created_at) as bulan, COUNT(*) as jumlah')
+            ->groupBy('bulan')
+            ->pluck('jumlah', 'bulan')
+            ->toArray();
+
+        $countRemindersPerBulan = Reminder::selectRaw('MONTH(created_at) as bulan, COUNT(*) as jumlah')
+            ->groupBy('bulan')
+            ->pluck('jumlah', 'bulan')
+            ->toArray();
+
+        // Gabungkan data menjadi satu array per bulan (1 - 12)
         $transactionCounts = [];
         for ($i = 1; $i <= 12; $i++) {
-            $transactionCounts[] = ($countPembayaranPerBulan[$i] ?? 0) +
-                                   ($countDomainPerBulan[$i] ?? 0) +
-                                   ($countBtsPerBulan[$i] ?? 0);
+            $transactionCounts[] = [
+                'bulan' => $i,
+                'pembayaran' => $countPembayaranPerBulan[$i] ?? 0,                'domain' => $countDomainPerBulan[$i] ?? 0,
+                'bts' => $countBtsPerBulan[$i] ?? 0,
+                'motor' => $countMotorPerBulan[$i] ?? 0,
+                'reminder' => $countRemindersPerBulan[$i] ?? 0
+            ];
         }
 
         return view('dashboard', compact(

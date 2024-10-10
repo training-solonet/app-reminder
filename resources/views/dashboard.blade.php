@@ -164,14 +164,23 @@
     </div>
 </div>
 
-
 @endsection
 
 @push('dashboard')
+<!-- Load Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
     window.onload = function() {
         // Ambil data dari controller
         var transactionCounts = @json($transactionCounts);
+
+        // Ambil total transaksi per bulan
+        var totalTransactions = transactionCounts.map(function(item) {
+            return item.pembayaran + item.domain + item.bts + item.motor + item.reminder;
+        });
+
+        console.log(totalTransactions); // Debugging, untuk memastikan data sudah benar
 
         var ctx = document.getElementById("paymentTrendChart").getContext("2d");
 
@@ -185,7 +194,7 @@
                     borderWidth: 3,
                     borderColor: "#0d6efd",
                     backgroundColor: "rgba(13, 110, 253, 0.1)",
-                    data: transactionCounts,
+                    data: totalTransactions,
                     maxBarThickness: 6,
                 }]
             },
