@@ -142,7 +142,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createModalLabel">Tambah Bts</h5>
+                <h5 class="modal-title" id="createModalLabel">Tambah BTS</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -196,7 +196,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel{{ $item->id }}">Edit Bts</h5>
+                <h5 class="modal-title" id="editModalLabel{{ $item->id }}">Edit BTS</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -253,7 +253,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="detailModalLabel">Detail Karyawan</h5>
+                <h5 class="modal-title" id="detailModalLabel">Detail BTS</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
