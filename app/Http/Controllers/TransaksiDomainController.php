@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TransaksiDomain;
 use App\Models\Domain;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TransaksiDomainController extends Controller
 {
@@ -103,15 +104,18 @@ class TransaksiDomainController extends Controller
         $domain->save();
     
         if ($request->hasFile('bukti')) {
-            if ($transaksi->bukti && file_exists(storage_path('app/public/buktidomain/' . $transaksi->bukti))) {
-                unlink(storage_path('app/public/buktidomain/' . $transaksi->bukti));
+            if ($transaksi->bukti) {
+                Storage::delete('public/buktidomain/' . $transaksi->bukti);
             }
-    
             $file = $request->file('bukti');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->storeAs('public/buktidomain', $filename);
             $data['bukti'] = $filename;
         }
+        
+        
+        $transaksi->update($data);
+        
     
         $data = $request->only('tgl_transaksi', 'domain_id', 'nominal', 'masa_perpanjang', 'status'); 
         $transaksi->update($data);

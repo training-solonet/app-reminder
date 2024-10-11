@@ -200,12 +200,12 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="bukti{{ $trans->id }}" class="form-label">Bukti Pembayaran</label>
-                        @if($trans->bukti)
-                            <img src="{{ asset('storage/buktidomain/' . $trans->bukti) }}" alt="bukti" class="img-thumbnail mb-3" style="width: 100px;">
-                        @endif
-                        <input type="file" class="form-control" id="bukti{{ $trans->id }}" name="bukti" accept="image/*">
-                    </div>                
+                            <label for="bukti{{ $trans->id }}" class="form-label">Bukti Transaksi</label>
+                            <input type="file" class="form-control" id="bukti{{ $trans->id }}" name="bukti">
+                            @if($trans->bukti)
+                                <img src="{{ asset('storage/buktidomain/' . $trans->bukti) }}" class="img-thumbnail mt-2" alt="bukti" style="max-width: 100px;">
+                            @endif
+                    </div>
                     <button type="submit" class="btn bg-gradient-info">Simpan</button>
                 </form>
             </div>
