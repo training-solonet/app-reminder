@@ -14,21 +14,21 @@ class TransaksiController extends Controller
     {
         $query = Transaksi::query();
 
-        if ($request->has(['start_date', 'end_date'])) {
+        if ($request->filled('start_date') && $request->filled('end_date')) {
             $query->whereBetween('created_at', [$request->start_date, $request->end_date]);
         }
 
-        if ($request->has('search')) {
+        if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
                 $q->where('nama_motor', 'like', "%{$search}%")
-                  ->orWhere('jenis_transaksi', 'like', "%{$search}%")
-                  ->orWhereHas('motor', function ($q) use ($search) { 
-                      $q->where('plat_nomor', 'like', "%{$search}%");
-                   })
-                  ->orWhereHas('karyawan', function ($q) use ($search) {
-                      $q->where('nama', 'like', "%{$search}%");
-                  });
+                ->orWhere('jenis_transaksi', 'like', "%{$search}%")
+                ->orWhereHas('motor', function ($q) use ($search) {
+                    $q->where('plat_nomor', 'like', "%{$search}%");
+                })
+                ->orWhereHas('karyawan', function ($q) use ($search) {
+                    $q->where('nama', 'like', "%{$search}%");
+                });
             });
         }
 
