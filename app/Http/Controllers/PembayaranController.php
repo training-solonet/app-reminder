@@ -17,7 +17,7 @@ class PembayaranController extends Controller
     $search = $request->input('search');
     
     $pembayarans = Pembayaran::when($tanggalAwal && $tanggalAkhir, function ($query) use ($tanggalAwal, $tanggalAkhir) {
-        return $query->whereBetween('tgl_bayar', [$tanggalAwal, $tanggalAkhir]);
+        return $query->whereBetween('created_at', [$tanggalAwal, $tanggalAkhir]);
     })
     ->when($idJenisPembayaran, function ($query) use ($idJenisPembayaran) {
         return $query->where('id_jenis_pembayaran', $idJenisPembayaran);

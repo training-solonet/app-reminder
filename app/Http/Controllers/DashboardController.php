@@ -15,25 +15,20 @@ class DashboardController extends Controller
     {
         $now = now();
 
-        // Domain yang belum dibayar
         $domains = Domain::where('tgl_expired', '<=', $now->addDays(30))
                          ->orderBy('tgl_expired', 'asc')
                          ->get();
         $countBelumTerbayar = $domains->count();
 
-        // BTS yang mendekati jatuh tempo
         $bts = Bts::where('jatuh_tempo', '<=', $now->addDays(30))
                   ->orderBy('jatuh_tempo', 'asc')
                   ->get();
         $countBtsJatuhTempo = $bts->count();
 
-        // Pembayaran yang belum lunas
-        $pembayarans = Pembayaran::where('status_bayar', 'belum-lunas')
-                                 ->orderBy('created_at', 'asc')
-                                 ->get();
+        $pembayarans = Pembayaran::where('status_bayar', 'belum-lunas')->orderBy('created_at', 'asc')->get();
+
         $countPembayaranBelumLunas = $pembayarans->count();
 
-        // Motor yang pajaknya mendekati jatuh tempo
         $motorPajakJatuhTempo = Motor::where('tanggal_pajak', '<=', $now->addDays(30))
                                      ->orderBy('tanggal_pajak', 'asc')
                                      ->get();
@@ -74,7 +69,8 @@ class DashboardController extends Controller
         for ($i = 1; $i <= 12; $i++) {
             $transactionCounts[] = [
                 'bulan' => $i,
-                'pembayaran' => $countPembayaranPerBulan[$i] ?? 0,                'domain' => $countDomainPerBulan[$i] ?? 0,
+                'pembayaran' => $countPembayaranPerBulan[$i] ?? 0,                
+                'domain' => $countDomainPerBulan[$i] ?? 0,
                 'bts' => $countBtsPerBulan[$i] ?? 0,
                 'motor' => $countMotorPerBulan[$i] ?? 0,
                 'reminder' => $countRemindersPerBulan[$i] ?? 0

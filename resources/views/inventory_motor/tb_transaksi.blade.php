@@ -25,7 +25,7 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jenis Transaksi</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Motor</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Plat Nomor</th>
@@ -39,7 +39,7 @@
                             <tbody>
                                 @foreach ($transaksi as $key => $item)
                                 <tr>
-                                    <td class="ps-4">
+                                    <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $transaksi->firstItem() + $key }}</p>
                                     </td>
                                     <td class="text-center">

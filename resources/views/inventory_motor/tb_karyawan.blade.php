@@ -29,21 +29,21 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Karyawan</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Foto Karyawan</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No Handphone</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Divisi</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jabatan</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status Cuti</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status Karyawan</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Divisi</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jabatan</th>                                   
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status Cuti</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($karyawan as $key => $item)
                                 <tr>
-                                    <td class="ps-4">
+                                    <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $karyawan->firstItem() + $key }}</p>
                                     </td>
                                     <td class="text-center">
@@ -62,19 +62,23 @@
                                         <p class="text-xs font-weight-bold mb-0">{{ $item->no_hp }}</p>
                                     </td>
                                     <td class="text-center">
+                                        @if ($item->status_karyawan == 'aktif')
+                                            <p class="text-uppercase badge badge-sm bg-gradient-success mb-0">{{ $item->status_karyawan }}</p>
+                                        @else
+                                            <p class="text-uppercase badge badge-sm bg-gradient-danger mb-0">{{ $item->status_karyawan }}</p>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $item->divisi }}</p>
                                     </td>
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $item->jabatan }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ $item->status_cuti ? 'Cuti' : 'Tidak cuti'}}</p>
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($item->status_karyawan == 'aktif')
-                                            <p class="text-uppercase badge badge-sm bg-gradient-success mb-0">{{ $item->status_karyawan }}</p>
+                                        @if ($item->status_cuti == 0)
+                                            <p class="text-uppercase badge badge-sm bg-gradient-danger mb-0">Tidak Cuti</p>    
                                         @else
-                                            <p class="text-uppercase badge badge-sm bg-gradient-danger mb-0">{{ $item->status_karyawan }}</p>
+                                            <p class="text-uppercase badge badge-sm bg-gradient-success mb-0">Cuti</p>
                                         @endif
                                     </td>
                                     <td class="text-center">
@@ -140,9 +144,7 @@
                         'Agama' => $item->agama,
                         'Divisi' => $item->divisi,
                         'Jabatan' => $item->jabatan,
-                        'Alamat' => $item->alamat,
-                        'Status Cuti' => $item->status_cuti ? 'Cuti' : 'Tidak cuti',
-                        'Status Karyawan' => $item->status_karyawan
+                        'Alamat' => $item->alamat
                     ];
                 @endphp
 
@@ -152,11 +154,32 @@
                     <div class="col-md-8">{{ $value }}</div>
                 </div>
                 @endforeach
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Status Cuti</div>
+                    <div class="col-md-8">
+                        @if ($item->status_cuti == 0)
+                            <p class="text-uppercase badge badge-sm bg-gradient-danger mb-0">Tidak Cuti</p>
+                        @else
+                            <p class="text-uppercase badge badge-sm bg-gradient-succes mb-0">Cuti</p>
+                        @endif
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Status Karyawan</div>
+                    <div class="col-md-8">
+                        @if ($item->status_karyawan == 'aktif')
+                            <p class="text-uppercase badge badge-sm bg-gradient-success mb-0">{{ $item->status_karyawan }}</p>
+                        @else
+                            <p class="text-uppercase badge badge-sm bg-gradient-danger mb-0">{{ $item->status_karyawan }}</p>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 @endforeach
+
 
 <!-- Modal Create -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
@@ -234,21 +257,6 @@
                             <textarea class="form-control" id="alamat" name="alamat" placeholder="Masukkan alamat" required></textarea>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="status_karyawan" class="form-label">Status Karyawan</label>
-                            <select class="form-control" id="status_karyawan" name="status_karyawan" required>
-                                <option value="" disabled selected>Pilih Status Karyawan</option>
-                                <option value="aktif">Aktif</option>
-                                <option value="tidak-aktif">Tidak Aktif</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="foto" class="form-label">Foto Karyawan</label>
-                            <input type="file" class="form-control" id="foto_karyawan" name="foto_karyawan" accept="image/*">
-                        </div>
-                        <div class="col-md-6 mb-3">
                             <label for="status_cuti" class="form-label">Status Cuti</label>
                             <select class="form-control" id="status_cuti" name="status_cuti" required>
                                 <option value="" disabled selected>Pilih Status Cuti</option>
@@ -258,6 +266,13 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="foto" class="form-label">Foto Karyawan</label>
+                            <input type="file" class="form-control" id="foto_karyawan" name="foto_karyawan" accept="image/*">
+                        </div>
+                    </div>
+                    <input type="hidden" name="status_karyawan" value="aktif">
                     <button type="submit" class="btn bg-gradient-info">Simpan</button>
                 </form>
             </div>

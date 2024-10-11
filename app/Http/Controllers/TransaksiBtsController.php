@@ -18,7 +18,7 @@ class TransaksiBtsController extends Controller
     $query = TransaksiBts::query();
 
     if ($tanggalAwal && $tanggalAkhir) {
-        $query->whereBetween('tanggal_transaksi', [$tanggalAwal, $tanggalAkhir]);
+        $query->whereBetween('tgl_transaksi', [$tanggalAwal, $tanggalAkhir]);
     }
 
     if ($search) {
