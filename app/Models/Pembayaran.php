@@ -23,6 +23,7 @@ class Pembayaran extends Model
         'keterangan',
         'id_jenis_pembayaran',
         'status_bayar',
+        'bukti'
     ];
 
     public function jenisPembayaran()

@@ -43,6 +43,7 @@
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Bayar</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bulan Tagihan</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status Bayar</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bukti</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                             </tr>
                         </thead>
@@ -79,6 +80,16 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
+                                        @if ($pembayaran->bukti)
+                                            <a href="javascript:void(0)">
+                                                <img src="{{ asset('storage/buktipembayaran/' . $pembayaran->bukti) }}" alt="bukti" class="avatar avatar-sm">
+                                            </a>
+                                        @else
+                                            <p class="text-xs font-weight-bold mb-0">No Image</p>
+                                        @endif
+                                    </td>
+                                </td>
+                                <td class="text-center">
                                     <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#editModal{{ $pembayaran->id }}" data-bs-original-title="Edit">
                                         <i class="fas fa-pencil-alt text-secondary"></i>
                                     </a>
@@ -112,7 +123,7 @@
                 <h4 class="modal-title" id="addJenisPembayaranModalLabel">Tambah Pembayaran</h4>
             </div>
             <div class="modal-body">
-                <form action="{{ route('pembayaran.store') }}" method="POST">
+                <form action="{{ route('pembayaran.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group mb-3">
                         <label for="pengguna" class="form-label">Pengguna:</label>
@@ -134,6 +145,10 @@
                     <div class="form-group mb-3">
                         <label for="keterangan" class="form-label">Keterangan:</label>
                         <textarea name="keterangan" id="keterangan" class="form-control" rows="3" placeholder="Masukkan keterangan (opsional)"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="bukti" class="form-label">Bukti Pembayaran</label>
+                        <input type="file" class="form-control" id="bukti" name="bukti" accept="image/*">
                     </div>
                     <input type="hidden" name="status_bayar" value="lunas">
                     <button type="submit" class="btn bg-gradient-info">Simpan</button>
@@ -157,7 +172,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('pembayaran.update', $pembayaran->id) }}" method="POST">
+                <form action="{{ route('pembayaran.update', $pembayaran->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="form-group mb-3">
@@ -190,6 +205,13 @@
                         <label for="keterangan" class="form-label">Keterangan:</label>
                         <textarea name="keterangan" id="edit_keterangan" class="form-control" rows="3">{{ $pembayaran->keterangan }}</textarea>
                     </div>
+                    <div class="mb-3">
+                            <label for="bukti{{ $pembayaran->id }}" class="form-label">Bukti Transaksi</label>
+                            <input type="file" class="form-control" id="bukti{{ $pembayaran->id }}" name="bukti">
+                            @if($pembayaran->bukti)
+                                <img src="{{ asset('storage/buktipembayaran/' . $pembayaran->bukti) }}" class="img-thumbnail mt-2" alt="bukti" style="max-width: 100px;">
+                            @endif
+                    </div>
                     <button type="submit" class="btn bg-gradient-info">Simpan Perubahan</button>
                 </form>
             </div>
@@ -198,5 +220,36 @@
 </div>
 
 @endforeach
+
+<!-- Modal Preview Gambar -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Detail Foto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="imagePreview" src="" alt="Detail Foto" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const images = document.querySelectorAll("table img.avatar");
+        
+        images.forEach(image => {
+            image.addEventListener("click", function(event) {
+                const imgSrc = event.target.getAttribute("src");
+                const imagePreview = document.getElementById("imagePreview");
+                imagePreview.setAttribute("src", imgSrc);
+                const imageModal = new bootstrap.Modal(document.getElementById("imageModal"));
+                imageModal.show();
+            });
+        });
+    });
+</script>
 
 @endsection
