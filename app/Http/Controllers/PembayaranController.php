@@ -98,6 +98,11 @@ public function destroy(Pembayaran $pembayaran)
 
     return redirect()->route('pembayaran.index')->with('success', 'Data Pembayaran Berhasil Dihapus dan Jatuh Tempo Diperbarui');
 }
+public function show($id)
+{
+    $pembayaran = Pembayaran::find($id);
+    return view('pembayaran.show', compact('pembayaran'));
+}
 
     
 }

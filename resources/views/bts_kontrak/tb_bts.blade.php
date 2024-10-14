@@ -4,40 +4,52 @@
 
 @if($bts_expired->count() > 0)
     @foreach($bts_expired as $bts_exp)
-
         @php
             $days_left = round(Carbon\Carbon::now('Asia/Jakarta')->startOfDay()->diffInDays($bts_exp->jatuh_tempo, false));
         @endphp
 
         @if($days_left > 0)
-            <div class="alert alert-info alert-dismissible fade show mx-4" role="alert">
+            <div class="alert alert-info alert-dismissible fade show mx-4 d-flex justify-content-between align-items-center" role="alert">
                 <span class="text-white">
                     <strong>Perhatian!</strong> 
                     BTS <strong>{{ $bts_exp->nama_bts }}</strong> akan jatuh tempo dalam <strong>{{ $days_left }}</strong> hari.
                 </span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <a href="{{ route('transaksi_bts.index') }}" class="text-white" style="text-decoration: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h11.293L8.354 4.354a.5.5 0 1 1 .708-.708l4.5 4.5a.5.5 0 0 1 0 .708l-4.5 4.5a.5.5 0 0 1-.708-.708L13.293 8.5H2a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                </a>
             </div>
 
         @elseif($days_left == 0)
-            <div class="alert alert-warning alert-dismissible fade show mx-4" role="alert">
+            <div class="alert alert-warning alert-dismissible fade show mx-4 d-flex justify-content-between align-items-center" role="alert">
                 <span class="text-white">
                     <strong>Perhatian!</strong> 
                     BTS <strong>{{ $bts_exp->nama_bts }}</strong> jatuh tempo hari ini.
                 </span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <a href="{{ route('transaksi_bts.index') }}" class="text-white" style="text-decoration: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h11.293L8.354 4.354a.5.5 0 1 1 .708-.708l4.5 4.5a.5.5 0 0 1 0 .708l-4.5 4.5a.5.5 0 0 1-.708-.708L13.293 8.5H2a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                </a>
             </div>
 
         @else
-            <div class="alert alert-danger alert-dismissible fade show mx-4" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show mx-4 d-flex justify-content-between align-items-center" role="alert">
                 <span class="text-white">
                     <strong>Perhatian!</strong> 
                     BTS <strong>{{ $bts_exp->nama_bts }}</strong> sudah melewati jatuh tempo {{ abs($days_left) }} hari yang lalu.
                 </span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <a href="{{ route('transaksi_bts.index') }}" class="text-white" style="text-decoration: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h11.293L8.354 4.354a.5.5 0 1 1 .708-.708l4.5 4.5a.5.5 0 0 1 0 .708l-4.5 4.5a.5.5 0 0 1-.708-.708L13.293 8.5H2a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                </a>
             </div>
         @endif
     @endforeach
 @endif
+
 
 
 
