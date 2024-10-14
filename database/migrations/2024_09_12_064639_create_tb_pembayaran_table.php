@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('keterangan');
             $table->foreignId('id_jenis_pembayaran')->constrained('tb_jenis_pembayaran');
             $table->enum('status_bayar', ['lunas', 'belum-lunas']);
+            $table->string('bukti')->nullable();
             $table->timestamps();
         });
     }

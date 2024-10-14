@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('tentang_reminder');
             $table->text('keterangan')->nullable();
             $table->date('tanggal_reminder');
-            $table->time('waktu_reminder');
             $table->enum('status', ['aktif', 'tidak-aktif']);
             $table->enum('status_pelaksanaan', ['sudah', 'belum']);
             $table->timestamps();

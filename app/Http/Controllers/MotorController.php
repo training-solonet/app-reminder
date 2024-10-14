@@ -70,7 +70,7 @@ class MotorController extends Controller
             'tanggal_pajak' => 'required|date',
             'foto_motor' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'id_karyawan' => 'required|string|max:255',
-            'tahun_motor' => 'required|integer', // Validasi baru untuk tahun motor
+            'tahun_motor' => 'required|integer', 
         ]);
 
         $data = $request->only('nama_motor', 'plat_nomor', 'tanggal_pajak', 'id_karyawan', 'tahun_motor');

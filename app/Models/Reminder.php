@@ -15,7 +15,6 @@ class Reminder extends Model
         'tentang_reminder',
         'keterangan',
         'tanggal_reminder',
-        'waktu_reminder',
         'status',
         'status_pelaksanaan',
     ];

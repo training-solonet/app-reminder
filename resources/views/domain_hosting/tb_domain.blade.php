@@ -101,13 +101,6 @@
                                         <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#editModal{{ $domain->id }}" data-bs-original-title="Edit">
                                             <i class="fas fa-pencil-alt text-secondary"></i>
                                         </a>
-                                        <a href="#" class="p-1" onclick="event.preventDefault(); confirmDelete({{ $domain->id }});">
-                                            <i class="fas fa-trash text-secondary"></i>
-                                        </a>
-                                        <form id="delete-form-{{ $domain->id }}" action="{{ route('domain.destroy', $domain->id) }}" method="POST" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach
