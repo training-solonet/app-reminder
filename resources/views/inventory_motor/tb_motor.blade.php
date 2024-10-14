@@ -10,32 +10,47 @@
         @endphp
 
         @if($days_left > 0)
-            <div class="alert alert-info alert-dismissible fade show mx-4" role="alert">
+            <div class="alert alert-info alert-dismissible fade show mx-4 d-flex justify-content-between align-items-center" role="alert">
                 <span class="text-white">
                     <strong>Perhatian!</strong> 
                     Pajak motor <strong>{{ $motor_exp->nama_motor }}</strong> dengan plat <strong>{{ $motor_exp->plat_nomor }}</strong> akan jatuh tempo dalam <strong>{{ $days_left }}</strong> hari.
                 </span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <a href="{{ route('transaksi.index') }}" class="text-white" style="text-decoration: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h11.293L8.354 4.354a.5.5 0 1 1 .708-.708l4.5 4.5a.5.5 0 0 1 0 .708l-4.5 4.5a.5.5 0 0 1-.708-.708L13.293 8.5H2a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                </a>
             </div>
+
         @elseif($days_left == 0)
-            <div class="alert alert-warning alert-dismissible fade show mx-4" role="alert">
+            <div class="alert alert-warning alert-dismissible fade show mx-4 d-flex justify-content-between align-items-center" role="alert">
                 <span class="text-white">
                     <strong>Perhatian!</strong> 
-                    Pajak motor <strong>{{ $motor_exp->nama_motor }}</strong> dengan plat <strong>{{ $motor_exp->plat_nomor }}</strong> hari akan jatuh tempo hari ini.
+                    Pajak motor <strong>{{ $motor_exp->nama_motor }}</strong> dengan plat <strong>{{ $motor_exp->plat_nomor }}</strong> akan jatuh tempo hari ini.
                 </span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <a href="{{ route('transaksi.index') }}" class="text-white" style="text-decoration: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h11.293L8.354 4.354a.5.5 0 1 1 .708-.708l4.5 4.5a.5.5 0 0 1 0 .708l-4.5 4.5a.5.5 0 0 1-.708-.708L13.293 8.5H2a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                </a>
             </div>
+
         @else
-            <div class="alert alert-danger alert-dismissible fade show mx-4" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show mx-4 d-flex justify-content-between align-items-center" role="alert">
                 <span class="text-white">
                     <strong>Perhatian!</strong> 
-                    Pajak motor <strong>{{ $motor_exp->nama_motor }}</strong> dengan plat <strong>{{ $motor_exp->plat_nomor }}</strong> sudah jatuh tempo pada {{ abs($days_left) }} hari yang lalu.
+                    Pajak motor <strong>{{ $motor_exp->nama_motor }}</strong> dengan plat <strong>{{ $motor_exp->plat_nomor }}</strong> sudah jatuh tempo {{ abs($days_left) }} hari yang lalu.
                 </span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <a href="{{ route('transaksi.index') }}" class="text-white" style="text-decoration: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h11.293L8.354 4.354a.5.5 0 1 1 .708-.708l4.5 4.5a.5.5 0 0 1 0 .708l-4.5 4.5a.5.5 0 0 1-.708-.708L13.293 8.5H2a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                </a>
             </div>
         @endif
     @endforeach
 @endif
+
 
 <div>
     <div class="row">
@@ -64,7 +79,7 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         No
                                     </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -93,7 +108,7 @@
                             <tbody>
                                 @foreach ($motor as $key => $item)
                                 <tr>
-                                    <td class="ps-4">
+                                    <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $motor->firstItem() + $key }}</p>
                                     </td>
                                     <td class="text-center">

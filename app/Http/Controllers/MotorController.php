@@ -27,7 +27,7 @@ class MotorController extends Controller
             $query->whereDate('tanggal_pajak', '<=', $request->end_date);
         }
 
-        $motor = $query->paginate(5);
+        $motor = $query->orderBy('created_at', 'desc')->paginate(15);
 
         $karyawan = Karyawan::all();
 
@@ -70,7 +70,7 @@ class MotorController extends Controller
             'tanggal_pajak' => 'required|date',
             'foto_motor' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'id_karyawan' => 'required|string|max:255',
-            'tahun_motor' => 'required|integer', // Validasi baru untuk tahun motor
+            'tahun_motor' => 'required|integer', 
         ]);
 
         $data = $request->only('nama_motor', 'plat_nomor', 'tanggal_pajak', 'id_karyawan', 'tahun_motor');

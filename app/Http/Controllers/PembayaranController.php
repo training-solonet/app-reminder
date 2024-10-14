@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pembayaran;
 use App\Models\JenisPembayaran; 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 class PembayaranController extends Controller
@@ -17,7 +18,7 @@ class PembayaranController extends Controller
     $search = $request->input('search');
     
     $pembayarans = Pembayaran::when($tanggalAwal && $tanggalAkhir, function ($query) use ($tanggalAwal, $tanggalAkhir) {
-        return $query->whereBetween('tgl_bayar', [$tanggalAwal, $tanggalAkhir]);
+        return $query->whereBetween('created_at', [$tanggalAwal, $tanggalAkhir]);
     })
     ->when($idJenisPembayaran, function ($query) use ($idJenisPembayaran) {
         return $query->where('id_jenis_pembayaran', $idJenisPembayaran);
@@ -35,25 +36,36 @@ class PembayaranController extends Controller
 }
 
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'pengguna' => 'required',
-            'no_telp' => 'required',
-            'keterangan' => 'nullable',
-            'id_jenis_pembayaran' => 'required',
-            'status_bayar' => 'required|in:lunas,belum-lunas',
-        ]);
+public function store(Request $request)
+{
 
-        Pembayaran::create($validated);
+    $request->validate([
+        'pengguna' => 'required',
+        'no_telp' => 'required',
+        'keterangan' => 'nullable',
+        'id_jenis_pembayaran' => 'required',
+        'status_bayar' => 'required|in:lunas,belum-lunas',
+        'bukti' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
 
-        $jenisPembayarans = JenisPembayaran::find($request->id_jenis_pembayaran);
-        if ($jenisPembayarans) {
-            $jenisPembayarans->tanggal_jatuh_tempo = Carbon::now()->addMonth();
-            $jenisPembayarans->save();
-        }
+    $data = $request->only('pengguna', 'no_telp', 'keterangan', 'id_jenis_pembayaran', 'status_bayar');
 
-        return redirect()->route('pembayaran.index')->with('success', 'Data Pembayaran Berhasil Ditambahkan dan Jatuh Tempo Diperbarui');
+    if ($request->hasFile('bukti')) {
+        $file = $request->file('bukti');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->storeAs('public/buktipembayaran', $filename);
+        $data['bukti'] = $filename;
+    }
+
+    Pembayaran::create($data);
+
+    $jenisPembayarans = JenisPembayaran::find($request->id_jenis_pembayaran);
+    if ($jenisPembayarans) {
+        $jenisPembayarans->tanggal_jatuh_tempo = Carbon::now()->addMonth();
+        $jenisPembayarans->save();
+    }
+
+    return redirect()->route('pembayaran.index')->with('success', 'Data Pembayaran Berhasil Ditambahkan dan Jatuh Tempo Diperbarui');
 }
 
 public function update(Request $request, Pembayaran $pembayaran)
@@ -64,6 +76,7 @@ public function update(Request $request, Pembayaran $pembayaran)
         'keterangan' => 'nullable',
         'id_jenis_pembayaran' => 'required',
         'status_bayar' => 'required|in:lunas,belum-lunas',
+        'bukti' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
     ]);
 
     if ($pembayaran->id_jenis_pembayaran != $request->id_jenis_pembayaran) {
@@ -80,24 +93,32 @@ public function update(Request $request, Pembayaran $pembayaran)
         }
     }
 
+    if ($request->hasFile('bukti')) {
+        $file = $request->file('bukti');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->storeAs('public/buktipembayaran', $filename);
+        $validated['bukti'] = $filename;
+    }
     $pembayaran->update($validated);
 
     return redirect()->route('pembayaran.index')->with('success', 'Data Pembayaran Berhasil Diupdate dan Jatuh Tempo Diperbarui');
 }
 
 
-public function destroy(Pembayaran $pembayaran)
-{
-    $jenisPembayaran = JenisPembayaran::find($pembayaran->id_jenis_pembayaran);
-    if ($jenisPembayaran) {
-        $jenisPembayaran->tanggal_jatuh_tempo = Carbon::parse($jenisPembayaran->tgl_jatuh_tempo)->subMonth();
-        $jenisPembayaran->save();
+    public function destroy(Pembayaran $pembayaran)
+    {
+        $jenisPembayaran = JenisPembayaran::find($pembayaran->id_jenis_pembayaran);
+        if ($jenisPembayaran) {
+            $jenisPembayaran->tanggal_jatuh_tempo = Carbon::parse($jenisPembayaran->tgl_jatuh_tempo)->subMonth();
+            $jenisPembayaran->save();
+        }
+
+        if ($pembayaran->bukti) {
+            Storage::delete('public/buktipembayaran/' . $pembayaran->bukti);
+        }
+
+        $pembayaran->delete();
+
+        return redirect()->route('pembayaran.index')->with('success', 'Data Pembayaran Berhasil Dihapus dan Jatuh Tempo Diperbarui');
     }
-
-    $pembayaran->delete();
-
-    return redirect()->route('pembayaran.index')->with('success', 'Data Pembayaran Berhasil Dihapus dan Jatuh Tempo Diperbarui');
-}
-
-    
 }

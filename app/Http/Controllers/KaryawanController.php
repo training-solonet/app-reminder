@@ -27,7 +27,7 @@ class KaryawanController extends Controller
         });
     }
 
-    $karyawan = $query->paginate(15);
+    $karyawan = $query->orderBy('created_at', 'desc')->paginate(15);
 
     return view('inventory_motor.tb_karyawan', compact('karyawan'));
 }
