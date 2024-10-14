@@ -1,6 +1,6 @@
 @extends('layouts.user_type.auth')
 
-@section('content')   
+@section('content')
 
 <div>
     <div class="row">
@@ -223,7 +223,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const images = document.querySelectorAll("table img.avatar");
-        
+
         images.forEach(image => {
             image.addEventListener("click", function(event) {
                 const imgSrc = event.target.getAttribute("src");
@@ -237,3 +237,4 @@
 </script>
 
 @endsection
+
