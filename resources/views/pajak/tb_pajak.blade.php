@@ -35,7 +35,6 @@
                             <button type="submit" class="btn bg-gradient-info mb-0">Filter</button>
                         </form>
                     </div>
-
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
@@ -95,7 +94,7 @@
         </div>
         <div class="modal-body">
             <form id="importForm" enctype="multipart/form-data" action="{{ route('import-proses') }}" method="POST">
-                @csrf 
+                @csrf
                 <div class="mb-3">
                     <label for="formFile" class="form-label">Choose Excel file</label>
                     <input class="form-control" type="file" id="formFile" name="file" accept=".xls,.xlsx">
@@ -110,19 +109,37 @@
     </div>
   </div>
 
-  <script>
-  document.getElementById('uploadBtn').addEventListener('click', function() {
-    const form = document.getElementById('importForm');
-    const fileInput = document.getElementById('formFile');
+  <!-- Spinner Loading -->
+  <div id="loading-spinner" style="display:none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 9999;">
+    <div style="border: 8px solid #f3f3f3; border-radius: 50%; border-top: 8px solid #3498db; width: 60px; height: 60px; animation: spin 1s linear infinite;"></div>
+  </div>
 
-    if (fileInput.files.length > 0) {
-        form.submit();
-    } else {
-        alert('Please select a file.');
+  <!-- CSS untuk spinner -->
+  <style>
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
-});
+  </style>
 
+  <!-- JavaScript untuk menampilkan spinner saat tombol Upload ditekan -->
+  <script>
+    document.getElementById('uploadBtn').addEventListener('click', function() {
+        const form = document.getElementById('importForm');
+        const fileInput = document.getElementById('formFile');
+        const loadingSpinner = document.getElementById('loading-spinner'); // Tangkap elemen loading spinner
+
+        // Cek apakah ada file yang dipilih
+        if (fileInput.files.length > 0) {
+            // Tampilkan spinner loading
+            loadingSpinner.style.display = 'block';
+
+            // Submit form
+            form.submit();
+        } else {
+            alert('Please select a file.');
+        }
+    });
   </script>
-
 
 @endsection
