@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('pengguna');
             $table->string('no_telp');
             $table->text('keterangan');
-            $table->foreignId('id_jenis_pembayaran')->constrained('tb_jenis_pembayaran');
+            $table->foreignId('id_jenis_pembayaran')->constrained('tb_jenis_pembayaran')->onDelete('cascade');
             $table->enum('status_bayar', ['lunas', 'belum-lunas']);
             $table->string('bukti')->nullable();
             $table->timestamps();
