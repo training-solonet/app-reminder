@@ -43,9 +43,9 @@
                     <div class="col-8">
                         <div class="numbers">
                             <p class="text-lg mb-0 text-capitalize font-weight-bold text-dark">Pajak Motor</p>
-                            <h4 class="font-weight-bolder mb-0 text-dark">
+                            <h3 class="font-weight-bolder mb-0 text-dark">
                                 {{ $countMotorPajakJatuhTempo }}
-                            </h4>
+                            </h3>
                             <button class="btn btn-icon btn-2 bg-gradient-success mt-1" type="button">
                                 <span class="btn-inner--text">Jatuh Tempo</span>
                                 &nbsp;
@@ -74,9 +74,9 @@
                     <div class="col-8">
                         <div class="numbers">
                             <p class="text-lg mb-0 text-capitalize font-weight-bold text-dark">BTS Kontrak</p>
-                            <h4 class="font-weight-bolder mb-0 text-dark">
+                            <h3 class="font-weight-bolder mb-0 text-dark">
                                 {{ $countBtsJatuhTempo }}
-                            </h4>
+                            </h3>
                             <button class="btn btn-icon btn-2 bg-gradient-warning mt-1" type="button">
                                 <span class="btn-inner--text">Jatuh Tempo</span>
                                 &nbsp;
@@ -105,9 +105,9 @@
                     <div class="col-8">
                         <div class="numbers">
                             <p class="text-lg mb-0 text-capitalize font-weight-bold text-dark">Reminder Aktif</p>
-                            <h4 class="font-weight-bolder mb-0 text-dark">
+                            <h3 class="font-weight-bolder mb-0 text-dark">
                                 {{ $activeReminders }}
-                            </h4>
+                            </h3>
                             <button class="btn btn-icon btn-2 bg-gradient-primary mt-1" type="button">
                                 <span class="btn-inner--text">Segera Lakukan</span>
                                 &nbsp;
@@ -136,9 +136,9 @@
                     <div class="col-8">
                         <div class="numbers">
                             <p class="text-lg mb-0 text-capitalize font-weight-bold text-dark">Reminder Belum Dilaksanakan</p>
-                            <h4 class="font-weight-bolder mb-0 text-dark">
+                            <h3 class="font-weight-bolder mb-0 text-dark">
                                 {{ $pendingReminders }}
-                            </h4>
+                            </h3>
                             <button class="btn btn-icon btn-2 bg-gradient-warning mt-1" type="button">
                                 <span class="btn-inner--text">Belum Selesai</span>
                                 &nbsp;
@@ -167,9 +167,9 @@
                     <div class="col-8">
                         <div class="numbers">
                             <p class="text-lg mb-0 text-capitalize font-weight-bold text-dark">Pembayaran</p>
-                            <h4 class="font-weight-bolder mb-0 text-dark">
+                            <h3 class="font-weight-bolder mb-0 text-dark">
                                 {{ $countPembayaranBelumLunas }}
-                            </h4>
+                            </h3>
                             <button class="btn btn-icon btn-2 bg-gradient-danger mt-1" type="button">
                                 <span class="btn-inner--text">Bayar Sekarang</span>
                                 &nbsp;
