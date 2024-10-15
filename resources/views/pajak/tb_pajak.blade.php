@@ -10,13 +10,21 @@
                             <div>
                                 <h5 class="mb-0">Daftar Pajak</h5>
                             </div>
-                            <!-- Tambahkan wrapper div untuk tombol Import dan Export -->
                             <div class="d-flex">
+                                <a href="/download-excel" class="btn bg-gradient-success btn-sm mb-0 me-2" type="button">
+                                     Download Template
+                                     &nbsp;
+                                     <i class="fas fa-solid fa-download" style="font-size: 11px"></i>
+                                </a>
                                 <a href="#" class="btn bg-gradient-info btn-sm mb-0 me-2" type="button" data-bs-toggle="modal" data-bs-target="#ImportModal">
-                                    +&nbsp; Import
+                                    Import Excel
+                                    &nbsp;
+                                    <i class="fas fa-solid fa-file-import" style="font-size: 11px"></i>
                                 </a>
                                 <a href="#" class="btn bg-gradient-danger btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#Import">
-                                    +&nbsp; Export
+                                    Export CSV
+                                    &nbsp;
+                                    <i class="fas fa-solid fa-file-export" style="font-size: 11px"></i>
                                 </a>
                             </div>
                         </div>

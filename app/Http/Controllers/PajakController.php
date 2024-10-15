@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Pajak;
 use Illuminate\Support\Facades\Cache;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PajakExport;
 use Carbon\Carbon;
 
 class PajakController extends Controller
@@ -25,10 +26,8 @@ class PajakController extends Controller
                        ->orWhere('nama_user', 'like', '%' . $search . '%');
     }
 
-    // Paginate dengan hasil query, misalnya 100 data per halaman
     $pajak = $pajak->paginate(50);
 
-    // Kirimkan hasil pencarian ke view
     return view('pajak.tb_pajak', compact('pajak'));
 }
 
@@ -46,6 +45,12 @@ class PajakController extends Controller
     {
         return view('pajak');
     }
+
+    public function export_excel()
+	{
+        $filePath=resource_path('excel/templatexcel.xlsx');
+        return response() -> download($filePath);
+	}
 
     public function import_proses(Request $request)
 {
