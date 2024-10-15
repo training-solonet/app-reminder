@@ -35,81 +35,92 @@ class PembayaranController extends Controller
     return view('pembayaran_bulanan.tb_pembayaran', compact('pembayarans', 'jenispembayaran', 'tanggalAwal', 'tanggalAkhir', 'idJenisPembayaran', 'search'));
 }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'pengguna' => 'required',
+            'no_telp' => 'required',
+            'keterangan' => 'nullable',
+            'id_jenis_pembayaran' => 'required',
+            'status_bayar' => 'required|in:lunas,belum-lunas',
+            'bukti' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
 
-public function store(Request $request)
-{
+        $data = $request->only('pengguna', 'no_telp', 'keterangan', 'id_jenis_pembayaran', 'status_bayar');
 
-    $request->validate([
-        'pengguna' => 'required',
-        'no_telp' => 'required',
-        'keterangan' => 'nullable',
-        'id_jenis_pembayaran' => 'required',
-        'status_bayar' => 'required|in:lunas,belum-lunas',
-        'bukti' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-    ]);
-
-    $data = $request->only('pengguna', 'no_telp', 'keterangan', 'id_jenis_pembayaran', 'status_bayar');
-
-    if ($request->hasFile('bukti')) {
-        $file = $request->file('bukti');
-        $filename = time() . '.' . $file->getClientOriginalExtension();
-        $file->storeAs('public/buktipembayaran', $filename);
-        $data['bukti'] = $filename;
-    }
-
-    Pembayaran::create($data);
-
-    $jenisPembayarans = JenisPembayaran::find($request->id_jenis_pembayaran);
-    if ($jenisPembayarans) {
-        $jenisPembayarans->tanggal_jatuh_tempo = Carbon::now()->addMonth();
-        $jenisPembayarans->save();
-    }
-
-    return redirect()->route('pembayaran.index')->with('success', 'Data Pembayaran Berhasil Ditambahkan dan Jatuh Tempo Diperbarui');
-}
-
-public function update(Request $request, Pembayaran $pembayaran)
-{
-    $validated = $request->validate([
-        'pengguna' => 'required',
-        'no_telp' => 'required',
-        'keterangan' => 'nullable',
-        'id_jenis_pembayaran' => 'required',
-        'status_bayar' => 'required|in:lunas,belum-lunas',
-        'bukti' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-    ]);
-
-    if ($pembayaran->id_jenis_pembayaran != $request->id_jenis_pembayaran) {
-        $jenisPembayaranLama = JenisPembayaran::find($pembayaran->id_jenis_pembayaran);
-        if ($jenisPembayaranLama) {
-            $jenisPembayaranLama->tgl_jatuh_tempo = Carbon::parse($jenisPembayaranLama->tgl_jatuh_tempo)->subMonth();
-            $jenisPembayaranLama->save();
+        if ($request->hasFile('bukti')) {
+            $file = $request->file('bukti');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/buktipembayaran', $filename);
+            $data['bukti'] = $filename;
         }
 
-        $jenisPembayaranBaru = JenisPembayaran::find($request->id_jenis_pembayaran);
-        if ($jenisPembayaranBaru) {
-            $jenisPembayaranBaru->tgl_jatuh_tempo = Carbon::now()->addMonth();
-            $jenisPembayaranBaru->save();
+        Pembayaran::create($data);
+
+        $jumlahTransaksi = Pembayaran::where('id_jenis_pembayaran', $request->id_jenis_pembayaran)->count();
+
+        $jenisPembayarans = JenisPembayaran::find($request->id_jenis_pembayaran);
+        if ($jenisPembayarans) {
+            $jenisPembayarans->tanggal_jatuh_tempo = Carbon::now()->addMonths($jumlahTransaksi);
+            $jenisPembayarans->save();
         }
+
+        return redirect()->route('pembayaran.index')->with('success', 'Data Pembayaran Berhasil Ditambahkan dan Jatuh Tempo Diperbarui');
     }
 
-    if ($request->hasFile('bukti')) {
-        $file = $request->file('bukti');
-        $filename = time() . '.' . $file->getClientOriginalExtension();
-        $file->storeAs('public/buktipembayaran', $filename);
-        $validated['bukti'] = $filename;
+
+    public function update(Request $request, Pembayaran $pembayaran)
+    {
+        $validated = $request->validate([
+            'pengguna' => 'required',
+            'no_telp' => 'required',
+            'keterangan' => 'nullable',
+            'id_jenis_pembayaran' => 'required',
+            'status_bayar' => 'required|in:lunas,belum-lunas',
+            'bukti' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+
+        if ($request->hasFile('bukti')) {
+            $file = $request->file('bukti');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/buktipembayaran', $filename);
+            $validated['bukti'] = $filename;
+        }
+
+        if ($pembayaran->id_jenis_pembayaran != $request->id_jenis_pembayaran) {
+            $jenisPembayaranLama = JenisPembayaran::find($pembayaran->id_jenis_pembayaran);
+            if ($jenisPembayaranLama) {
+                $jumlahTransaksiLama = Pembayaran::where('id_jenis_pembayaran', $pembayaran->id_jenis_pembayaran)->count();
+                $jenisPembayaranLama->tanggal_jatuh_tempo = Carbon::now()->addMonths($jumlahTransaksiLama - 1); // Kurangi satu bulan
+                $jenisPembayaranLama->save();
+            }
+
+            $jenisPembayaranBaru = JenisPembayaran::find($request->id_jenis_pembayaran);
+            if ($jenisPembayaranBaru) {
+                $jumlahTransaksiBaru = Pembayaran::where('id_jenis_pembayaran', $request->id_jenis_pembayaran)->count();
+                $jenisPembayaranBaru->tanggal_jatuh_tempo = Carbon::now()->addMonths($jumlahTransaksiBaru);
+                $jenisPembayaranBaru->save();
+            }
+        }
+
+        $pembayaran->update($validated);
+
+        return redirect()->route('pembayaran.index')->with('success', 'Data Pembayaran Berhasil Diupdate dan Jatuh Tempo Diperbarui');
     }
-    $pembayaran->update($validated);
-
-    return redirect()->route('pembayaran.index')->with('success', 'Data Pembayaran Berhasil Diupdate dan Jatuh Tempo Diperbarui');
-}
-
 
     public function destroy(Pembayaran $pembayaran)
     {
-        $jenisPembayaran = JenisPembayaran::find($pembayaran->id_jenis_pembayaran);
+        $jenisPembayaran = JenisPembayaran::find($pembayaran->id_jenis_pembayaran);  
+
         if ($jenisPembayaran) {
-            $jenisPembayaran->tanggal_jatuh_tempo = Carbon::parse($jenisPembayaran->tgl_jatuh_tempo)->subMonth();
+            $jumlahTransaksi = Pembayaran::where('id_jenis_pembayaran', $pembayaran->id_jenis_pembayaran)->count();
+
+            if ($jumlahTransaksi > 1) {
+                $jenisPembayaran->tanggal_jatuh_tempo = Carbon::parse($jenisPembayaran->tanggal_jatuh_tempo)->subMonth();
+            } else {
+                $jenisPembayaran->tanggal_jatuh_tempo = Carbon::now();
+            }
+            
             $jenisPembayaran->save();
         }
 

@@ -10,7 +10,6 @@
                             <div>
                                 <h5 class="mb-0">Daftar Pajak</h5>
                             </div>
-                            <!-- Tambahkan wrapper div untuk tombol Import dan Export -->
                             <div class="d-flex">
                                 <a href="#" class="btn bg-gradient-info btn-sm mb-0 me-2" type="button" data-bs-toggle="modal" data-bs-target="#ImportModal">
                                     +&nbsp; Import
@@ -78,7 +77,6 @@
 </div>
 
 
-<!-- Modal structure -->
 <div class="modal fade" id="ImportModal" tabindex="-1" aria-labelledby="ImportModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -88,7 +86,7 @@
         </div>
         <div class="modal-body">
             <form id="importForm" enctype="multipart/form-data" action="{{ route('import-proses') }}" method="POST">
-                @csrf <!-- Pastikan Anda menambahkan CSRF token -->
+                @csrf 
                 <div class="mb-3">
                     <label for="formFile" class="form-label">Choose Excel file</label>
                     <input class="form-control" type="file" id="formFile" name="file" accept=".xls,.xlsx">
@@ -109,7 +107,7 @@
     const fileInput = document.getElementById('formFile');
 
     if (fileInput.files.length > 0) {
-        form.submit(); // Kirim form ke server
+        form.submit();
     } else {
         alert('Please select a file.');
     }
