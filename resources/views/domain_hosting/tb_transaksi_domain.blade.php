@@ -40,7 +40,7 @@
                             @foreach($transaksis as $key => $trans)
                             <tr>
                                 <td class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $key + 1 }}</p>
+                                    <p class="text-xs font-weight-bold mb-0">{{ $transaksis -> firstItem() + $key }}</p>
                                 </td>
                                 <td class="text-center">
                                     <p class="text-xs font-weight-bold mb-0"><strong>{{ $trans->domain->nama_domain }}</strong></p>
