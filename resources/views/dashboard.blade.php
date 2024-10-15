@@ -74,7 +74,7 @@
                     <div class="col-8">
                         <div class="numbers">
                             <p class="text-lg mb-0 text-capitalize font-weight-bold text-dark">BTS Kontrak</p>
-                            <h3 class="font-weight-bolder mb-0 text-dark">
+                            <h3   class="font-weight-bolder mb-0 text-dark">
                                 {{ $countBtsJatuhTempo }}
                             </h3>
                             <button class="btn btn-icon btn-2 bg-gradient-warning mt-1" type="button">

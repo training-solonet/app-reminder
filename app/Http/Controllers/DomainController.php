@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use App\Models\Domain;
 use App\Models\TransaksiDomain;
@@ -10,29 +11,28 @@ use Carbon\Carbon;
 class DomainController extends Controller
 {
     public function index(Request $request)
-    {
-        $tanggalFilter = $request->input('tanggal_filter');
-        $search = $request->input('search');
+{
+    $tanggalFilter = $request->input('tanggal_filter');
+    $search = $request->input('search');
+    
+    // Query domain dengan filter
+    $domains = Domain::when($tanggalFilter, function ($query) use ($tanggalFilter) {
+        $query->whereYear('tgl_expired', $tanggalFilter);
+    })
+    ->when($search, function ($query) use ($search) {
+        $query->where('nama_domain', 'like', "%{$search}%")
+              ->orWhere('status_berlangganan', 'like', "%{$search}%");
+    })
+    ->paginate(10);
 
-        $query = Domain::query();
+    $transaksi_domain = TransaksiDomain::all();
 
-        if ($tanggalFilter) {
-            $query->whereYear('tgl_expired', $tanggalFilter);
-        }
+    // Cek domain yang expired
+    $domains_expired = Domain::where('tgl_expired', '<=', now())->get();
 
-        if ($search) {
-            $query->where(function($q) use ($search) {
-                $q->where('nama_domain', 'like', '%' . $search . '%')
-                ->orWhere('status_berlangganan', 'like', '%' . $search . '%');
-            });
-        }
+    return view('domain_hosting.tb_domain', compact('domains', 'domains_expired', 'tanggalFilter','transaksi_domain'));
+}
 
-        $domains = $query->orderBy('created_at', 'desc')->paginate(15);
-
-        $domains_expired = Domain::where('tgl_expired', '<=', Carbon::now()->addDays(30))->get();
-
-        return view('domain_hosting.tb_domain', compact('domains', 'domains_expired', 'tanggalFilter'));
-    }
 
     public function store(Request $request)
     {
