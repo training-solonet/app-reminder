@@ -3,22 +3,25 @@
 @section('content')
 
 <div class="row">
-    <!-- Card for Domains that haven't been paid -->
-    <div class="col-xl-6 col-sm-12 mb-4">
-        <div class="card" style="height: 100%; padding: 1.5rem;">
+    <!-- Domain Card -->
+    <div class="col-xl-6 col-md-6 col-sm-12 mb-4">
+        <div class="card" style="height: 100%; padding: 1.5rem; position: relative;">
             <a href="{{ route('domain.index') }}" class="stretched-link"></a>
             <div class="card-body p-4">
                 <div class="row">
                     <div class="col-8">
                         <div class="numbers">
                             <p class="text-lg mb-0 text-capitalize font-weight-bold text-dark">Domain</p>
-                            <h4 class="font-weight-bolder mb-0 text-dark">
+                            <h3 class="font-weight-bolder mb-0 text-dark">
                                 {{ $countBelumTerbayar }}
-                                <span class="text-danger text-md font-weight-bolder">Item,</span>
-                            </h4>
-                            <h4 class="font-weight-bolder mb-0">
-                                <span class="text-info text-md font-weight-bolder">belum terbayar</span>
-                            </h4>
+                            </h3>
+                            <button class="btn btn-icon btn-2 bg-gradient-info mt-1" type="button">
+                                <span class="btn-inner--text">Belum Terbayar</span>
+                                &nbsp;
+                                <span class="btn-inner--icon">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </button>
                         </div>
                     </div>
                     <div class="col-4 text-end">
@@ -31,22 +34,25 @@
         </div>
     </div>
 
-    <!-- Card for Motorcycle Taxes nearing deadline -->
-    <div class="col-xl-6 col-sm-12 mb-4">
+    <!-- Motorcycle Tax Card -->
+    <div class="col-xl-6 col-md-6 col-sm-12 mb-4">
         <div class="card" style="height: 100%; padding: 1.5rem;">
             <a href="{{ route('motor.index') }}" class="stretched-link"></a>
             <div class="card-body p-4">
                 <div class="row">
                     <div class="col-8">
                         <div class="numbers">
-                            <p class="text-lg mb-0 text-capitalize font-weight-bold text-dark">Motor Pajak</p>
+                            <p class="text-lg mb-0 text-capitalize font-weight-bold text-dark">Pajak Motor</p>
                             <h4 class="font-weight-bolder mb-0 text-dark">
                                 {{ $countMotorPajakJatuhTempo }}
-                                <span class="text-danger text-md font-weight-bolder">item, jatuh tempo</span>
                             </h4>
-                            <h4 class="font-weight-bolder mb-0">
-                                <span class="text-info text-md font-weight-bolder">bayar segera</span>
-                            </h4>
+                            <button class="btn btn-icon btn-2 bg-gradient-success mt-1" type="button">
+                                <span class="btn-inner--text">Jatuh Tempo</span>
+                                &nbsp;
+                                <span class="btn-inner--icon">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </button>
                         </div>
                     </div>
                     <div class="col-4 text-end">
@@ -59,8 +65,8 @@
         </div>
     </div>
 
-    <!-- Card for BTS nearing contract deadline -->
-    <div class="col-xl-6 col-sm-12 mb-4">
+    <!-- BTS Contract Card -->
+    <div class="col-xl-6 col-md-6 col-sm-12 mb-4">
         <div class="card" style="height: 100%; padding: 1.5rem;">
             <a href="{{ route('bts.index') }}" class="stretched-link"></a>
             <div class="card-body p-4">
@@ -70,11 +76,14 @@
                             <p class="text-lg mb-0 text-capitalize font-weight-bold text-dark">BTS Kontrak</p>
                             <h4 class="font-weight-bolder mb-0 text-dark">
                                 {{ $countBtsJatuhTempo }}
-                                <span class="text-danger text-md font-weight-bolder">item, jatuh tempo</span>
                             </h4>
-                            <h4 class="font-weight-bolder mb-0">
-                                <span class="text-info text-md font-weight-bolder">segera diperbarui</span>
-                            </h4>
+                            <button class="btn btn-icon btn-2 bg-gradient-warning mt-1" type="button">
+                                <span class="btn-inner--text">Jatuh Tempo</span>
+                                &nbsp;
+                                <span class="btn-inner--icon">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </button>
                         </div>
                     </div>
                     <div class="col-4 text-end">
@@ -87,22 +96,25 @@
         </div>
     </div>
 
-    <!-- Card for Active Reminders -->
-    <div class="col-xl-6 col-sm-12 mb-4">
+    <!-- Active Reminders Card -->
+    <div class="col-xl-6 col-md-6 col-sm-12 mb-4">
         <div class="card" style="height: 100%; padding: 1.5rem;">
             <a href="{{ route('reminders.index') }}" class="stretched-link"></a>
             <div class="card-body p-4">
                 <div class="row">
                     <div class="col-8">
                         <div class="numbers">
-                            <p class="text-lg mb-0 text-capitalize font-weight-bold text-dark">Reminders Aktif</p>
+                            <p class="text-lg mb-0 text-capitalize font-weight-bold text-dark">Reminder Aktif</p>
                             <h4 class="font-weight-bolder mb-0 text-dark">
                                 {{ $activeReminders }}
-                                <span class="text-danger text-md font-weight-bolder">item aktif,</span>
                             </h4>
-                            <h4 class="font-weight-bolder mb-0">
-                                <span class="text-info text-md font-weight-bolder">dijalankan segera</span>
-                            </h4>
+                            <button class="btn btn-icon btn-2 bg-gradient-primary mt-1" type="button">
+                                <span class="btn-inner--text">Segera Lakukan</span>
+                                &nbsp;
+                                <span class="btn-inner--icon">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </button>
                         </div>
                     </div>
                     <div class="col-4 text-end">
@@ -115,22 +127,25 @@
         </div>
     </div>
 
-    <!-- Card for Pending Reminders -->
-    <div class="col-xl-6 col-sm-12 mb-4">
+    <!-- Pending Reminders Card -->
+    <div class="col-xl-6 col-md-6 col-sm-12 mb-4">
         <div class="card" style="height: 100%; padding: 1.5rem;">
             <a href="{{ route('reminders.index') }}" class="stretched-link"></a>
             <div class="card-body p-4">
                 <div class="row">
                     <div class="col-8">
                         <div class="numbers">
-                            <p class="text-lg mb-0 text-capitalize font-weight-bold text-dark">Reminders Belum Dilaksanakan</p>
+                            <p class="text-lg mb-0 text-capitalize font-weight-bold text-dark">Reminder Belum Dilaksanakan</p>
                             <h4 class="font-weight-bolder mb-0 text-dark">
                                 {{ $pendingReminders }}
-                                <span class="text-danger text-md font-weight-bolder">item pending,</span>
                             </h4>
-                            <h4 class="font-weight-bolder mb-0">
-                                <span class="text-info text-md font-weight-bolder">belum selesai</span>
-                            </h4>
+                            <button class="btn btn-icon btn-2 bg-gradient-warning mt-1" type="button">
+                                <span class="btn-inner--text">Belum Selesai</span>
+                                &nbsp;
+                                <span class="btn-inner--icon">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </button>
                         </div>
                     </div>
                     <div class="col-4 text-end">
@@ -143,8 +158,8 @@
         </div>
     </div>
 
-    <!-- Card for Unpaid Payments -->
-    <div class="col-xl-6 col-sm-12 mb-4">
+    <!-- Unpaid Payments Card -->
+    <div class="col-xl-6 col-md-6 col-sm-12 mb-4">
         <div class="card" style="height: 100%; padding: 1.5rem;">
             <a href="{{ route('pembayaran.index') }}" class="stretched-link"></a>
             <div class="card-body p-4">
@@ -154,11 +169,14 @@
                             <p class="text-lg mb-0 text-capitalize font-weight-bold text-dark">Pembayaran</p>
                             <h4 class="font-weight-bolder mb-0 text-dark">
                                 {{ $countPembayaranBelumLunas }}
-                                <span class="text-danger text-md font-weight-bolder">item, belum lunas</span>
                             </h4>
-                            <h4 class="font-weight-bolder mb-0">
-                                <span class="text-info text-md font-weight-bolder">segera dilunasi</span>
-                            </h4>
+                            <button class="btn btn-icon btn-2 bg-gradient-danger mt-1" type="button">
+                                <span class="btn-inner--text">Bayar Sekarang</span>
+                                &nbsp;
+                                <span class="btn-inner--icon">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </button>
                         </div>
                     </div>
                     <div class="col-4 text-end">

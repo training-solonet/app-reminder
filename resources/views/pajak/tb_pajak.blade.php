@@ -86,7 +86,6 @@
 </div>
 
 
-<!-- Modal structure -->
 <div class="modal fade" id="ImportModal" tabindex="-1" aria-labelledby="ImportModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -96,7 +95,7 @@
         </div>
         <div class="modal-body">
             <form id="importForm" enctype="multipart/form-data" action="{{ route('import-proses') }}" method="POST">
-                @csrf <!-- Pastikan Anda menambahkan CSRF token -->
+                @csrf 
                 <div class="mb-3">
                     <label for="formFile" class="form-label">Choose Excel file</label>
                     <input class="form-control" type="file" id="formFile" name="file" accept=".xls,.xlsx">
@@ -117,7 +116,7 @@
     const fileInput = document.getElementById('formFile');
 
     if (fileInput.files.length > 0) {
-        form.submit(); // Kirim form ke server
+        form.submit();
     } else {
         alert('Please select a file.');
     }
