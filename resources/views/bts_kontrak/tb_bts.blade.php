@@ -113,9 +113,9 @@
                                 </td>
                                 <td class="text-center">
                                         @if( $item->status == 'Aktif')
-                                            <p class="badge badge-sm bg-gradient-success">{{ $item->status }}</p>
+                                            <p class="badge badge-sm bg-gradient-success mb-0">{{ $item->status }}</p>
                                         @else
-                                            <p class="badge badge-sm bg-gradient-danger">{{ $item->status }}</p>
+                                            <p class="badge badge-sm bg-gradient-danger mb-0">{{ $item->status }}</p>
                                         @endif
                                     </td>
                                 <td class="text-center">
