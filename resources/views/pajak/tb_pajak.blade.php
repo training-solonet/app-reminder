@@ -11,7 +11,7 @@
                                 <h5 class="mb-0">Daftar Pajak</h5>
                             </div>
                             <div class="d-flex">
-                                <a href="/download-excel" class="btn bg-gradient-success btn-sm mb-0 me-2" type="button">
+                                <a href="/reminder/download-excel" class="btn bg-gradient-success btn-sm mb-0 me-2" type="button">
                                      Download Template
                                      &nbsp;
                                      <i class="fas fa-solid fa-download" style="font-size: 11px"></i>
