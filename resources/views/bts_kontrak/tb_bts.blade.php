@@ -91,7 +91,7 @@
                             @foreach ($bts as $key => $item)
                             <tr>
                                 <td class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $bts->firstItem() + $key }}</p>
+                                    <p class="text-xs font-weight-bold mb-0">{{ $key + 1 }}</p>
                                 </td>
                                 <td class="text-center">
                                     <p class="text-xs text-uppercase font-weight-bold mb-0"><Strong>{{ $item->nama_bts }}</Strong></p>
@@ -137,9 +137,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                        <div class="d-flex justify-content-center p-2">
-                            {{ $bts->appends(request()->query())->links('pagination::bootstrap-4') }}
-                        </div>
                     </div>
                 </div>
             </div>

@@ -29,7 +29,7 @@ class TransaksiDomainController extends Controller
         }
 
         $domain = $queryDomain->orderBy('created_at', 'desc')->get();
-        $transaksis = $queryTransaksi->orderBy('created_at', 'desc')->paginate(15);
+        $transaksis = $queryTransaksi->orderBy('created_at', 'desc')->get();
 
         return view('domain_hosting.tb_transaksi_domain', compact('transaksis', 'domain', 'tanggalFilter', 'search'));
     }

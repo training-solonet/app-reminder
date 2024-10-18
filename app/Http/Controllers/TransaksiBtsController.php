@@ -27,7 +27,7 @@ class TransaksiBtsController extends Controller
         })->orWhere('status', 'like', "%{$search}%");
     }
 
-    $transaksi_bts = $query->orderBy('created_at', 'desc')->paginate(15);
+    $transaksi_bts = $query->orderBy('created_at', 'desc')->get();
 
     $bts = Bts::all();
 

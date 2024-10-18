@@ -53,7 +53,7 @@
                             @foreach($pajak as $key => $pajaks)
                             <tr>
                                 <td class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $pajak->firstItem() + $key }}</p>
+                                    <p class="text-xs font-weight-bold mb-0">{{ $key+1 }}</p>
                                 </td>
                                 <td class="text-center">
                                     <p class="text-xs font-weight-bold mb-0"><strong>{{ $pajaks->no_faktur }}</strong></p>
@@ -74,9 +74,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-center p-2">
-                        {{ $pajak->appends(request()->query())->links('pagination::bootstrap-4') }}
-                    </div>
                     </div>
                 </div>
             </div>
@@ -122,19 +119,17 @@
     }
   </style>
 
-  <!-- JavaScript untuk menampilkan spinner saat tombol Upload ditekan -->
+
   <script>
     document.getElementById('uploadBtn').addEventListener('click', function() {
         const form = document.getElementById('importForm');
         const fileInput = document.getElementById('formFile');
-        const loadingSpinner = document.getElementById('loading-spinner'); // Tangkap elemen loading spinner
+        const loadingSpinner = document.getElementById('loading-spinner'); 
 
-        // Cek apakah ada file yang dipilih
         if (fileInput.files.length > 0) {
-            // Tampilkan spinner loading
+
             loadingSpinner.style.display = 'block';
 
-            // Submit form
             form.submit();
         } else {
             alert('Please select a file.');

@@ -18,7 +18,7 @@ class SendDomainPaymentReminder extends Command
 
         foreach ($domains as $domain) {
             Mail::send('emails.domain_expired_reminder', ['domain' => $domain], function ($message) use ($domain) {
-                $message->to('ifkararfian11@gmail.com')
+                $message->to('example@gmail.com')
                         ->subject('Reminder: Domain Akan Expired');
             });
         }

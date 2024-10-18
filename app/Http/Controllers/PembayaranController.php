@@ -29,7 +29,7 @@ class PembayaranController extends Controller
               ->orWhere('no_telp', 'like', "%{$search}%");
         });
     })
-    ->paginate(10);
+    ->get();
     
     $jenispembayaran = JenisPembayaran::all();
     return view('pembayaran_bulanan.tb_pembayaran', compact('pembayarans', 'jenispembayaran', 'tanggalAwal', 'tanggalAkhir', 'idJenisPembayaran', 'search'));

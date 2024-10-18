@@ -8,29 +8,36 @@ use Illuminate\Support\Facades\Storage;
 
 class KaryawanController extends Controller
 {
-    public function index(Request $request) 
-{
-    $query = Karyawan::query();
+    public function index(Request $request)
+    {
+        $search = $request->input('search');
+        $statusKaryawan = $request->input('select');
 
-    if ($request->has('search')) {
-        $search = $request->search;
-        $query->where(function ($q) use ($search) {
-            $q->where('nama', 'like', "%$search%")
-              ->orWhere('nik', 'like', "%$search%")
-              ->orWhere('jenis_kelamin', 'like', "%$search%")
-              ->orWhere('tgl_masuk', 'like', "%$search%")
-              ->orWhere('tgl_lahir', 'like', "%$search%")
-              ->orWhere('no_hp', 'like', "%$search%")
-              ->orWhere('divisi', 'like', "%$search%")
-              ->orWhere('jabatan', 'like', "%$search%")
-              ->orWhere('status_karyawan', 'like', "%$search%");
-        });
+        $karyawan = Karyawan::when($search, function ($query) use ($search) {
+            $search = strtolower($search);
+            return $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                ->orWhere('nik', 'like', "%{$search}%")
+                ->orWhere('jenis_kelamin', 'like', "%{$search}%")
+                ->orWhere('no_hp', 'like', "%{$search}%")
+                ->orWhere('divisi', 'like', "%{$search}%")
+                ->orWhere('jabatan', 'like', "%{$search}%");
+
+                if ($search === 'cuti') {
+                    $q->orWhere('status_cuti', 1); 
+                } elseif ($search === 'tidak cuti') {
+                    $q->orWhere('status_cuti', 0); 
+                }
+            });
+        })
+        ->when($statusKaryawan, function ($query) use ($statusKaryawan) {
+            return $query->where('status_karyawan', $statusKaryawan);
+        })
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        return view('inventory_motor.tb_karyawan', compact('karyawan', 'search', 'statusKaryawan'));
     }
-
-    $karyawan = $query->orderBy('created_at', 'desc')->paginate(15);
-
-    return view('inventory_motor.tb_karyawan', compact('karyawan'));
-}
 
 
     public function store(Request $request)

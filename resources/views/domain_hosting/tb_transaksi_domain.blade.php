@@ -40,7 +40,7 @@
                             @foreach($transaksis as $key => $trans)
                             <tr>
                                 <td class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $transaksis -> firstItem() + $key }}</p>
+                                    <p class="text-xs font-weight-bold mb-0">{{ $key + 1 }}</p>
                                 </td>
                                 <td class="text-center">
                                     <p class="text-xs font-weight-bold mb-0"><strong>{{ $trans->domain->nama_domain }}</strong></p>
@@ -60,7 +60,7 @@
                                                 <img src="{{ asset('storage/buktidomain/' . $trans->bukti) }}" alt="bukti" class="avatar avatar-sm">
                                             </a>
                                         @else
-                                            <p class="text-xs font-weight-bold mb-0">No Image</p>
+                                            <img src="https://via.placeholder.com/400x300?text=No+Image" alt="No Image Available" class="avatar avatar-sm">
                                         @endif
                                     </td>
                                 </td>
@@ -87,9 +87,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                        <div class="d-flex justify-content-center p-2">
-                            {{ $transaksis->appends(request()->query())->links('pagination::bootstrap-4') }}
-                        </div>
                     </div>
                 </div>
             </div>

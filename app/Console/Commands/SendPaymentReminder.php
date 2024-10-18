@@ -27,7 +27,7 @@ class SendPaymentReminder extends Command
             foreach ($pembayarans as $pembayaran) {
                 if ($pembayaran->status_bayar === 'belum-lunas') {
                     Mail::send('emails.payment_reminder', ['pembayaran' => $pembayaran], function ($message) use ($pembayaran) {
-                        $message->to('ifkararfian11@gmail.com')
+                        $message->to('example@gmail.com')
                                 ->subject('Reminder: Pembayaran Akan Jatuh Tempo');
                     });
                 }

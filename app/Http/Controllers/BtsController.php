@@ -27,7 +27,7 @@ class BtsController extends Controller
         });
     }
 
-    $bts = $query->orderBy('created_at', 'desc')->paginate(15);
+    $bts = $query->orderBy('created_at', 'desc')->get();
 
     $bts_expired = Bts::whereDate('jatuh_tempo', '<=', Carbon::now()->addDays(30))->get();
 

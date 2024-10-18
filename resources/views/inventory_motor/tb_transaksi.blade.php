@@ -40,7 +40,7 @@
                                 @foreach ($transaksi as $key => $item)
                                 <tr>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ $transaksi->firstItem() + $key }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ $key + 1 }}</p>
                                     </td>
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $item->jenis_transaksi }}</p>
@@ -63,7 +63,7 @@
                                                 <img src="{{ asset('storage/notas/' . $item->nota_pajak) }}" alt="Nota Pajak" class="avatar avatar-sm">
                                             </a>
                                         @else
-                                            <p class="text-xs font-weight-bold mb-0">-</p>
+                                            <img src="https://via.placeholder.com/400x300?text=No+Image" alt="No Image Available" class="avatar avatar-sm">
                                         @endif
                                     </td>
                                     <td class="text-center">
@@ -85,9 +85,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <div class="d-flex justify-content-center p-2">
-                            {{ $transaksi->appends(request()->except('page'))->links('pagination::bootstrap-4') }}
-                        </div>
                     </div>
                 </div>
             </div>
