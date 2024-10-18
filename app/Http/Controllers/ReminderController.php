@@ -23,7 +23,7 @@ class ReminderController extends Controller
         });
     }
 
-    $reminders = $query->paginate(15);
+    $reminders = $query->get();
 
     $todayReminders = Reminder::where('status', 'aktif')->where('tanggal_reminder', '<=', Carbon::today()->format('Y-m-d'))->get();
 

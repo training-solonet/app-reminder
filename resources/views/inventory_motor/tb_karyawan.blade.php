@@ -7,20 +7,25 @@
         <div class="col-12">
             <div class="card mb-4 mx-4">
                 <div class="card-header pb-0">
-                    <div class="d-flex flex-row justify-content-between align-items-center">
-                        <h5 class="mb-0">Daftar Karyawan</h5>
-                        
-                        <div class="d-flex">
-                            <form action="{{ route('karyawan.index') }}" method="GET" class="d-flex">
-                                <input type="text" name="search" class="form-control me-2" placeholder="Cari Karyawan..." value="{{ request('search') }}">
-                                <button type="submit" class="btn bg-gradient-info btn-sm ms-3">Cari</button>
-                            </form>
-                            
-                            <a href="#" class="btn bg-gradient-info btn-sm ms-3" data-bs-toggle="modal" data-bs-target="#createModal">
-                                +&nbsp; Tambah
-                            </a>
+                    <div class="d-flex flex-row justify-content-between">
+                        <div>
+                            <h5 class="mb-0">Daftar Karyawan</h5>
                         </div>
+                        <a href="#" class="btn bg-gradient-info btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#createModal">
+                            +&nbsp; Tambah
+                        </a>
                     </div>
+
+                    <form action="{{ route('karyawan.index') }}" method="GET" class="d-flex mt-4 p-2">
+                        <input type="text" name="search" class="form-control me-2" placeholder="Cari Karyawan" value="{{ request('search') }}">
+                        <select name="select" class="form-control me-2">
+                            <option value="">Pilih Status Karyawan</option>
+                            <option value="aktif" {{ request('select') == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                            <option value="tidak-aktif" {{ request('select') == 'tidak-aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+                        </select>
+                        <button type="submit" class="btn bg-gradient-info mb-0">Filter</button>
+                    </form>
+
                 </div>
                 
 
@@ -44,7 +49,7 @@
                                 @foreach ($karyawan as $key => $item)
                                 <tr>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ $karyawan->firstItem() + $key }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ $key + 1 }}</p>
                                     </td>
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0"><strong>{{ $item->nama }}</strong></p>
@@ -55,7 +60,7 @@
                                                 <img src="{{ asset('storage/karyawan/' . $item->foto_karyawan) }}" alt="foto karyawan" class="avatar avatar-sm">
                                             </a>
                                         @else
-                                            <p class="text-xs font-weight-bold mb-0">No Image</p>
+                                            <img src="https://via.placeholder.com/400x300?text=No+Image" alt="No Image Available" class="avatar avatar-sm">
                                         @endif
                                     </td>
                                     <td class="text-center">
@@ -100,11 +105,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <div class="d-flex justify-content-center p-2">
-                            {{ $karyawan->appends(request()->query())->links('pagination::bootstrap-4') }}
-                        </div>
-                        
-                        
                     </div>
                 </div>
             </div>
@@ -126,9 +126,9 @@
                     <div class="col text-center">
                         @if ($item->foto_karyawan)
                             <img src="{{ asset('storage/karyawan/' . $item->foto_karyawan) }}" alt="Foto {{ $item->nama }}" class="img-fluid rounded-circle shadow" style="width: 150px; height: 150px; object-fit: cover;">
-                        @else
-                            <p class="text-muted">No Image</p>
-                        @endif
+                            @else
+                                <img src="https://via.placeholder.com/400x300?text=No+Image" alt="No Image Available" class="img-fluid rounded-circle shadow" style="width: 150px; height: 150px; object-fit: cover;">
+                            @endif
                     </div>
                 </div>
 

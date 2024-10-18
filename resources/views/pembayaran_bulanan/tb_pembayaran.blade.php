@@ -51,7 +51,7 @@
                             @foreach ($pembayarans as $key => $pembayaran)
                             <tr>
                                 <td class="ps-4">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $pembayarans -> firstItem() + $key }}</p>
+                                    <p class="text-xs font-weight-bold mb-0">{{ $key + 1 }}</p>
                                 </td>
                                 <td class="text-center">
                                     <p class="text-xs font-weight-bold mb-0"><strong>{{ $pembayaran->jenisPembayaran->jenis_pembayaran }}</strong></p>
@@ -85,7 +85,7 @@
                                                 <img src="{{ asset('storage/buktipembayaran/' . $pembayaran->bukti) }}" alt="bukti" class="avatar avatar-sm">
                                             </a>
                                         @else
-                                            <p class="text-xs font-weight-bold mb-0">No Image</p>
+                                            <img src="https://via.placeholder.com/400x300?text=No+Image" alt="No Image Available" class="avatar avatar-sm">
                                         @endif
                                     </td>
                                 </td>
@@ -105,9 +105,6 @@
                             @endforeach
                         </tbody>
                         </table>
-                        <div class="d-flex justify-content-center p-2">
-                            {{ $pembayarans->appends(request()->query())->links('pagination::bootstrap-4') }}
-                        </div>
                     </div>
                 </div>
             </div>

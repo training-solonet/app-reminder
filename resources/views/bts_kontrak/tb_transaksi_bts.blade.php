@@ -9,7 +9,7 @@
                 <div class="card-header pb-0">
                     <div class="d-flex flex-row justify-content-between">
                         <div>
-                            <h5 class="mb-0">Tabel Transaksi Bts</h5>
+                            <h5 class="mb-0">Transaksi Bts</h5>
                         </div>
                         <a href="#" class="btn bg-gradient-info btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#createModal">
                             +&nbsp; Tambah
@@ -56,8 +56,8 @@
                                         <a href="javascript:void(0)">
                                             <img src="{{ asset('storage/bukti_transaksi/' . $item->bukti) }}" alt="bukti_transaksi" class="avatar avatar-sm">
                                         </a>
-                                        @else
-                                        <p class="text-xs font-weight-bold mb-0">no image</p>
+                                    @else
+                                        <img src="https://via.placeholder.com/400x300?text=No+Image" alt="No Image Available" class="avatar avatar-sm">
                                     @endif
                                 </td>
                                 <td class="text-center">
@@ -83,9 +83,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                        <div class="d-flex justify-content-center p-2">
-                            {{ $transaksi_bts->appends(request()->query())->links('pagination::bootstrap-4') }}
-                        </div>
                     </div>
                 </div>
             </div>

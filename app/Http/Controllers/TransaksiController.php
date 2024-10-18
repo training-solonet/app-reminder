@@ -32,7 +32,7 @@ class TransaksiController extends Controller
             });
         }
 
-        $transaksi = $query->orderBy('created_at', 'desc')->paginate(15);
+        $transaksi = $query->orderBy('created_at', 'desc')->get();
 
         $karyawan = Karyawan::all();
         $motor = Motor::all();

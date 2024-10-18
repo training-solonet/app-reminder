@@ -27,7 +27,7 @@ class MotorController extends Controller
             $query->whereDate('tanggal_pajak', '<=', $request->end_date);
         }
 
-        $motor = $query->orderBy('created_at', 'desc')->paginate(15);
+        $motor = $query->orderBy('created_at', 'desc')->get();
 
         $karyawan = Karyawan::all();
 

@@ -50,7 +50,7 @@
                                 @foreach ($reminders as $key => $reminder)
                                 <tr>
                                     <td class="ps-4">
-                                        <p class="text-xs font-weight-bold mb-0">{{ $reminders -> firstItem() + $key }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ $key + 1 }}</p>
                                     </td>
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0"><strong>{{ $reminder->tentang_reminder }}</strong></p>
@@ -91,11 +91,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-
-                        <!-- Pagination Links -->
-                        <div class="mx-4 mt-3">
-                            {{ $reminders->links() }}
-                        </div>
                     </div>
                 </div>
             </div>

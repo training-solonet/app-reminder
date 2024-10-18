@@ -25,7 +25,7 @@ class SendMotorTaxReminder extends Command
 
             if (!$transaksi) {
                 Mail::send('emails.motor_tax_reminder', ['motor' => $motor], function ($message) use ($motor) {
-                    $message->to('ifkararfian11@gmail.com')  
+                    $message->to('example@gmail.com')  
                             ->subject('Reminder: Pajak Motor Akan Jatuh Tempo');
                 });
             }
