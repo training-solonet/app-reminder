@@ -87,7 +87,7 @@
                                 @foreach ($domains as $key => $domain)
                                 <tr>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ $domains->firstItem() + $key }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ $key + 1 }}</p>
                                     </td>
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0"><strong>{{ $domain->nama_domain }}</strong></p>
@@ -117,10 +117,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                    </div>
-
-                    <div class="mt-3 mx-3">
-                        {{ $domains->links() }}
                     </div>
                 </div>
             </div>

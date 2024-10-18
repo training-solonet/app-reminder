@@ -109,7 +109,7 @@
                                 @foreach ($motor as $key => $item)
                                 <tr>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ $motor->firstItem() + $key }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ $key + 1 }}</p>
                                     </td>
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0"><strong>{{ $item->nama_motor }}</strong></p>
@@ -129,7 +129,7 @@
                                                 <img src="{{ asset('storage/motors/' . $item->foto_motor) }}" alt="foto motor" class="avatar avatar-sm">
                                             </a>
                                         @else
-                                            <p class="text-xs font-weight-bold mb-0">No Image</p>
+                                            <img src="https://via.placeholder.com/400x300?text=No+Image" alt="No Image Available" class="avatar avatar-sm">
                                         @endif
                                     </td>
                                     <td class="text-center">
@@ -150,11 +150,7 @@
                                 </tr>
                                 @endforeach
                             </tbody>
-                        </table>
-                        <div class="d-flex justify-content-center p-2">
-                            {{ $motor->appends(request()->except('page'))->links('pagination::bootstrap-4') }}
-                        </div>
-                        
+                        </table>    
                     </div>
                 </div>
             </div>

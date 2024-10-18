@@ -24,13 +24,13 @@ class SendBtsPaymentReminder extends Command
 
             if (!$transaksi) {
                 Mail::send('emails.bts_expired_reminder', ['bts' => $bts], function ($message) use ($bts) {
-                    $message->to('ifkararfian11@gmail.com')
+                    $message->to('example@gmail.com')
                             ->subject('Reminder: BTS Akan Expired');
                 });
 
             } elseif ($transaksi->status === 'belum_lunas') {
                 Mail::send('emails.bts_expired_reminder', ['bts' => $bts], function ($message) use ($bts) {
-                    $message->to('ifkararfian11@gmail.com')
+                    $message->to('example@gmail.com')
                             ->subject('Reminder: BTS Akan Expired');
                 });
             }

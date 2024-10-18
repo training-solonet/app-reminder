@@ -14,19 +14,16 @@ class PajakController extends Controller
 {
     public function index(Request $request)
 {
-    // Ambil nilai dari input 'search'
     $search = $request->input('search');
 
-    // Mulai query
     $pajak = Pajak::query();
 
-    // Jika ada input 'search', tambahkan filter ke query
     if ($search) {
         $pajak = $pajak->where('no_faktur', 'like', '%' . $search . '%')
                        ->orWhere('nama_user', 'like', '%' . $search . '%');
     }
 
-    $pajak = $pajak->paginate(50);
+    $pajak = $pajak->get();
 
     return view('pajak.tb_pajak', compact('pajak'));
 }

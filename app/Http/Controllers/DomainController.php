@@ -15,7 +15,6 @@ class DomainController extends Controller
     $tanggalFilter = $request->input('tanggal_filter');
     $search = $request->input('search');
     
-    // Query domain dengan filter
     $domains = Domain::when($tanggalFilter, function ($query) use ($tanggalFilter) {
         $query->whereYear('tgl_expired', $tanggalFilter);
     })
@@ -23,11 +22,10 @@ class DomainController extends Controller
         $query->where('nama_domain', 'like', "%{$search}%")
               ->orWhere('status_berlangganan', 'like', "%{$search}%");
     })
-    ->paginate(10);
+    ->get();
 
     $transaksi_domain = TransaksiDomain::all();
 
-    // Cek domain yang expired
     $domains_expired = Domain::where('tgl_expired', '<=', now())->get();
 
     return view('domain_hosting.tb_domain', compact('domains', 'domains_expired', 'tanggalFilter','transaksi_domain'));

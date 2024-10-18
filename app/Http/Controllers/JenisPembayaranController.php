@@ -27,7 +27,7 @@ class JenisPembayaranController extends Controller
             });
         }
 
-        $pembayarans = $query->orderBy('created_at', 'desc')->paginate(15);
+        $pembayarans = $query->orderBy('created_at', 'desc')->get();
 
         $pembayarans_expired = JenisPembayaran::where('tanggal_jatuh_tempo', '<=', Carbon::now()->addDays(7))->orderBy('tanggal_jatuh_tempo')->get();
 
