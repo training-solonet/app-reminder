@@ -6,37 +6,36 @@
             <div class="card mb-4 mx-4">
                 <div class="card-header pb-0">
                     <div class="card-header pb-0">
-                        <div class="d-flex flex-row justify-content-between">
+                        <div class="d-flex flex-column flex-md-row justify-content-between">
                             <div>
                                 <h5 class="mb-0">Daftar Pajak</h5>
                             </div>
-                            <div class="d-flex">
-                                <a href="/reminder/download-excel" class="btn bg-gradient-success btn-sm mb-0 me-2" type="button">
-                                     Download Template
-                                     &nbsp;
-                                     <i class="fas fa-solid fa-download" style="font-size: 11px"></i>
+                            <div class="d-flex flex-column flex-md-row">
+                                <a href="/download-excel" class="btn bg-gradient-success btn-sm mb-2 mb-md-0 me-0 me-md-2" type="button">
+                                    Download Template
+                                    &nbsp;
+                                    <i class="fas fa-solid fa-download" style="font-size: 11px"></i>
                                 </a>
-                                <a href="#" class="btn bg-gradient-info btn-sm mb-0 me-2" type="button" data-bs-toggle="modal" data-bs-target="#ImportModal">
+                                <a href="#" class="btn bg-gradient-info btn-sm mb-2 mb-md-0 me-0 me-md-2" type="button" data-bs-toggle="modal" data-bs-target="#ImportModal">
                                     Import Excel
                                     &nbsp;
                                     <i class="fas fa-solid fa-file-import" style="font-size: 11px"></i>
                                 </a>
-                                <a href="#" class="btn bg-gradient-danger btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#Import">
+                                <a href="#" class="btn bg-gradient-danger btn-sm mb-2 mb-md-0" type="button" data-bs-toggle="modal" data-bs-target="#Import">
                                     Export CSV
                                     &nbsp;
                                     <i class="fas fa-solid fa-file-export" style="font-size: 11px"></i>
                                 </a>
                             </div>
                         </div>
+                        
+                        <form class="d-flex flex-column flex-md-row mt-4 p-1">
+                            <input type="date" name="tanggal_awal" class="form-control mb-2 mb-md-0 me-md-2" placeholder="Tanggal Mulai">
+                            <input type="date" name="tanggal_akhir" class="form-control mb-2 mb-md-0 me-md-2" placeholder="Tanggal Akhir">
+                            <input type="text" name="search" class="form-control mb-2 mb-md-0 me-md-2" placeholder="Cari" value="{{ request('search') }}">
+                            <button type="submit" class="btn bg-gradient-info mb-0">Filter</button>
+                        </form>
                     </div>
-                    
-                    <form class="d-flex flex-column flex-md-row mt-4 p-1">
-                        <input type="date" name="tanggal_awal" class="form-control mb-2 mb-md-0 me-md-2" placeholder="Tanggal Mulai">
-                        <input type="date" name="tanggal_akhir" class="form-control mb-2 mb-md-0 me-md-2" placeholder="Tanggal Akhir">
-                        <input type="text" name="search" class="form-control mb-2 mb-md-0 me-md-2" placeholder="Cari" value="{{ request('search') }}">
-                        <button type="submit" class="btn bg-gradient-info mb-0">Filter</button>
-                    </form>
-                </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0">
