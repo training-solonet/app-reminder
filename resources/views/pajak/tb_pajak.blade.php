@@ -5,26 +5,28 @@
         <div class="col-12">
             <div class="card mb-4 mx-4">
                 <div class="card-header pb-0">
-                    <div class="d-flex flex-column flex-md-row justify-content-between">
-                        <div>
-                            <h5 class="mb-0">Daftar Pajak</h5>
-                        </div>
-                        <div class="d-flex flex-column flex-md-row">
-                            <a href="/download-excel" class="btn bg-gradient-success btn-sm mb-2 mb-md-0 me-0 me-md-2" type="button">
-                                Download Template
-                                &nbsp;
-                                <i class="fas fa-solid fa-download" style="font-size: 11px"></i>
-                            </a>
-                            <a href="#" class="btn bg-gradient-info btn-sm mb-2 mb-md-0 me-0 me-md-2" type="button" data-bs-toggle="modal" data-bs-target="#ImportModal">
-                                Import Excel
-                                &nbsp;
-                                <i class="fas fa-solid fa-file-import" style="font-size: 11px"></i>
-                            </a>
-                            <a href="#" class="btn bg-gradient-danger btn-sm mb-2 mb-md-0" type="button" data-bs-toggle="modal" data-bs-target="#Import">
-                                Export CSV
-                                &nbsp;
-                                <i class="fas fa-solid fa-file-export" style="font-size: 11px"></i>
-                            </a>
+                    <div class="card-header pb-0">
+                        <div class="d-flex flex-row justify-content-between">
+                            <div>
+                                <h5 class="mb-0">Daftar Pajak</h5>
+                            </div>
+                            <div class="d-flex">
+                                <a href="/reminder/download-excel" class="btn bg-gradient-success btn-sm mb-0 me-2" type="button">
+                                     Download Template
+                                     &nbsp;
+                                     <i class="fas fa-solid fa-download" style="font-size: 11px"></i>
+                                </a>
+                                <a href="#" class="btn bg-gradient-info btn-sm mb-0 me-2" type="button" data-bs-toggle="modal" data-bs-target="#ImportModal">
+                                    Import Excel
+                                    &nbsp;
+                                    <i class="fas fa-solid fa-file-import" style="font-size: 11px"></i>
+                                </a>
+                                <a href="#" class="btn bg-gradient-danger btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#Import">
+                                    Export CSV
+                                    &nbsp;
+                                    <i class="fas fa-solid fa-file-export" style="font-size: 11px"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                     
