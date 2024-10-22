@@ -12,21 +12,28 @@
     </div>
 @endforeach
 
-<div>
-    <div class="row">   
+<div class="container">
+    <div class="row">
         <div class="col-12">
             <div class="card mb-4 mx-4">
                 <div class="card-header pb-0">
-                    <div class="d-flex flex-row justify-content-between align-items-center">
-                        <h5 class="mb-0">Reminder</h5>
-                        
-                        <div class="d-flex">
-                            <form action="{{ route('reminders.index') }}" method="GET" class="d-flex">
-                                <input type="text" name="search" class="form-control me-2" placeholder="Cari Reminder..." value="{{ request('search') }}">
-                                <button type="submit" class="btn bg-gradient-info btn-sm ms-3">Cari</button>
+                    <!-- Header dengan Judul dan Aksi -->
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                        <h5 class="mb-2 mb-md-0">Reminder</h5>
+
+                        <div class="d-flex flex-column flex-md-row mt-2 mt-md-0">
+                            <!-- Form Pencarian -->
+                            <form action="{{ route('reminders.index') }}" method="GET" class="d-flex mb-2 mb-md-0">
+                                <input type="text" name="search" class="form-control me-2" 
+                                    placeholder="Cari Reminder..." 
+                                    value="{{ request('search') }}">
+                                <button type="submit" class="btn bg-gradient-info btn-sm">Cari</button>
                             </form>
-                            
-                            <a href="#" class="btn bg-gradient-info btn-sm ms-3" data-bs-toggle="modal" data-bs-target="#addReminderModal">
+
+                            <!-- Tombol Tambah Reminder -->
+                            <a href="#" class="btn bg-gradient-info btn-sm ms-md-3 mt-2 mt-md-0" 
+                               data-bs-toggle="modal" 
+                               data-bs-target="#addReminderModal">
                                 +&nbsp; Tambah Reminder
                             </a>
                         </div>

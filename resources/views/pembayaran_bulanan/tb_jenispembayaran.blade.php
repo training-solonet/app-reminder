@@ -49,19 +49,19 @@
     @endforeach
 @endif
 
-
-
-
-<div>
+<div class="container">
     <div class="row">
         <div class="col-12">
             <div class="card mb-4 mx-4">
                 <div class="card-header pb-0">
-                    <div class="d-flex flex-row justify-content-between">
-                        <div>
-                            <h5 class="mb-0">Manajemen Jenis Pembayaran</h5>
-                        </div>
-                        <a href="#" class="btn bg-gradient-info btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#addJenisPembayaranModal">
+                    <!-- Header: Judul dan Tombol Tambah -->
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                        <h5 class="mb-2 mb-md-0">Manajemen Jenis Pembayaran</h5>
+                        <a href="#" 
+                           class="btn bg-gradient-info btn-sm mt-2 mt-md-0" 
+                           type="button" 
+                           data-bs-toggle="modal" 
+                           data-bs-target="#addJenisPembayaranModal">
                             +&nbsp; Tambah
                         </a>
                     </div>

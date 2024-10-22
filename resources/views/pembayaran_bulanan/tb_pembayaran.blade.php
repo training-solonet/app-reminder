@@ -2,34 +2,55 @@
 
 @section('content')
 
-<div>
+<div class="container">
     <div class="row">
         <div class="col-12">
             <div class="card mb-4 mx-4">
                 <div class="card-header pb-0">
-                    <div class="d-flex flex-row justify-content-between">
-                        <div>
-                            <h5 class="mb-0">Daftar Pembayaran</h5>
-                        </div>
-                        <a href="#" class="btn bg-gradient-info btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#createModal">
+                    <!-- Header dengan Judul dan Tombol Tambah -->
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                        <h5 class="mb-2 mb-md-0">Daftar Pembayaran</h5>
+                        <a href="#" class="btn bg-gradient-info btn-sm mt-2 mt-md-0" 
+                            type="button" data-bs-toggle="modal" data-bs-target="#createModal">
                             +&nbsp; Tambah
                         </a>
                     </div>
-                    <form action="{{ route('pembayaran.index') }}" method="GET" class="d-flex mt-4 p-1">
-                        <input type="date" name="tanggal_awal" class="form-control me-2" value="{{ request('tanggal_awal') }}" placeholder="Tanggal Mulai">
-                        <input type="date" name="tanggal_akhir" class="form-control me-2" value="{{ request('tanggal_akhir') }}" placeholder="Tanggal Akhir">
-                        <select name="id_jenis_pembayaran" class="form-control me-2">
-                            <option value="">Pilih Jenis Pembayaran</option>
-                            @foreach ($jenispembayaran as $jenis)
-                                <option value="{{ $jenis->id }}" {{ request('id_jenis_pembayaran') == $jenis->id ? 'selected' : '' }}>
-                                    {{ $jenis->jenis_pembayaran }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <input type="text" name="search" class="form-control me-2" placeholder="Cari Pengguna / Telepon" value="{{ request('search') }}">
-                        <button type="submit" class="btn bg-gradient-info mb-0">Filter</button>
+
+                    <!-- Form Filter -->
+                    <form action="{{ route('pembayaran.index') }}" method="GET" 
+                          class="row gx-2 gy-2 mt-4 align-items-center">
+                        <div class="col-12 col-md-3">
+                            <input type="date" name="tanggal_awal" class="form-control" 
+                                value="{{ request('tanggal_awal') }}" 
+                                placeholder="Tanggal Mulai">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <input type="date" name="tanggal_akhir" class="form-control" 
+                                value="{{ request('tanggal_akhir') }}" 
+                                placeholder="Tanggal Akhir">
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <select name="id_jenis_pembayaran" class="form-select">
+                                <option value="">Pilih Jenis Pembayaran</option>
+                                @foreach ($jenispembayaran as $jenis)
+                                    <option value="{{ $jenis->id }}" 
+                                        {{ request('id_jenis_pembayaran') == $jenis->id ? 'selected' : '' }}>
+                                        {{ $jenis->jenis_pembayaran }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <input type="text" name="search" class="form-control" 
+                                placeholder="Cari Pengguna / Telepon" 
+                                value="{{ request('search') }}">
+                        </div>
+                        <div class="col-12 col-md-1 d-grid">
+                            <button type="submit" class="btn bg-gradient-info">Filter</button>
+                        </div>
                     </form>
                 </div>
+
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
