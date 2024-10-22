@@ -26,7 +26,9 @@ return new class extends Migration
         $table->text('alamat');
         $table->boolean('status_cuti')->default(0); 
         $table->enum('status_karyawan', ['aktif', 'tidak-aktif']);
+        $table->enum('size_baju', ['xs','s','m','l','xl','xxl','xxxl']);
         $table->string('foto_karyawan')->nullable();
+        $table->string('foto_ktp')->nullable();
         $table->timestamps();
     });
 }

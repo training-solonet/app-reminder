@@ -124,4 +124,89 @@
     </div>
 </div>
 
+<!-- Modal create -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Tambah Domain</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('domain.store') }}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="nama_domain" class="form-label">Nama Domain</label>
+                        <input type="text" class="form-control" id="nama_domain" placeholder="Nama Domain" name="nama_domain" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tgl_expired" class="form-label">Tanggal Expired</label>
+                        <input type="date" class="form-control" id="tgl_expired" name="tgl_expired" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nama_perusahaan" class="form-label">Nama Perusahaan</label>
+                        <input type="text" class="form-control" id="nama_perusahaan" placeholder="Nama Perusahaan" name="nama_perusahaan" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nominal" class="form-label">Nominal</label>
+                        <input type="number" class="form-control" id="nominal" placeholder="Nominal" name="nominal" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status_berlangganan" class="form-label">Status Berlangganan</label>
+                        <select class="form-control" id="status_berlangganan" name="status_berlangganan" required>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn bg-gradient-info">Simpan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit -->
+@foreach ($domains as $domain)
+<div class="modal fade" id="editModal{{ $domain->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $domain->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel{{ $domain->id }}">Edit Domain</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('domain.update', $domain->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-3">
+                        <label for="nama_domain_{{ $domain->id }}" class="form-label">Nama Domain</label>
+                        <input type="text" class="form-control" id="nama_domain_{{ $domain->id }}" name="nama_domain" value="{{ $domain->nama_domain }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tgl_expired_{{ $domain->id }}" class="form-label">Tanggal Expired</label>
+                        <input type="date" class="form-control" id="tgl_expired_{{ $domain->id }}" name="tgl_expired" value="{{ $domain->tgl_expired->format('Y-m-d') }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nama_perusahaan_{{ $domain->id }}" class="form-label">Nama Perusahaan</label>
+                        <input type="text" class="form-control" id="nama_perusahaan_{{ $domain->id }}" name="nama_perusahaan" value="{{ $domain->nama_perusahaan }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nominal_{{ $domain->id }}" class="form-label">Nominal</label>
+                        <input type="number" class="form-control" id="nominal_{{ $domain->id }}" name="nominal" value="{{ $domain->nominal }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status_berlangganan_{{ $domain->id }}" class="form-label">Status Berlangganan</label>
+                        <select class="form-control" id="status_berlangganan_{{ $domain->id }}" name="status_berlangganan" required>
+                            <option value="Aktif" {{ $domain->status_berlangganan == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                            <option value="Tidak Aktif" {{ $domain->status_berlangganan == 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn bg-gradient-info">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+
 @endsection

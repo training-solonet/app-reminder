@@ -126,9 +126,9 @@
                     <div class="col text-center">
                         @if ($item->foto_karyawan)
                             <img src="{{ asset('storage/karyawan/' . $item->foto_karyawan) }}" alt="Foto {{ $item->nama }}" class="img-fluid rounded-circle shadow" style="width: 150px; height: 150px; object-fit: cover;">
-                            @else
-                                <img src="https://via.placeholder.com/400x300?text=No+Image" alt="No Image Available" class="img-fluid rounded-circle shadow" style="width: 150px; height: 150px; object-fit: cover;">
-                            @endif
+                        @else
+                            <img src="https://via.placeholder.com/150" alt="No Image Available" class="img-fluid rounded-circle shadow" style="width: 150px; height: 150px; object-fit: cover;">
+                        @endif
                     </div>
                 </div>
 
@@ -144,7 +144,8 @@
                         'Agama' => $item->agama,
                         'Divisi' => $item->divisi,
                         'Jabatan' => $item->jabatan,
-                        'Alamat' => $item->alamat
+                        'Alamat' => $item->alamat,
+                        'Size Baju' => strtoupper($item->size_baju)
                     ];
                 @endphp
 
@@ -154,13 +155,25 @@
                     <div class="col-md-8">{{ $value }}</div>
                 </div>
                 @endforeach
+
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Foto KTP</div>
+                    <div class="col-md-8">
+                        @if ($item->foto_ktp)
+                            <img src="{{ asset('storage/ktp/' . $item->foto_ktp) }}" alt="Foto KTP" class="img-thumbnail" style="width: 250px;">
+                        @else
+                            <img src="https://via.placeholder.com/150" alt="No Image Available" class="img-thumbnail" style="width: 250px;">
+                        @endif
+                    </div>
+                </div>
+
                 <div class="row mb-3">
                     <div class="col-md-4 fw-bold">Status Cuti</div>
                     <div class="col-md-8">
                         @if ($item->status_cuti == 0)
                             <p class="text-uppercase badge badge-sm bg-gradient-danger mb-0">Tidak Cuti</p>
                         @else
-                            <p class="text-uppercase badge badge-sm bg-gradient-succes mb-0">Cuti</p>
+                            <p class="text-uppercase badge badge-sm bg-gradient-success mb-0">Cuti</p>
                         @endif
                     </div>
                 </div>
@@ -179,6 +192,7 @@
     </div>
 </div>
 @endforeach
+
 
 
 <!-- Modal Create -->
@@ -268,10 +282,31 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
+                            <label for="size_baju" class="form-label">Size Baju</label>
+                            <select class="form-control" id="size_baju" name="size_baju" required>
+                                <option value="" disabled selected>Pilih Size Baju</option>
+                                <option value="xs">XS</option>
+                                <option value="s">S</option>
+                                <option value="m">M</option>
+                                <option value="l">L</option>
+                                <option value="xl">XL</option>
+                                <option value="xxl">XXL</option>
+                                <option value="xxxl">XXXL</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
                             <label for="foto" class="form-label">Foto Karyawan</label>
                             <input type="file" class="form-control" id="foto_karyawan" name="foto_karyawan" accept="image/*">
                         </div>
                     </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="foto_ktp" class="form-label">Foto KTP</label>
+                            <input type="file" class="form-control" id="foto_ktp" name="foto_ktp" accept="image/*">
+                        </div>
+                    </div>
+
                     <input type="hidden" name="status_karyawan" value="aktif">
                     <button type="submit" class="btn bg-gradient-info">Simpan</button>
                 </form>
@@ -370,12 +405,17 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="foto" class="form-label">Foto Karyawan</label>
-                            <input type="file" class="form-control" id="foto_karyawan" name="foto_karyawan" accept="image/*">
-
-                            @if($item->foto_karyawan)
-                            <img src="{{ asset('storage/karyawan/' . $item->foto_karyawan) }}" class="img-thumbnail mt-2" alt="Foto Karyawan" style="max-width: 100px;">
-                        @endif
+                            <label for="size_baju" class="form-label">Size Baju</label>
+                            <select class="form-control" id="size_baju" name="size_baju" required>
+                                <option value="" disabled>Pilih Size Baju</option>
+                                <option value="xs" {{ $item->size_baju == 'xs' ? 'selected' : '' }}>XS</option>
+                                <option value="s" {{ $item->size_baju == 's' ? 'selected' : '' }}>S</option>
+                                <option value="m" {{ $item->size_baju == 'm' ? 'selected' : '' }}>M</option>
+                                <option value="l" {{ $item->size_baju == 'l' ? 'selected' : '' }}>L</option>
+                                <option value="xl" {{ $item->size_baju == 'xl' ? 'selected' : '' }}>XL</option>
+                                <option value="xxl" {{ $item->size_baju == 'xxl' ? 'selected' : '' }}>XXL</option>
+                                <option value="xxxl" {{ $item->size_baju == 'xxxl' ? 'selected' : '' }}>XXXL</option>
+                            </select>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="status_cuti" class="form-label">Status Cuti</label>
@@ -384,6 +424,25 @@
                                 <option value="1" {{ $item->status_cuti == 1 ? 'selected' : '' }}>Cuti</option>
                                 <option value="0" {{ $item->status_cuti == 0 ? 'selected' : '' }}>Tidak Cuti</option>
                             </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="foto" class="form-label">Foto Karyawan</label>
+                            <input type="file" class="form-control" id="foto_karyawan" name="foto_karyawan" accept="image/*">
+
+                            @if($item->foto_karyawan)
+                                <img src="{{ asset('storage/karyawan/' . $item->foto_karyawan) }}" class="img-thumbnail mt-2" alt="Foto Karyawan" style="max-width: 100px;">
+                            @endif
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="foto_ktp" class="form-label">Foto KTP</label>
+                            <input type="file" class="form-control" id="foto_ktp" name="foto_ktp" accept="image/*">
+
+                            @if($item->foto_ktp)
+                                <img src="{{ asset('storage/ktp/' . $item->foto_ktp) }}" class="img-thumbnail mt-2" alt="Foto KTP" style="max-width: 100px;">
+                            @endif
                         </div>
                     </div>
 

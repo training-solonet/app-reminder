@@ -40,6 +40,8 @@ class Karyawan extends Model
         'status_cuti',
         'status_karyawan',
         'foto_karyawan',
+        'foto_ktp',
+        'size_baju',
     ];
 
     public function motors()
