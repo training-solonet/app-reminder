@@ -57,15 +57,24 @@ class KaryawanController extends Controller
             'status_karyawan' => 'required',
             'status_cuti' => 'nullable|boolean',
             'foto_karyawan' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'size_baju' => 'required|in:xs,s,m,l,xl,xxl,xxxl',
         ]);
 
-        $data = $request->only('nama', 'nik', 'jenis_kelamin', 'tgl_masuk','tgl_lahir','tempat_lahir','no_hp','agama','divisi','jabatan','alamat','status_karyawan','status_cuti');
+        $data = $request->only('nama', 'nik', 'jenis_kelamin', 'tgl_masuk','tgl_lahir','tempat_lahir','no_hp','agama','divisi','jabatan','alamat','status_karyawan','status_cuti','size_baju');
 
         if ($request->hasFile('foto_karyawan')) {
             $file = $request->file('foto_karyawan');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->storeAs('public/karyawan', $filename);
             $data['foto_karyawan'] = $filename;
+        }
+
+        if ($request->hasFile('foto_ktp')) {
+            $file = $request->file('foto_ktp');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/ktp', $filename);
+            $data['foto_ktp'] = $filename;
         }
 
         Karyawan::create($data);
@@ -91,24 +100,39 @@ class KaryawanController extends Controller
             'status_karyawan' => 'required',
             'status_cuti' => 'nullable|boolean',
             'foto_karyawan' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'size_baju' => 'required|in:xs,s,m,l,xl,xxl,xxxl',
         ]);
 
         $karyawan = Karyawan::find($id);
-        $data = $request->only('nama', 'nik', 'jenis_kelamin', 'tgl_masuk','tgl_lahir','tempat_lahir','no_hp','agama','divisi','jabatan','alamat','status_karyawan','status_cuti');
+        $data = $request->only('nama', 'nik', 'jenis_kelamin', 'tgl_masuk','tgl_lahir','tempat_lahir','no_hp','agama','divisi','jabatan','alamat','status_karyawan','status_cuti','size_baju');
+
+        $data = $request->only('nama', 'nik', 'jenis_kelamin', 'tgl_masuk','tgl_lahir','tempat_lahir','no_hp','agama','divisi','jabatan','alamat','status_karyawan','status_cuti','size_baju');
 
         if ($request->hasFile('foto_karyawan')) {
             if ($karyawan->foto_karyawan) {
                 Storage::delete('public/karyawan/' . $karyawan->foto_karyawan);
             }
-            
+    
             $file = $request->file('foto_karyawan');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->storeAs('public/karyawan', $filename);
             $data['foto_karyawan'] = $filename;
         }
-
+    
+        if ($request->hasFile('foto_ktp')) {
+            if ($karyawan->foto_ktp) {
+                Storage::delete('public/ktp/' . $karyawan->foto_ktp);
+            }
+    
+            $file = $request->file('foto_ktp');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/ktp', $filename);
+            $data['foto_ktp'] = $filename;
+        }
+    
         $karyawan->update($data);
-
+    
         return redirect()->route('karyawan.index')->with('success', 'Karyawan berhasil diperbarui.');
     }
 
@@ -121,9 +145,14 @@ class KaryawanController extends Controller
         Storage::delete('public/karyawan/' . $karyawan->foto_karyawan);
     }
 
+    if ($karyawan->foto_ktp) {
+        Storage::delete('public/ktp/' . $karyawan->foto_ktp);
+    }
+
     $karyawan->delete();
 
     return redirect()->route('karyawan.index')->with('success', 'Karyawan berhasil dihapus');
 }
+
 
 }
