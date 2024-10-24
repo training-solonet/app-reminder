@@ -57,17 +57,18 @@
         <div class="col-12">
             <div class="card mb-4 mx-4">
                 <div class="card-header pb-0">
-                    <div class="d-flex flex-row justify-content-between">
+                    <div class="d-flex flex-column flex-md-row justify-content-between">
                         <div>
                             <h5 class="mb-0">Daftar BTS</h5>
                         </div>
-                        <a href="#" class="btn bg-gradient-info btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#createModal">
+                        <a href="#" class="btn bg-gradient-info btn-sm mb-2 mb-md-0 mt-2 mt-md-0" type="button" data-bs-toggle="modal" data-bs-target="#createModal">
                             +&nbsp; Tambah
                         </a>
                     </div>
-                    <form action="{{ route('bts.index') }}" method="GET" class="d-flex mt-4 p-1">
-                        <input type="number" name="tanggal_filter" class="form-control me-2" placeholder="Masukkan Tahun Jatuh Tempo" value="{{ request('tanggal_filter', $tanggalFilter) }}" min="1900" max="3000">
-                        <input type="text" name="search" class="form-control me-2" placeholder="Cari Nama BTS / Nama User / Status" value="{{ request('search') }}">
+                    
+                    <form action="{{ route('bts.index') }}" method="GET" class="d-flex flex-column flex-md-row mt-4 p-1">
+                        <input type="number" name="tanggal_filter" class="form-control mb-2 mb-md-0 me-md-2" placeholder="Masukkan Tahun Jatuh Tempo" value="{{ request('tanggal_filter', $tanggalFilter) }}" min="1900" max="3000">
+                        <input type="text" name="search" class="form-control mb-2 mb-md-0 me-md-2" placeholder="Cari Nama BTS / Nama User / Status" value="{{ request('search') }}">
                         <button type="submit" class="btn bg-gradient-info mb-0">Filter</button>
                     </form>
                 </div>

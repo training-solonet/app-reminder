@@ -57,22 +57,21 @@
         <div class="col-12">
             <div class="card mb-4 mx-4">
                 <div class="card-header pb-0">
-                    <div class="d-flex flex-row justify-content-between">
+                    <div class="d-flex flex-column flex-md-row justify-content-between">
                         <div>
                             <h5 class="mb-0">Daftar Motor</h5>
                         </div>
-                        <a href="#" class="btn bg-gradient-info btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#createModal">
+                        <a href="#" class="btn bg-gradient-info btn-sm mb-2 mb-md-0 mt-2 mt-md-0" type="button" data-bs-toggle="modal" data-bs-target="#createModal">
                             +&nbsp; Tambah
                         </a>
                     </div>
 
-                    <form method="GET" action="{{ route('motor.index') }}" class="d-flex mt-4 p-1">
-                        <input type="text" name="search" class="form-control me-2" placeholder="Cari nama atau plat nomor..." value="{{ request('search') }}">
-                        <input type="date" name="start_date" class="form-control me-2" value="{{ request('start_date') }}">
-                        <input type="date" name="end_date" class="form-control me-2" value="{{ request('end_date') }}">
+                    <form method="GET" action="{{ route('motor.index') }}" class="d-flex flex-column flex-md-row mt-4 p-1">
+                        <input type="text" name="search" class="form-control mb-2 mb-md-0 me-md-2" placeholder="Cari nama atau plat nomor..." value="{{ request('search') }}">
+                        <input type="date" name="start_date" class="form-control mb-2 mb-md-0 me-md-2" value="{{ request('start_date') }}">
+                        <input type="date" name="end_date" class="form-control mb-2 mb-md-0 me-md-2" value="{{ request('end_date') }}">
                         <button type="submit" class="btn bg-gradient-info mb-0">Filter</button>
                     </form>
-
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">

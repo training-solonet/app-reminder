@@ -7,18 +7,19 @@
         <div class="col-12">
             <div class="card mb-4 mx-4">
                 <div class="card-header pb-0">
-                    <div class="d-flex flex-row justify-content-between">
+                    <div class="d-flex flex-column flex-md-row justify-content-between">
                         <div>
-                            <h5 class="mb-0">Transaksi Bts</h5>
+                            <h5 class="mb-0">Transaksi BTS</h5>
                         </div>
-                        <a href="#" class="btn bg-gradient-info btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#createModal">
+                        <a href="#" class="btn bg-gradient-info btn-sm mb-2 mb-md-0 mt-2 mt-md-0" type="button" data-bs-toggle="modal" data-bs-target="#createModal">
                             +&nbsp; Tambah
                         </a>
                     </div>
-                    <form action="{{ route('transaksi_bts.index') }}" method="GET" class="d-flex mt-4 p-1">
-                        <input type="date" name="tanggal_awal" class="form-control me-2" value="{{ request('tanggal_awal') }}" placeholder="Tanggal Mulai">
-                        <input type="date" name="tanggal_akhir" class="form-control me-2" value="{{ request('tanggal_akhir') }}" placeholder="Tanggal Akhir">
-                        <input type="text" name="search" class="form-control me-2" placeholder="Cari Nama BTS /  Status" value="{{ request('search') }}">
+
+                    <form action="{{ route('transaksi_bts.index') }}" method="GET" class="d-flex flex-column flex-md-row mt-4 p-1">
+                        <input type="date" name="tanggal_awal" class="form-control mb-2 mb-md-0 me-md-2" value="{{ request('tanggal_awal') }}" placeholder="Tanggal Mulai">
+                        <input type="date" name="tanggal_akhir" class="form-control mb-2 mb-md-0 me-md-2" value="{{ request('tanggal_akhir') }}" placeholder="Tanggal Akhir">
+                        <input type="text" name="search" class="form-control mb-2 mb-md-0 me-md-2" placeholder="Cari Nama BTS / Status" value="{{ request('search') }}">
                         <button type="submit" class="btn bg-gradient-info mb-0">Filter</button>
                     </form>
                 </div>

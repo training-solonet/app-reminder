@@ -13,6 +13,7 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\TransaksiBtsController;
 use App\Http\Controllers\JenisPembayaranController;
 use App\Http\Controllers\TransaksiDomainController;
+use App\Exports\KaryawanExport;
 
 Route::get('auth', [AuthController::class, 'index'])->name('auth');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
@@ -23,7 +24,7 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::resource('dashboard', DashboardController::class);
 Route::resource('transaksi', TransaksiController::class);
 Route::resource('motor', MotorController::class);
-Route::resource('karyawan', KaryawanController::class);
+Route::resource('karyawan', KaryawanController::class)->except(['show']);
 Route::resource('bts', BtsController::class);
 Route::resource('transaksi_bts', TransaksiBtsController::class);
 Route::resource('domain', DomainController::class);
@@ -40,4 +41,8 @@ Route::group(['prefix' => 'pajak'], function() {
     Route::get('/cache', [PajakController::class, 'cache'])->name('cache');
     Route::get('/import', [PajakController::class, 'import'])->name('import');
     Route::post('/import-proses', [PajakController::class, 'import_proses'])->name('import-proses');
+});
+
+Route::get('/karyawan/export', function () {
+    return Excel::download(new KaryawanExport, 'karyawan.xlsx');
 });
