@@ -33,6 +33,7 @@ class KaryawanController extends Controller
         ->when($statusKaryawan, function ($query) use ($statusKaryawan) {
             return $query->where('status_karyawan', $statusKaryawan);
         })
+        ->where('status_karyawan','aktif')
         ->orderBy('created_at', 'desc')
         ->get();
 
@@ -56,8 +57,8 @@ class KaryawanController extends Controller
             'alamat' => 'required',
             'status_karyawan' => 'required',
             'status_cuti' => 'nullable|boolean',
-            'foto_karyawan' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto_karyawan' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'size_baju' => 'required|in:xs,s,m,l,xl,xxl,xxxl',
         ]);
 
@@ -99,8 +100,8 @@ class KaryawanController extends Controller
             'alamat' => 'required',
             'status_karyawan' => 'required',
             'status_cuti' => 'nullable|boolean',
-            'foto_karyawan' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto_karyawan' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'size_baju' => 'required|in:xs,s,m,l,xl,xxl,xxxl',
         ]);
 
