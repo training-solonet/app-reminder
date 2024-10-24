@@ -9,7 +9,7 @@
             <div class="card-header pb-0">
                 <div class="d-flex flex-column flex-md-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Daftar Karyawan</h5>
+                        <h5 class="mb-0">Data Karyawan Tahun Ini</h5>
                     </div>
                     <div class="d-flex flex-column flex-md-row mt-2 mt-md-0">
                         <a href="{{ url('/karyawan/export') }}" class="btn bg-gradient-success btn-sm mb-2 mb-md-0 me-md-2">
@@ -148,6 +148,8 @@
                         'Divisi' => $item->divisi,
                         'Jabatan' => $item->jabatan,
                         'Alamat' => $item->alamat,
+                        'BPJS Kesehatan'=> $item->bpjs_kesehatan,
+                        'BPJS Ketenagakerjaan'=> $item->bpjs_ketenagakerjaan,
                         'Size Baju' => strtoupper($item->size_baju)
                     ];
                 @endphp
@@ -223,7 +225,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-                            <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
+                            <select class="form-select" id="jenis_kelamin" name="jenis_kelamin" required>
                                 <option value="" disabled selected>Pilih Jenis Kelamin</option>
                                 <option value="Laki-laki">Laki-laki</option>
                                 <option value="Perempuan">Perempuan</option>
@@ -253,7 +255,13 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="agama" class="form-label">Agama</label>
-                            <input type="text" class="form-control" id="agama" name="agama" placeholder="Masukkan agama" required>
+                            <select class="form-select" id="agama" name="agama" required>
+                                <option value="" disabled selected>Pilih Agama</option>
+                                <option value="Islam">Islam</option>
+                                <option value="Kristen">Kristen</option>
+                                <option value="Katolik">Katolik</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
                         </div>
                     </div>
 
@@ -285,8 +293,27 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
+                            <label for="bpjs_kesehatan" class="form-label">BPJS Kesehatan</label>
+                            <select class="form-select" id="bpjs_kesehatan" name="bpjs_kesehatan" required>
+                                <option value="" disabled selected>Pilih Status BPJS Kesehatan</option>
+                                <option value="Ada">Ada</option>
+                                <option value="Tidak Ada">Tidak ada</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="bpjs_ketenagakerjaan" class="form-label">BPJS Ketenagakerjaan</label>
+                            <select class="form-select" id="bpjs_ketenagakerjaan" name="bpjs_ketenagakerjaan" required>
+                                <option value="" disabled selected>Pilih Status BPJS Ketenagakerjaan</option>
+                                <option value="Ada">Ada</option>
+                                <option value="Tidak Ada">Tidak ada</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
                             <label for="size_baju" class="form-label">Size Baju</label>
-                            <select class="form-control" id="size_baju" name="size_baju" required>
+                            <select class="form-select" id="size_baju" name="size_baju" required>
                                 <option value="" disabled selected>Pilih Size Baju</option>
                                 <option value="xs">XS</option>
                                 <option value="s">S</option>
@@ -426,6 +453,25 @@
                                 <option value="" disabled>Pilih Status Cuti</option>
                                 <option value="1" {{ $item->status_cuti == 1 ? 'selected' : '' }}>Cuti</option>
                                 <option value="0" {{ $item->status_cuti == 0 ? 'selected' : '' }}>Tidak Cuti</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="bpjs_kesehatan" class="form-label">BPJS Kesehatan</label>
+                            <select class="form-select" id="bpjs_kesehatan" name="bpjs_kesehatan" required>
+                                <option value="" disabled>Pilih Status BPJS Kesehatan</option>
+                                <option value="Ada" {{ $item->bpjs_kesehatan == 'Ada' ? 'selected' : '' }}>Ada</option>
+                                <option value="Tidak Ada" {{ $item->bpjs_kesehatan == 'Tidak Ada' ? 'selected' : '' }}>Tidak Ada</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="bpjs_ketenagakerjaan" class="form-label">BPJS Ketenagakerjaan</label>
+                            <select class="form-select" id="bpjs_ketenagakerjaan" name="bpjs_ketenagakerjaan" required>
+                                <option value="" disabled>Pilih Status BPJS Ketenagakerjaan</option>
+                                <option value="Ada" {{ $item->bpjs_ketenagakerjaan == 'Ada' ? 'selected' : '' }}>Ada</option>
+                                <option value="Tidak Ada" {{ $item->bpjs_ketenagakerjaan == 'Tidak Ada' ? 'selected' : '' }}>Tidak Ada</option>
                             </select>
                         </div>
                     </div>

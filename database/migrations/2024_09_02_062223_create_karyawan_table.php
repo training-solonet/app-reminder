@@ -29,6 +29,8 @@ return new class extends Migration
         $table->enum('size_baju', ['xs','s','m','l','xl','xxl','xxxl']);
         $table->string('foto_karyawan')->nullable();
         $table->string('foto_ktp')->nullable();
+        $table->enum('bpjs_ketenagakerjaan', ['Ada','Tidak Ada']);
+        $table->enum('bpjs_kesehatan', ['Ada','Tidak Ada']);
         $table->timestamps();
     });
 }

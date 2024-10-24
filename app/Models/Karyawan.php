@@ -42,6 +42,8 @@ class Karyawan extends Model
         'foto_karyawan',
         'foto_ktp',
         'size_baju',
+        'bpjs_kesehatan',
+        'bpjs_ketenagakerjaan'
     ];
 
     public function motors()

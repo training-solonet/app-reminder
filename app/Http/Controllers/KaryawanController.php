@@ -59,9 +59,11 @@ class KaryawanController extends Controller
             'foto_karyawan' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'size_baju' => 'required|in:xs,s,m,l,xl,xxl,xxxl',
+            'bpjs_ketenagakerjaan' => 'required|in:Ada,Tidak Ada',
+            'bpjs_kesehatan' => 'required|in:Ada,Tidak Ada',
         ]);
 
-        $data = $request->only('nama', 'nik', 'jenis_kelamin', 'tgl_masuk','tgl_lahir','tempat_lahir','no_hp','agama','divisi','jabatan','alamat','status_karyawan','status_cuti','size_baju');
+        $data = $request->only('nama', 'nik', 'jenis_kelamin', 'tgl_masuk','tgl_lahir','tempat_lahir','no_hp','agama','divisi','jabatan','alamat','status_karyawan','status_cuti','size_baju','bpjs_kesehatan','bpjs_ketenagakerjaan');
 
         if ($request->hasFile('foto_karyawan')) {
             $file = $request->file('foto_karyawan');
@@ -102,12 +104,13 @@ class KaryawanController extends Controller
             'foto_karyawan' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'size_baju' => 'required|in:xs,s,m,l,xl,xxl,xxxl',
+            'bpjs_ketenagakerjaan' => 'required|in:Ada,Tidak Ada',
+            'bpjs_kesehatan' => 'required|in:Ada,Tidak Ada',
         ]);
 
         $karyawan = Karyawan::find($id);
-        $data = $request->only('nama', 'nik', 'jenis_kelamin', 'tgl_masuk','tgl_lahir','tempat_lahir','no_hp','agama','divisi','jabatan','alamat','status_karyawan','status_cuti','size_baju');
+        $data = $request->only('nama', 'nik', 'jenis_kelamin', 'tgl_masuk','tgl_lahir','tempat_lahir','no_hp','agama','divisi','jabatan','alamat','status_karyawan','status_cuti','size_baju','bpjs_kesehatan','bpjs_ketenagakerjaan');
 
-        $data = $request->only('nama', 'nik', 'jenis_kelamin', 'tgl_masuk','tgl_lahir','tempat_lahir','no_hp','agama','divisi','jabatan','alamat','status_karyawan','status_cuti','size_baju');
 
         if ($request->hasFile('foto_karyawan')) {
             if ($karyawan->foto_karyawan) {
