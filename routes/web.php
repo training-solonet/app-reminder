@@ -44,5 +44,5 @@ Route::group(['prefix' => 'pajak'], function() {
 });
 
 Route::get('/karyawan/export', function () {
-    return Excel::download(new KaryawanExport, 'karyawan.xlsx');
+    return Excel::download(new KaryawanExport, 'Data Karyawan Tahun ini.xlsx');
 });

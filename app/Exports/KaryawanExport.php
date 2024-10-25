@@ -12,10 +12,12 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 class KaryawanExport implements FromCollection, WithMapping, WithHeadings, WithColumnFormatting
 {
     public function collection()
-    {
-        return Karyawan::select('nama', 'nik', 'jenis_kelamin', 'tgl_masuk', 'tgl_lahir', 'tempat_lahir', 'no_hp', 'agama', 'divisi', 'jabatan', 'alamat', 'status_karyawan', 'size_baju')
-                        ->get();
-    }
+{
+    return Karyawan::select('nama', 'nik', 'jenis_kelamin', 'tgl_masuk', 'tgl_lahir', 'tempat_lahir', 'no_hp', 'agama', 'divisi', 'jabatan', 'alamat', 'size_baju')
+                    ->where('status_karyawan', 'aktif')
+                    ->get();
+}
+
 
     public function map($item): array
     {
@@ -33,8 +35,7 @@ class KaryawanExport implements FromCollection, WithMapping, WithHeadings, WithC
             $item->divisi,
             $item->jabatan,
             $item->alamat,
-            $item->status_karyawan,
-            $item->size_baju
+            strtoupper($item->size_baju)
         ];
     }
 
@@ -52,7 +53,6 @@ class KaryawanExport implements FromCollection, WithMapping, WithHeadings, WithC
             'Divisi',
             'Jabatan',
             'Alamat',
-            'Status Karyawan',
             'Size Baju'
         ];
     }
