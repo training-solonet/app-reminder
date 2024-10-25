@@ -22,6 +22,7 @@ class DomainController extends Controller
         $query->where('nama_domain', 'like', "%{$search}%")
               ->orWhere('status_berlangganan', 'like', "%{$search}%");
     })
+    ->orderBy('tgl_expired', 'asc')
     ->get();
 
     $transaksi_domain = TransaksiDomain::all();
