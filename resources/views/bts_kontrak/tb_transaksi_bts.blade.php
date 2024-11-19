@@ -41,7 +41,7 @@
                             @foreach ($transaksi_bts as $key => $item)
                             <tr>
                                 <td class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $transaksi_bts->firstItem() + $key }}</p>
+                                    <p class="text-xs font-weight-bold mb-0">{{ $key + 1 }}</p>
                                 </td>
                                 <td class="text-center">
                                     <p class="text-xs text-uppercase font-weight-bold mb-0"><strong>{{ $item->bts->nama_bts }}</strong></p>
