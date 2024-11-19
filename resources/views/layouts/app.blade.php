@@ -10,6 +10,7 @@
     APP Reminder Billing
   </title>
   <!-- Fonts and icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <!-- Nucleo Icons -->
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
@@ -43,8 +44,8 @@
     }
 
     .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-        background-color: #e0e0e0 !important; /* Warna abu-abu saat hover */
-        color: #17c1e8 !important; /* Warna tulisan tetap biru */
+        background-color: #e0e0e0 !important;
+        color: #17c1e8 !important;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         transform: scale(1.05);
     }
@@ -61,7 +62,7 @@
         background: transparent;
         color: #17c1e8 !important;
         font-size: 1.2rem;
-        padding: 0 0.6rem; /* Mengecilkan padding */
+        padding: 0 0.6rem;
         border-radius: 8px;
         transition: background-color 0.3s ease, transform 0.2s;
     }
@@ -77,7 +78,7 @@
     .dataTables_wrapper .dataTables_paginate {
         margin-top: 1.5rem;
         text-align: center;
-        margin-right: 1rem; /* Geser pagination ke kiri */
+        margin-right: 1rem;
     }
 
     .dataTables_length, .dataTables_info {
@@ -87,13 +88,13 @@
     }
 
     .dataTables_info {
-        font-size: 0.75rem; /* Ukuran font dikurangi */
+        font-size: 0.75rem;
         color: #6c757d;
     }
 
     .dataTables_empty {
         text-align: center !important;
-        font-size: 0.75rem !important; /* Ukuran font dikurangi */
+        font-size: 0.75rem !important;
         color: #999;
     }
 </style>
